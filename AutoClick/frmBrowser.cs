@@ -113,7 +113,7 @@ namespace AutoClick
             {
                 // find image and autoclick
                 HtmlDocument countdownFrame = wbMain.Document.Window.Frames[0].Document;
-                if (countdownFrame.GetElementById("timer").InnerHtml.Contains("Click"))
+                if (countdownFrame.GetElementById("timer") != null && countdownFrame.GetElementById("timer").InnerHtml.Contains("Click"))
                 {
                     string key = countdownFrame.GetElementById("timer").InnerHtml.Substring(6);
                     Console.WriteLine("key = " + key);
@@ -123,6 +123,7 @@ namespace AutoClick
                         if (link.InnerHtml.Contains(key))
                         {
                             link.InvokeMember("click");
+                            Console.WriteLine("---CLICK---");
                             break;
                         }
                     }
