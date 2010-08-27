@@ -40,6 +40,7 @@
             this.wbMain.MinimumSize = new System.Drawing.Size(20, 20);
             this.wbMain.Name = "wbMain";
             this.wbMain.ScriptErrorsSuppressed = true;
+            this.wbMain.ScrollBarsEnabled = false;
             this.wbMain.Size = new System.Drawing.Size(292, 273);
             this.wbMain.TabIndex = 0;
             this.wbMain.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.wbMain_DocumentCompleted);
