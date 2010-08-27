@@ -9,7 +9,16 @@ namespace AutoClick
     {
         private static uint index = 0;
         private string[,] ptcSites = new string[,] {
-            { "http://www.tendollarclick.com/index.php?view=login", "http://www.tendollarclick.com/index.php?view=click", "http://www.tendollarclick.com/gpt.php", "Ten Dollar Click : Log In", "Ten Dollar Click : My Account Panel - Tran Vinh Truong" , "Ten Dollar Click : Get Paid To Click", "Viewing Ad @ Ten Dollar Click", "60000"}
+            { "http://www.tendollarclick.com/index.php?view=login", "http://www.tendollarclick.com/index.php?view=click", "http://www.tendollarclick.com/gpt.php",
+                "Ten Dollar Click : Log In", "Ten Dollar Click : My Account Panel - Tran Vinh Truong" , "Ten Dollar Click : Get Paid To Click", "Viewing Ad @ Ten Dollar Click", "65000"},
+            { "http://www.ptcsense.com/index.php?view=login", "http://www.ptcsense.com/index.php?view=click", "http://www.ptcsense.com/gpt.php",
+                "PTC Sense : Log In", "PTC Sense : My Account Panel - Tran Vinh Truong" , "PTC Sense : Get Paid To Click", "Viewing Ad @ PTC Sense", "35000"},
+            { "http://www.richptc.com/index.php?view=login", "http://www.richptc.com/index.php?view=account&ac=click", "http://www.richptc.com/gpt.php",
+                "Rich PTC : Log In", "Rich PTC : My Account Panel - Tran Vinh Truong" , "Rich PTC : Get Paid To Click", "Viewing Ad @ Rich PTC", "35000"},
+            { "http://www.bigmoneyptc.com/index.php?view=login", "http://www.bigmoneyptc.com/index.php?view=account&ac=click", "http://www.bigmoneyptc.com/gpt.php",
+                "Big Money PTC : Log In", "Big Money PTC : My Account Panel - Tran Vinh Truong" , "Big Money PTC : Get Paid To Click", "Viewing Ad @ Big Money PTC", "35000"},
+            { "http://www.grandptc.com/index.php?view=login", "http://www.grandptc.com/index.php?view=click", "http://www.grandptc.com/gpt.php",
+                "Grand PTC : Log In", "Grand PTC : My Account Panel - Tran Vinh Truong" , "Grand PTC : Get Paid To Click", "Viewing Ad @ Grand PTC", "35000"}
         };
         private const string USERNAME = "tranvinhtruong";
         private const string PASSWORD = "tctlT1005";
@@ -38,8 +47,29 @@ namespace AutoClick
             {
                 wbMain.Document.GetElementById("form_user").SetAttribute("value", USERNAME);
                 wbMain.Document.GetElementById("form_pwd").SetAttribute("value", PASSWORD);
-                wbMain.Document.GetElementFromPoint(new Point(538, 407)).InvokeMember("click"); // click on "Access Account"
-                wbMain.Document.GetElementFromPoint(new Point(538, 606)).InvokeMember("click"); // click on "Access Account"
+
+                // click on "Access Account"
+                if (index == 0) // Ten Dollar Click
+                {
+                    wbMain.Document.GetElementFromPoint(new Point(538, 407)).InvokeMember("click"); 
+                    wbMain.Document.GetElementFromPoint(new Point(538, 606)).InvokeMember("click");
+                }
+                else if (index == 1) // PTC Sense
+                {
+                    wbMain.Document.GetElementFromPoint(new Point(703, 392)).InvokeMember("click"); 
+                }
+                else if (index == 2) // Rich PTC
+                {
+                    wbMain.Document.GetElementFromPoint(new Point(401, 430)).InvokeMember("click"); 
+                }
+                else if (index == 3) // Big Money PTC
+                {
+                    wbMain.Document.GetElementFromPoint(new Point(499, 408)).InvokeMember("click"); 
+                }
+                else if (index == 4) // Grand PTC
+                {
+                    wbMain.Document.GetElementFromPoint(new Point(699, 549)).InvokeMember("click"); 
+                }
             }
             else if (wbMain.DocumentTitle == ptcSites[index, 4])    // account page
             {
@@ -83,15 +113,18 @@ namespace AutoClick
             {
                 // find image and autoclick
                 HtmlDocument countdownFrame = wbMain.Document.Window.Frames[0].Document;
-                string key = countdownFrame.GetElementById("timer").InnerHtml.Substring(6);
-                Console.WriteLine("key = " + key);
-                foreach (HtmlElement link in countdownFrame.Links)
+                if (countdownFrame.GetElementById("timer").InnerHtml.Contains("Click"))
                 {
-                    Console.WriteLine(link.InnerHtml);
-                    if (link.InnerHtml.Contains(key))
+                    string key = countdownFrame.GetElementById("timer").InnerHtml.Substring(6);
+                    Console.WriteLine("key = " + key);
+                    foreach (HtmlElement link in countdownFrame.Links)
                     {
-                        link.InvokeMember("click");
-                        break;
+                        Console.WriteLine(link.InnerHtml);
+                        if (link.InnerHtml.Contains(key))
+                        {
+                            link.InvokeMember("click");
+                            break;
+                        }
                     }
                 }
             }
