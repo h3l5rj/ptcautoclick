@@ -54,13 +54,10 @@ namespace AutoClick
                 }
                 else
                 {
-                    if (index >= ptcSites.Length)   // re-surf
+                    index++;
+                    if (index >= ptcSites.GetLength(0))   // re-surf
                     {
                         index = 0;
-                    }
-                    else
-                    {
-                        index++;
                     }
                     startSurf();    // surf next site
                 }
