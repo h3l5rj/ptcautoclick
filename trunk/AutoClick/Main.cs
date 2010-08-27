@@ -9,5 +9,12 @@ namespace AutoClick
         {
             InitializeComponent();
         }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            frmBrowser frmBrowser = new frmBrowser();
+            frmBrowser.MdiParent = this;
+            frmBrowser.Show();
+        }
     }
 }
