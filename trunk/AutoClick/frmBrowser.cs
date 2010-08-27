@@ -32,6 +32,7 @@ namespace AutoClick
 
         private void startSurf()
         {
+            Console.WriteLine(index + ": " + ptcSites[index, 0]);
             wbMain.Navigate(ptcSites[index, 0]);
         }
 
@@ -78,6 +79,7 @@ namespace AutoClick
             else if (wbMain.DocumentTitle == ptcSites[index, 5])    // view ads page
             {
                 matchObj = Regex.Match(wbMain.DocumentText, "(?<=a href=\"gpt.php)[^\"]*");
+                Console.WriteLine("link available? - " + matchObj.Success);
                 if (matchObj.Success)
                 {
                     wbMain.Navigate(ptcSites[index, 2] + matchObj.Value);
