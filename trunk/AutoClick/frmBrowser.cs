@@ -52,16 +52,16 @@ namespace AutoClick
                 // click on "Access Account"
                 if (index == 0) // Ten Dollar Click
                 {
-                    wbMain.Document.GetElementFromPoint(new Point(538, 407)).InvokeMember("click"); 
+                    wbMain.Document.GetElementFromPoint(new Point(538, 407)).InvokeMember("click");
                     wbMain.Document.GetElementFromPoint(new Point(538, 606)).InvokeMember("click");
                 }
                 else if (index == 1) // PTC Sense
                 {
-                    wbMain.Document.GetElementFromPoint(new Point(703, 392)).InvokeMember("click"); 
+                    wbMain.Document.GetElementFromPoint(new Point(703, 392)).InvokeMember("click");
                 }
                 else if (index == 2) // Rich PTC
                 {
-                    wbMain.Document.GetElementFromPoint(new Point(401, 430)).InvokeMember("click"); 
+                    wbMain.Document.GetElementFromPoint(new Point(401, 430)).InvokeMember("click");
                 }
                 else if (index == 3) // Big Money PTC
                 {
@@ -70,7 +70,8 @@ namespace AutoClick
                 }
                 else if (index == 4) // Grand PTC
                 {
-                    wbMain.Document.GetElementFromPoint(new Point(699, 549)).InvokeMember("click"); 
+                    wbMain.Document.GetElementFromPoint(new Point(572, 391)).InvokeMember("click");
+                    wbMain.Document.GetElementFromPoint(new Point(699, 549)).InvokeMember("click");
                 }
             }
             else if (wbMain.DocumentTitle == ptcSites[index, 4])    // account page
