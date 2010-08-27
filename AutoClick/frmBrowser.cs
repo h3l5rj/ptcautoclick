@@ -65,7 +65,8 @@ namespace AutoClick
                 }
                 else if (index == 3) // Big Money PTC
                 {
-                    wbMain.Document.GetElementFromPoint(new Point(499, 408)).InvokeMember("click"); 
+                    wbMain.Document.GetElementFromPoint(new Point(499, 408)).InvokeMember("click");
+                    wbMain.Document.GetElementFromPoint(new Point(505, 321)).InvokeMember("click");
                 }
                 else if (index == 4) // Grand PTC
                 {
