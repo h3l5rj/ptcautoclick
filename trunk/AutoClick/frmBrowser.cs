@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using System.IO;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -86,20 +87,28 @@ namespace AutoClick
                 }
                 else
                 {
-                    matchObj = Regex.Match(wbMain.DocumentText, "(?<=a href=\"gpt.php)[^\"]*");
-                    Console.WriteLine("link available? - " + matchObj.Success);
-                    if (matchObj.Success)
+                    try
                     {
-                        wbMain.Navigate(ptcSites[index, 2] + matchObj.Value);
-                    }
-                    else
-                    {
-                        index++;
-                        if (index >= ptcSites.GetLength(0))   // re-surf
+                        matchObj = Regex.Match(wbMain.DocumentText, "(?<=a href=\"gpt.php)[^\"]*");
+                        Console.WriteLine("link available to click? - " + matchObj.Success);
+                        if (matchObj.Success)
                         {
-                            index = 0;
+                            wbMain.Navigate(ptcSites[index, 2] + matchObj.Value);
                         }
-                        startSurf();    // surf next site
+                        else
+                        {
+                            index++;
+                            if (index >= ptcSites.GetLength(0))   // re-surf
+                            {
+                                index = 0;
+                            }
+                            startSurf();    // surf next site
+                        }
+                    }
+                    catch (FileLoadException)
+                    {
+                        Console.WriteLine("Cannot get DocumentText!");
+                        startSurf();
                     }
                 }
             }
