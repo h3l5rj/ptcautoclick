@@ -32,8 +32,8 @@ namespace AutoClick
 
         private void startSurf()
         {
-            Console.WriteLine(index + ": " + ptcSites[index, 0]);
-            wbMain.Navigate(ptcSites[index, 0]);
+            Console.WriteLine(index + ": " + ptcSites[index, 1]);
+            wbMain.Navigate(ptcSites[index, 1]);
         }
 
         private void frmBrowser_Load(object sender, EventArgs e)
@@ -80,20 +80,27 @@ namespace AutoClick
             }
             else if (wbMain.DocumentTitle == ptcSites[index, 5])    // view ads page
             {
-                matchObj = Regex.Match(wbMain.DocumentText, "(?<=a href=\"gpt.php)[^\"]*");
-                Console.WriteLine("link available? - " + matchObj.Success);
-                if (matchObj.Success)
+                if (wbMain.DocumentText.Contains("login"))    // not log in
                 {
-                    wbMain.Navigate(ptcSites[index, 2] + matchObj.Value);
+                    wbMain.Navigate(ptcSites[index, 0]);    // open log in page
                 }
                 else
                 {
-                    index++;
-                    if (index >= ptcSites.GetLength(0))   // re-surf
+                    matchObj = Regex.Match(wbMain.DocumentText, "(?<=a href=\"gpt.php)[^\"]*");
+                    Console.WriteLine("link available? - " + matchObj.Success);
+                    if (matchObj.Success)
                     {
-                        index = 0;
+                        wbMain.Navigate(ptcSites[index, 2] + matchObj.Value);
                     }
-                    startSurf();    // surf next site
+                    else
+                    {
+                        index++;
+                        if (index >= ptcSites.GetLength(0))   // re-surf
+                        {
+                            index = 0;
+                        }
+                        startSurf();    // surf next site
+                    }
                 }
             }
             else if (wbMain.DocumentTitle == ptcSites[index, 6])    // count down page
