@@ -23,7 +23,9 @@ namespace AutoClick
             { "http://www.ptcbiz.com/index.php?view=login", "http://www.ptcbiz.com/index.php?view=click", "http://www.ptcbiz.com/gpt.php",
                 "PTC Biz : Log In", "PTC Biz : My Account Panel - Tran Vinh Truong" , "PTC Biz : Get Paid To Click", "Viewing Ad @ PTC Biz", "31000"},
             { "http://www.ptcwallet.com/index.php?view=login", "http://www.ptcwallet.com/index.php?view=click", "http://www.ptcwallet.com/gpt.php",
-                "PTC Wallet : Log In", "PTC Wallet : My Account Panel - Tran Vinh Truong" , "PTC Wallet : Get Paid To Click", "Viewing Ad @ PTC Wallet", "11000"}
+                "PTC Wallet : Log In", "PTC Wallet : My Account Panel - Tran Vinh Truong" , "PTC Wallet : Get Paid To Click", "Viewing Ad @ PTC Wallet", "11000"},
+            { "http://www.buxinc.com/index.php?view=login", "http://www.buxinc.com/index.php?view=click", "http://www.buxinc.com/gpt.php",
+                "Bux Inc : Log In", "Bux Inc : My Account Panel - Tran Vinh Truong" , "Bux Inc : Get Paid To Click", "Viewing Ad @ Bux Inc", "31000"}
         };
         private const string USERNAME = "tranvinhtruong";
         private const string PASSWORD = "tctlT1005";
@@ -82,6 +84,10 @@ namespace AutoClick
                 else if (index == 6) // PTC Wallet
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(508, 454)).InvokeMember("click");
+                }
+                else if (index == 7) // Bux Inc
+                {
+                    wbBrowser.Document.GetElementFromPoint(new Point(901, 330)).InvokeMember("click");
                 }
             }
             else if (wbBrowser.DocumentTitle == ptcSites[index, 4])    // account page
