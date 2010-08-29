@@ -19,7 +19,9 @@ namespace AutoClick
             { "http://www.bigmoneyptc.com/index.php?view=login", "http://www.bigmoneyptc.com/index.php?view=account&ac=click", "http://www.bigmoneyptc.com/gpt.php",
                 "Big Money PTC : Log In", "Big Money PTC : My Account Panel - Tran Vinh Truong" , "Big Money PTC : Get Paid To Click", "Viewing Ad @ Big Money PTC", "31000"},
             { "http://www.grandptc.com/index.php?view=login", "http://www.grandptc.com/index.php?view=click", "http://www.grandptc.com/gpt.php",
-                "Grand PTC : Log In", "Grand PTC : My Account Panel - Tran Vinh Truong" , "Grand PTC : Get Paid To Click", "Viewing Ad @ Grand PTC", "31000"}
+                "Grand PTC : Log In", "Grand PTC : My Account Panel - Tran Vinh Truong" , "Grand PTC : Get Paid To Click", "Viewing Ad @ Grand PTC", "31000"},
+            { "http://www.ptcbiz.com/index.php?view=login", "http://www.ptcbiz.com/index.php?view=click", "http://www.ptcbiz.com/gpt.php",
+                "PTC Biz : Log In", "PTC Biz : My Account Panel - Tran Vinh Truong" , "PTC Biz : Get Paid To Click", "Viewing Ad @ PTC Biz", "31000"}
         };
         private const string USERNAME = "tranvinhtruong";
         private const string PASSWORD = "tctlT1005";
@@ -70,6 +72,10 @@ namespace AutoClick
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(572, 391)).InvokeMember("click");
                     wbBrowser.Document.GetElementFromPoint(new Point(699, 549)).InvokeMember("click");
+                }
+                else if (index == 5) // PTC Biz
+                {
+                    wbBrowser.Document.GetElementFromPoint(new Point(858, 335)).InvokeMember("click");
                 }
             }
             else if (wbBrowser.DocumentTitle == ptcSites[index, 4])    // account page
@@ -164,6 +170,11 @@ namespace AutoClick
         {
             Console.WriteLine("waitForClick timer - Stop");
             waitForClick.Stop();
+        }
+
+        private void wbBrowser_NewWindow(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = true;
         }
     }
 }
