@@ -21,7 +21,9 @@ namespace AutoClick
             { "http://www.grandptc.com/index.php?view=login", "http://www.grandptc.com/index.php?view=click", "http://www.grandptc.com/gpt.php",
                 "Grand PTC : Log In", "Grand PTC : My Account Panel - Tran Vinh Truong" , "Grand PTC : Get Paid To Click", "Viewing Ad @ Grand PTC", "31000"},
             { "http://www.ptcbiz.com/index.php?view=login", "http://www.ptcbiz.com/index.php?view=click", "http://www.ptcbiz.com/gpt.php",
-                "PTC Biz : Log In", "PTC Biz : My Account Panel - Tran Vinh Truong" , "PTC Biz : Get Paid To Click", "Viewing Ad @ PTC Biz", "31000"}
+                "PTC Biz : Log In", "PTC Biz : My Account Panel - Tran Vinh Truong" , "PTC Biz : Get Paid To Click", "Viewing Ad @ PTC Biz", "31000"},
+            { "http://www.ptcwallet.com/index.php?view=login", "http://www.ptcwallet.com/index.php?view=click", "http://www.ptcwallet.com/gpt.php",
+                "PTC Wallet : Log In", "PTC Wallet : My Account Panel - Tran Vinh Truong" , "PTC Wallet : Get Paid To Click", "Viewing Ad @ PTC Wallet", "11000"}
         };
         private const string USERNAME = "tranvinhtruong";
         private const string PASSWORD = "tctlT1005";
@@ -76,6 +78,10 @@ namespace AutoClick
                 else if (index == 5) // PTC Biz
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(858, 335)).InvokeMember("click");
+                }
+                else if (index == 6) // PTC Wallet
+                {
+                    wbBrowser.Document.GetElementFromPoint(new Point(508, 454)).InvokeMember("click");
                 }
             }
             else if (wbBrowser.DocumentTitle == ptcSites[index, 4])    // account page
@@ -170,11 +176,6 @@ namespace AutoClick
         {
             Console.WriteLine("waitForClick timer - Stop");
             waitForClick.Stop();
-        }
-
-        private void wbBrowser_NewWindow(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            e.Cancel = true;
         }
     }
 }
