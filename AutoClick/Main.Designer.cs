@@ -28,51 +28,44 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            this.toolbar = new System.Windows.Forms.ToolStrip();
-            this.btnStart = new System.Windows.Forms.ToolStripButton();
-            this.toolbar.SuspendLayout();
+            this.components = new System.ComponentModel.Container();
+            this.wbBrowser = new System.Windows.Forms.WebBrowser();
+            this.waitForClick = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
-            // toolbar
+            // wbBrowser
             // 
-            this.toolbar.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnStart});
-            this.toolbar.Location = new System.Drawing.Point(0, 0);
-            this.toolbar.Name = "toolbar";
-            this.toolbar.Size = new System.Drawing.Size(1016, 25);
-            this.toolbar.TabIndex = 1;
+            this.wbBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.wbBrowser.Location = new System.Drawing.Point(0, 0);
+            this.wbBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.wbBrowser.Name = "wbBrowser";
+            this.wbBrowser.ScriptErrorsSuppressed = true;
+            this.wbBrowser.ScrollBarsEnabled = false;
+            this.wbBrowser.Size = new System.Drawing.Size(1016, 741);
+            this.wbBrowser.TabIndex = 0;
+            this.wbBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.wbBrowser_DocumentCompleted);
             // 
-            // btnStart
+            // waitForClick
             // 
-            this.btnStart.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.btnStart.Image = ((System.Drawing.Image)(resources.GetObject("btnStart.Image")));
-            this.btnStart.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnStart.Name = "btnStart";
-            this.btnStart.Size = new System.Drawing.Size(23, 22);
-            this.btnStart.ToolTipText = "Start";
-            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
+            this.waitForClick.Tick += new System.EventHandler(this.waitForClick_Tick);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1016, 741);
-            this.Controls.Add(this.toolbar);
-            this.IsMdiContainer = true;
+            this.Controls.Add(this.wbBrowser);
             this.Name = "Main";
             this.Text = "PTC AutoClick";
-            this.toolbar.ResumeLayout(false);
-            this.toolbar.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ToolStrip toolbar;
-        private System.Windows.Forms.ToolStripButton btnStart;
+        private System.Windows.Forms.WebBrowser wbBrowser;
+        private System.Windows.Forms.Timer waitForClick;
+
     }
 }
 

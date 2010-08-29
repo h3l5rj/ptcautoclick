@@ -1,20 +1,169 @@
 ﻿using System;
+using System.Drawing;
+using System.IO;
+using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace AutoClick
 {
     public partial class Main : Form
     {
+        private static uint index = 0;
+        private string[,] ptcSites = new string[,] {
+            { "http://www.tendollarclick.com/index.php?view=login", "http://www.tendollarclick.com/index.php?view=click", "http://www.tendollarclick.com/gpt.php",
+                "Ten Dollar Click : Log In", "Ten Dollar Click : My Account Panel - Tran Vinh Truong" , "Ten Dollar Click : Get Paid To Click", "Viewing Ad @ Ten Dollar Click", "61000"},
+            { "http://www.ptcsense.com/index.php?view=login", "http://www.ptcsense.com/index.php?view=click", "http://www.ptcsense.com/gpt.php",
+                "PTC Sense : Log In", "PTC Sense : My Account Panel - Tran Vinh Truong" , "PTC Sense : Get Paid To Click", "Viewing Ad @ PTC Sense", "31000"},
+            { "http://www.richptc.com/index.php?view=login", "http://www.richptc.com/index.php?view=account&ac=click", "http://www.richptc.com/gpt.php",
+                "Rich PTC : Log In", "Rich PTC : My Account Panel - Tran Vinh Truong" , "Rich PTC : Get Paid To Click", "Viewing Ad @ Rich PTC", "31000"},
+            { "http://www.bigmoneyptc.com/index.php?view=login", "http://www.bigmoneyptc.com/index.php?view=account&ac=click", "http://www.bigmoneyptc.com/gpt.php",
+                "Big Money PTC : Log In", "Big Money PTC : My Account Panel - Tran Vinh Truong" , "Big Money PTC : Get Paid To Click", "Viewing Ad @ Big Money PTC", "31000"},
+            { "http://www.grandptc.com/index.php?view=login", "http://www.grandptc.com/index.php?view=click", "http://www.grandptc.com/gpt.php",
+                "Grand PTC : Log In", "Grand PTC : My Account Panel - Tran Vinh Truong" , "Grand PTC : Get Paid To Click", "Viewing Ad @ Grand PTC", "31000"}
+        };
+        private const string USERNAME = "tranvinhtruong";
+        private const string PASSWORD = "tctlT1005";
+
+        private Match matchObj;
+
         public Main()
         {
             InitializeComponent();
+
+            startSurf();
         }
 
-        private void btnStart_Click(object sender, EventArgs e)
+        private void startSurf()
         {
-            frmBrowser frmBrowser = new frmBrowser();
-            frmBrowser.MdiParent = this;
-            frmBrowser.Show();
+            Console.WriteLine(index + ": " + ptcSites[index, 1]);
+            wbBrowser.Navigate(ptcSites[index, 1]);
+        }
+
+        private void wbBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        {
+            Console.WriteLine(wbBrowser.DocumentTitle);
+            if (wbBrowser.DocumentTitle == ptcSites[index, 3]) // log in page
+            {
+                wbBrowser.Document.GetElementById("form_user").SetAttribute("value", USERNAME);
+                wbBrowser.Document.GetElementById("form_pwd").SetAttribute("value", PASSWORD);
+
+                // click on "Access Account"
+                if (index == 0) // Ten Dollar Click
+                {
+                    wbBrowser.Document.GetElementFromPoint(new Point(538, 407)).InvokeMember("click");
+                    wbBrowser.Document.GetElementFromPoint(new Point(538, 606)).InvokeMember("click");
+                }
+                else if (index == 1) // PTC Sense
+                {
+                    wbBrowser.Document.GetElementFromPoint(new Point(703, 392)).InvokeMember("click");
+                }
+                else if (index == 2) // Rich PTC
+                {
+                    wbBrowser.Document.GetElementFromPoint(new Point(401, 430)).InvokeMember("click");
+                }
+                else if (index == 3) // Big Money PTC
+                {
+                    wbBrowser.Document.GetElementFromPoint(new Point(499, 408)).InvokeMember("click");
+                    wbBrowser.Document.GetElementFromPoint(new Point(505, 321)).InvokeMember("click");
+                }
+                else if (index == 4) // Grand PTC
+                {
+                    wbBrowser.Document.GetElementFromPoint(new Point(572, 391)).InvokeMember("click");
+                    wbBrowser.Document.GetElementFromPoint(new Point(699, 549)).InvokeMember("click");
+                }
+            }
+            else if (wbBrowser.DocumentTitle == ptcSites[index, 4])    // account page
+            {
+                wbBrowser.Navigate(ptcSites[index, 1]); // open view ads page
+            }
+            else if (wbBrowser.DocumentTitle == ptcSites[index, 5])    // view ads page
+            {
+                if (wbBrowser.DocumentText.Contains("login"))    // not log in
+                {
+                    wbBrowser.Navigate(ptcSites[index, 0]);    // open log in page
+                }
+                else
+                {
+                    try
+                    {
+                        matchObj = Regex.Match(wbBrowser.DocumentText, "(?<=a href=\"gpt.php)[^\"]*");
+                        Console.WriteLine("link available to click? - " + matchObj.Success);
+                        if (matchObj.Success)
+                        {
+                            wbBrowser.Navigate(ptcSites[index, 2] + matchObj.Value);
+                        }
+                        else
+                        {
+                            index++;
+                            if (index >= ptcSites.GetLength(0))   // re-surf
+                            {
+                                index = 0;
+                            }
+                            startSurf();    // surf next site
+                        }
+                    }
+                    catch (FileLoadException)
+                    {
+                        Console.WriteLine("Cannot get DocumentText!");
+                        startSurf();    // retry
+                    }
+                }
+            }
+            else if (wbBrowser.DocumentTitle == ptcSites[index, 6])    // count down page
+            {
+                if (!waitForClick.Enabled)
+                {
+                    Console.WriteLine("waitForClick timer - Start");
+                    waitForClick.Interval = int.Parse(ptcSites[index, 7]);
+                    waitForClick.Start();
+                }
+            }
+            else
+            {
+                wbBrowser.Navigate(ptcSites[index, 1]); // back to view ads page
+            }
+        }
+
+        private void waitForClick_Tick(object sender, EventArgs e)
+        {
+            if (wbBrowser.Document.Window.Frames.Count > 0)
+            {
+                // find image and autoclick
+                HtmlDocument countdownFrame = wbBrowser.Document.Window.Frames[0].Document;
+                if (countdownFrame.GetElementById("timer") != null)
+                {
+                    if (countdownFrame.GetElementById("timer").InnerHtml.Contains("Click"))
+                    {
+                        string key = countdownFrame.GetElementById("timer").InnerHtml.Substring(6);
+                        Console.WriteLine("key = " + key);
+                        foreach (HtmlElement link in countdownFrame.Links)
+                        {
+                            Console.WriteLine(link.InnerHtml);
+                            if (link.InnerHtml.Contains(key))
+                            {
+                                link.InvokeMember("click");
+                                Console.WriteLine("---CLICK---");
+                                stopWaitForClickTimer();
+                                break;
+                            }
+                        }
+                    }
+                    else if (countdownFrame.GetElementById("timer").InnerHtml.Contains("Loading"))
+                    {
+                        wbBrowser.Refresh();
+                    }
+                }
+            }
+            else
+            {
+                stopWaitForClickTimer();
+            }
+        }
+
+        private void stopWaitForClickTimer()
+        {
+            Console.WriteLine("waitForClick timer - Stop");
+            waitForClick.Stop();
         }
     }
 }
