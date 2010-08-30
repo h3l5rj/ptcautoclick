@@ -52,7 +52,7 @@
             // 
             // autoRefresh
             // 
-            this.autoRefresh.Interval = 150000;
+            this.autoRefresh.Interval = 200000;
             this.autoRefresh.Tick += new System.EventHandler(this.autoRefresh_Tick);
             // 
             // Main
