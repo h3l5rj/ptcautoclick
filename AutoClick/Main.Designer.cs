@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.wbBrowser = new System.Windows.Forms.WebBrowser();
             this.waitForClick = new System.Windows.Forms.Timer(this.components);
+            this.autoRefresh = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // wbBrowser
@@ -49,6 +50,11 @@
             // 
             this.waitForClick.Tick += new System.EventHandler(this.waitForClick_Tick);
             // 
+            // autoRefresh
+            // 
+            this.autoRefresh.Interval = 150000;
+            this.autoRefresh.Tick += new System.EventHandler(this.autoRefresh_Tick);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -66,6 +72,7 @@
 
         private System.Windows.Forms.WebBrowser wbBrowser;
         private System.Windows.Forms.Timer waitForClick;
+        private System.Windows.Forms.Timer autoRefresh;
 
     }
 }
