@@ -193,11 +193,11 @@ namespace AutoClick
 
         private void autoRefresh_Tick(object sender, EventArgs e)
         {
-            // auto refresh if program is stopped
-            writeLog("Program is stopped => auto refresh");
+            // retry if program is stopped
+            writeLog("Program is stopped => retry <= ################");
             stopWaitForClickTimer();
             stopAutoFreshTimer();
-            wbBrowser.Refresh();
+            startSurf();
         }
 
         private void stopAutoFreshTimer()
