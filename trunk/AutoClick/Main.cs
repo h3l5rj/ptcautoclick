@@ -8,6 +8,8 @@ namespace AutoClick
 {
     public partial class Main : Form
     {
+        private Boolean logToFile = true;
+
         private static uint index = 0;
         private string[,] ptcSites = new string[,] {
             { "http://www.tendollarclick.com/index.php?view=login", "http://www.tendollarclick.com/index.php?view=click", "http://www.tendollarclick.com/gpt.php",
@@ -43,13 +45,13 @@ namespace AutoClick
 
         private void startSurf()
         {
-            Console.WriteLine(index + ": " + ptcSites[index, 1]);
+            writeLog(index + ": " + ptcSites[index, 1]);
             wbBrowser.Navigate(ptcSites[index, 1]);
         }
 
         private void wbBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
-            Console.WriteLine(wbBrowser.DocumentTitle);
+            writeLog(wbBrowser.DocumentTitle);
             if (wbBrowser.DocumentTitle == ptcSites[index, 3]) // log in page
             {
                 wbBrowser.Document.GetElementById("form_user").SetAttribute("value", USERNAME);
@@ -111,7 +113,7 @@ namespace AutoClick
                     try
                     {
                         matchObj = Regex.Match(wbBrowser.DocumentText, "(?<=a href=\"gpt.php)[^\"]*");
-                        Console.WriteLine("link available to click? - " + matchObj.Success);
+                        writeLog("link available to click? - " + matchObj.Success);
                         if (matchObj.Success)
                         {
                             wbBrowser.Navigate(ptcSites[index, 2] + matchObj.Value);
@@ -128,7 +130,7 @@ namespace AutoClick
                     }
                     catch (FileLoadException)
                     {
-                        Console.WriteLine("Cannot get DocumentText!");
+                        writeLog("Cannot get DocumentText!");
                         startSurf();    // retry
                     }
                 }
@@ -137,9 +139,15 @@ namespace AutoClick
             {
                 if (!waitForClick.Enabled)
                 {
-                    Console.WriteLine("waitForClick timer - Start");
+                    writeLog("waitForClick timer - Start");
                     waitForClick.Interval = int.Parse(ptcSites[index, 7]);
                     waitForClick.Start();
+
+                    if (!autoRefresh.Enabled)
+                    {
+                        writeLog("autoRefresh timer - Start");
+                        autoRefresh.Start();
+                    }
                 }
             }
             else
@@ -159,35 +167,55 @@ namespace AutoClick
                     if (countdownFrame.GetElementById("timer").InnerHtml.Contains("Click"))
                     {
                         string key = countdownFrame.GetElementById("timer").InnerHtml.Substring(6);
-                        Console.WriteLine("key = " + key);
+                        writeLog("key = " + key);
                         foreach (HtmlElement link in countdownFrame.Links)
                         {
-                            Console.WriteLine(link.InnerHtml);
+                            writeLog(link.InnerHtml);
                             if (link.InnerHtml.Contains(key))
                             {
                                 link.InvokeMember("click");
-                                Console.WriteLine("---CLICK---");
+                                writeLog("---CLICK---");
                                 stopWaitForClickTimer();
+                                stopAutoFreshTimer();
                                 break;
                             }
                         }
                     }
-                    else if (countdownFrame.GetElementById("timer").InnerHtml.Contains("Loading"))
-                    {
-                        wbBrowser.Refresh();
-                    }
                 }
-            }
-            else
-            {
-                stopWaitForClickTimer();
             }
         }
 
         private void stopWaitForClickTimer()
         {
-            Console.WriteLine("waitForClick timer - Stop");
+            writeLog("waitForClick timer - Stop");
             waitForClick.Stop();
+        }
+
+        private void autoRefresh_Tick(object sender, EventArgs e)
+        {
+            // auto refresh if program is stopped
+            writeLog("Program is stopped => auto refresh");
+            stopWaitForClickTimer();
+            stopAutoFreshTimer();
+            wbBrowser.Refresh();
+        }
+
+        private void stopAutoFreshTimer()
+        {
+            writeLog("autoRefresh timer - Stop");
+            autoRefresh.Stop();
+        }
+
+        private void writeLog(string logContent)
+        {
+            if (logToFile)
+            {
+                File.AppendAllText("AutoClick.log", "[" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss:FF") + "] " + logContent + "\n");
+            }
+            else
+            {
+                Console.WriteLine(logContent);
+            }
         }
     }
 }
