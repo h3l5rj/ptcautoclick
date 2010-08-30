@@ -52,6 +52,13 @@ namespace AutoClick
         private void wbBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             writeLog(wbBrowser.DocumentTitle);
+
+            if (!autoRefresh.Enabled)
+            {
+                writeLog("autoRefresh timer - Start");
+                autoRefresh.Start();
+            }
+
             if (wbBrowser.DocumentTitle == ptcSites[index, 3]) // log in page
             {
                 wbBrowser.Document.GetElementById("form_user").SetAttribute("value", USERNAME);
@@ -142,12 +149,6 @@ namespace AutoClick
                     writeLog("waitForClick timer - Start");
                     waitForClick.Interval = int.Parse(ptcSites[index, 7]);
                     waitForClick.Start();
-
-                    if (!autoRefresh.Enabled)
-                    {
-                        writeLog("autoRefresh timer - Start");
-                        autoRefresh.Start();
-                    }
                 }
             }
             else
@@ -187,8 +188,11 @@ namespace AutoClick
 
         private void stopWaitForClickTimer()
         {
-            writeLog("waitForClick timer - Stop");
-            waitForClick.Stop();
+            if (waitForClick.Enabled)
+            {
+                writeLog("waitForClick timer - Stop");
+                waitForClick.Stop();
+            }
         }
 
         private void autoRefresh_Tick(object sender, EventArgs e)
@@ -202,8 +206,11 @@ namespace AutoClick
 
         private void stopAutoFreshTimer()
         {
-            writeLog("autoRefresh timer - Stop");
-            autoRefresh.Stop();
+            if (autoRefresh.Enabled)
+            {
+                writeLog("autoRefresh timer - Stop");
+                autoRefresh.Stop();
+            }
         }
 
         private void writeLog(string logContent)
