@@ -122,7 +122,7 @@ namespace AutoClick
                         else
                         {
                             index++;
-                            if (index >= ptcSites.GetLength(0))   // re-surf
+                            if (index >= ptcSites.GetLength(0))   // reset
                             {
                                 index = 0;
                             }
@@ -191,11 +191,17 @@ namespace AutoClick
 
         private void autoRefresh_Tick(object sender, EventArgs e)
         {
-            // retry if program is stopped
-            writeLog("Program is stopped => retry <= ################");
             stopWaitForClickTimer();
             stopAutoFreshTimer();
-            startSurf();
+
+            // surf next site if program is stopped
+            writeLog("Program is stopped => surf next site <= ################");
+            index++;
+            if (index >= ptcSites.GetLength(0))   // reset
+            {
+                index = 0;
+            }
+            startSurf();    // surf next site
         }
 
         private void stopAutoFreshTimer()
