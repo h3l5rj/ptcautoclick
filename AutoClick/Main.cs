@@ -54,7 +54,7 @@ namespace AutoClick
             if (!autoRefresh.Enabled)
             {
                 writeLog("autoRefresh timer - Start");
-                //autoRefresh.Start();
+                autoRefresh.Start();
             }
         }
 
