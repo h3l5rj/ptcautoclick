@@ -49,6 +49,15 @@ namespace AutoClick
             wbBrowser.Navigate(ptcSites[index, 1]);
         }
 
+        private void wbBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        {
+            if (!autoRefresh.Enabled)
+            {
+                writeLog("autoRefresh timer - Start");
+                //autoRefresh.Start();
+            }
+        }
+
         private void wbBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             writeLog(wbBrowser.DocumentTitle);
@@ -222,15 +231,6 @@ namespace AutoClick
             else
             {
                 Console.WriteLine(logContent);
-            }
-        }
-
-        private void wbBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
-        {
-            if (!autoRefresh.Enabled)
-            {
-                writeLog("autoRefresh timer - Start");
-                autoRefresh.Start();
             }
         }
     }
