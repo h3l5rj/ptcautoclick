@@ -53,12 +53,6 @@ namespace AutoClick
         {
             writeLog(wbBrowser.DocumentTitle);
 
-            if (!autoRefresh.Enabled)
-            {
-                writeLog("autoRefresh timer - Start");
-                autoRefresh.Start();
-            }
-
             if (wbBrowser.DocumentTitle == ptcSites[index, 3]) // log in page
             {
                 wbBrowser.Document.GetElementById("form_user").SetAttribute("value", USERNAME);
@@ -222,6 +216,15 @@ namespace AutoClick
             else
             {
                 Console.WriteLine(logContent);
+            }
+        }
+
+        private void wbBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
+        {
+            if (!autoRefresh.Enabled)
+            {
+                writeLog("autoRefresh timer - Start");
+                autoRefresh.Start();
             }
         }
     }

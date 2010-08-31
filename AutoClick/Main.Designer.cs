@@ -44,6 +44,7 @@
             this.wbBrowser.ScrollBarsEnabled = false;
             this.wbBrowser.Size = new System.Drawing.Size(1016, 741);
             this.wbBrowser.TabIndex = 0;
+            this.wbBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.wbBrowser_Navigating);
             this.wbBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.wbBrowser_DocumentCompleted);
             // 
             // waitForClick
@@ -52,7 +53,7 @@
             // 
             // autoRefresh
             // 
-            this.autoRefresh.Interval = 200000;
+            this.autoRefresh.Interval = 300000;
             this.autoRefresh.Tick += new System.EventHandler(this.autoRefresh_Tick);
             // 
             // Main
