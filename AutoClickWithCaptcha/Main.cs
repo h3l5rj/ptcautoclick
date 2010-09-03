@@ -8,7 +8,7 @@ namespace AutoClickWithCaptcha
 {
     public partial class Main : Form
     {
-        private Boolean logToFile = true;
+        private Boolean logToFile = false;
 
         private Boolean loggedIn4All = true;
         
@@ -173,11 +173,12 @@ namespace AutoClickWithCaptcha
                 // click and check if it's a correct picture
                 if ((wbBrowser.Document.GetElementById("captcharesultdiv").InnerHtml) == "Loading...")
                 {
-                    wbBrowser.Document.GetElementFromPoint(new Point(665, 27)).InvokeMember("click");
+                    Random random = new Random();
+                    wbBrowser.Document.GetElementFromPoint(new Point(665 + 57 * random.Next(0, 3), 27)).InvokeMember("click");
                 }
                 else if ((wbBrowser.Document.GetElementById("captcharesultdiv").InnerHtml).Contains("You did not click the right picture. Please reload this page."))
                 {
-                    writeLog("Clicked wrong image ==> reload...");
+                    writeLog("Clicked wrong picture ==> Reload...");
                     waitForClick.Interval = int.Parse(ptcSites[index, 4]);
                     wbBrowser.Refresh();
                 }
