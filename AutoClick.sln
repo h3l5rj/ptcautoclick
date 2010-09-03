@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoClick", "AutoClick\AutoClick.csproj", "{CE59719D-0D0F-44CF-8950-F4444145562C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoClickWithCaptcha", "AutoClickWithCaptcha\AutoClickWithCaptcha.csproj", "{22180E00-351E-491D-BA4E-60E29C5F018B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{CE59719D-0D0F-44CF-8950-F4444145562C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CE59719D-0D0F-44CF-8950-F4444145562C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CE59719D-0D0F-44CF-8950-F4444145562C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{22180E00-351E-491D-BA4E-60E29C5F018B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22180E00-351E-491D-BA4E-60E29C5F018B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{22180E00-351E-491D-BA4E-60E29C5F018B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{22180E00-351E-491D-BA4E-60E29C5F018B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
