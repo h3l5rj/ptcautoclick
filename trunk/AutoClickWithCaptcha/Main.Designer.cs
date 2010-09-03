@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.wbBrowser = new System.Windows.Forms.WebBrowser();
             this.waitForClick = new System.Windows.Forms.Timer(this.components);
-            this.autoRefresh = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // wbBrowser
@@ -68,7 +67,6 @@
 
         private System.Windows.Forms.WebBrowser wbBrowser;
         private System.Windows.Forms.Timer waitForClick;
-        private System.Windows.Forms.Timer autoRefresh;
     }
 }
 
