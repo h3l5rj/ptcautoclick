@@ -8,16 +8,27 @@ namespace AutoClickWithCaptcha
 {
     public partial class Main : Form
     {
-        private Boolean logToFile = false;
+        private Boolean logToFile = true;
 
         private Boolean loggedIn4All = true;
-
+        
         private static uint index = 0;
         private string[,] ptcSites = new string[,] {
-            { "http://www.buxincomecafe.com/pages/login", "http://www.buxincomecafe.com/pages/clickads", "http://www.buxincomecafe.com/pages/clickads?h=",
-                "Click Ads - BuxIncomeCafe.com", "25000"},
-            { "http://www.nycebux.com/pages/login", "http://www.nycebux.com/pages/clickads", "http://www.nycebux.com/pages/clickads?h=",
-                "Click Ads - NYCE Bux", "35000"}
+            { "http://www.nycebux.com/pages/login", "http://www.nycebux.com/pages/clickads", "http://www.nycebux.com/pages/clickads?h=", "Click Ads - NYCE Bux", "35000"},
+            { "http://www.14bux.com/pages/login", "http://www.14bux.com/pages/clickads", "http://www.14bux.com/pages/clickads?h=", "Click Ads - 14bux", "20000"},
+            { "http://www.mintptc.com/pages/login", "http://www.mintptc.com/pages/clickads", "http://www.mintptc.com/pages/clickads?h=", "Click Ads - mintptc.com", "35000"},
+            { "http://www.newwavebux.com/pages/login", "http://www.newwavebux.com/pages/clickads", "http://www.newwavebux.com/pages/clickads?h=", "Click Ads - NewWaveBux.com", "35000"},
+            { "http://www.buxreflink.com/pages/login", "http://www.buxreflink.com/pages/clickads", "http://www.buxreflink.com/pages/clickads?h=", "Click Ads - BuxRefLink.com", "35000"},
+            { "http://www.tviptc.com/pages/login", "http://www.tviptc.com/pages/clickads", "http://www.tviptc.com/pages/clickads?h=", "Click Ads - TVIptc.com", "15000"},
+            { "http://www.hiddenbux.com/pages/login", "http://www.hiddenbux.com/pages/clickads", "http://www.hiddenbux.com/pages/clickads?h=", "Click Ads - HiddenBux", "25000"},
+            { "http://www.roubux.com/pages/login", "http://www.roubux.com/pages/clickads", "http://www.roubux.com/pages/clickads?h=", "Click Ads - ROUbux", "35000"},
+            { "http://www.thebuxgroup.com/pages/login", "http://www.thebuxgroup.com/pages/clickads", "http://www.thebuxgroup.com/pages/clickads?h=", "Click Ads - TheBuxGroup.com", "35000"},
+            { "http://www.freebirdbux.com/pages/login", "http://www.freebirdbux.com/pages/clickads", "http://www.freebirdbux.com/pages/clickads?h=", "Click Ads - FreeBirdBux", "35000"},
+            { "http://www.memberbux.com/pages/login", "http://www.memberbux.com/pages/clickads", "http://www.memberbux.com/pages/clickads?h=", "Click Ads - MemberBux.com", "35000"},
+            { "http://www.yourprofitbux.com/pages/login", "http://www.yourprofitbux.com/pages/clickads", "http://www.yourprofitbux.com/pages/clickads?h=", "Click Ads - YourProfitBux.com", "35000"},
+            { "http://www.maibux.com/pages/login", "http://www.yourprofitbux.com/pages/clickads", "http://www.yourprofitbux.com/pages/clickads?h=", "Click Ads - Maibux.com", "35000"},
+            { "http://www.infinitybux.com/pages/login", "http://www.infinitybux.com/pages/clickads", "http://www.infinitybux.com/pages/clickads?h=", "Click Ads - InfinityBux", "35000"},
+            { "http://www.buxincomecafe.com/pages/login", "http://www.buxincomecafe.com/pages/clickads", "http://www.buxincomecafe.com/pages/clickads?h=", "Click Ads - BuxIncomeCafe.com", "25000"}
         };
         private const string USERNAME = "tranvinhtruong";
         private const string PASSWORD = "tctlT1005";
@@ -70,18 +81,36 @@ namespace AutoClickWithCaptcha
             {
                 if (wbBrowser.DocumentText.Contains("Log off"))    // logged in
                 {
-                    matchObj = Regex.Match(wbBrowser.DocumentText, "(?<=openad\\(\")[^\"]*");
-                    writeLog("link available to click? - " + matchObj.Success);
-                    if (matchObj.Success)
+                    if (loggedIn4All)
                     {
-                        wbBrowser.Navigate(ptcSites[index, 2] + matchObj.Value);
+                        matchObj = Regex.Match(wbBrowser.DocumentText, "(?<=openad\\(\")[^\"]*");
+                        writeLog("link available to click? - " + matchObj.Success);
+                        if (matchObj.Success)
+                        {
+                            wbBrowser.Navigate(ptcSites[index, 2] + matchObj.Value);
+                        }
+                        else
+                        {
+                            index++;
+                            if (index >= ptcSites.GetLength(0))   // reset
+                            {
+                                index = 0;
+                            }
+                            startSurf();    // surf next site
+                        }
                     }
                     else
                     {
                         index++;
                         if (index >= ptcSites.GetLength(0))   // reset
                         {
+                            writeLog("Logged for all sites! ==> Start viewing ads.");
+                            loggedIn4All = true;
                             index = 0;
+                        }
+                        else
+                        {
+                            writeLog("Still not logged for all sites! ==> Log in for next site.");
                         }
                         startSurf();    // surf next site
                     }
@@ -109,8 +138,23 @@ namespace AutoClickWithCaptcha
                     }
                     else
                     {
-                        writeLog("Need to log in all sites before start viewing ads!");
-                        startSurf();
+                        if (index >= ptcSites.GetLength(0))     // logged for all sites
+                        {
+                            writeLog("Logged for all sites! ==> Start viewing ads.");
+                            index = 0;
+                        }
+                        else
+                        {
+                            if (index == 0)
+                            {
+                                writeLog("Need to log in all sites before start viewing ads!");
+                            }
+                            else
+                            {
+                                writeLog("Still not logged for all sites! ==> Log in for next site.");
+                            }
+                        }
+                        startSurf();    // log in for next site
                     }
                 }
             }
@@ -129,10 +173,7 @@ namespace AutoClickWithCaptcha
                 // click and check if it's a correct picture
                 if ((wbBrowser.Document.GetElementById("captcharesultdiv").InnerHtml) == "Loading...")
                 {
-                    if (index == 0)
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(665, 27)).InvokeMember("click");
-                    }
+                    wbBrowser.Document.GetElementFromPoint(new Point(665, 27)).InvokeMember("click");
                 }
                 else if ((wbBrowser.Document.GetElementById("captcharesultdiv").InnerHtml).Contains("You did not click the right picture. Please reload this page."))
                 {
@@ -163,7 +204,7 @@ namespace AutoClickWithCaptcha
         {
             if (logToFile)
             {
-                File.AppendAllText("AutoClick.log", "[" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "] " + logContent + "\r\n");
+                File.AppendAllText("AutoClickWithCaptcha.log", "[" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "] " + logContent + "\r\n");
             }
             else
             {
