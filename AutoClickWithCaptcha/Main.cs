@@ -79,11 +79,11 @@ namespace AutoClickWithCaptcha
         {
             try
             {
-                if (wbBrowser.DocumentText.Contains("Log off"))    // logged in
+                if (wbBrowser.Document.Body.InnerHtml.Contains("Log off"))    // logged in
                 {
                     if (loggedIn4All)
                     {
-                        matchObj = Regex.Match(wbBrowser.DocumentText, "(?<=openad\\(\")[^\"]*");
+                        matchObj = Regex.Match(wbBrowser.Document.Body.InnerHtml, "(?<=openad\\(\")[^\"]*");
                         writeLog("link available to click? - " + matchObj.Success);
                         if (matchObj.Success)
                         {
@@ -128,7 +128,7 @@ namespace AutoClickWithCaptcha
                 {
                     loggedIn4All = false;
 
-                    if (wbBrowser.DocumentText.Contains("Enter security code"))
+                    if (wbBrowser.Document.Body.InnerHtml.Contains("Enter security code"))
                     {
                         // input login info and wait for input captcha
                         wbBrowser.Document.GetElementById("username").SetAttribute("value", USERNAME);
