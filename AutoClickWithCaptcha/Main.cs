@@ -53,28 +53,6 @@ namespace AutoClickWithCaptcha
             wbBrowser.Navigate(ptcSites[index, i]);
         }
 
-        private void wbBrowser_Navigated(object sender, WebBrowserNavigatedEventArgs e)
-        {
-            if (wbBrowser.DocumentText.Contains("Your details"))    // view ads page
-            {
-                if (!loggedIn4All)
-                {
-                    index++;
-                    if (index >= ptcSites.GetLength(0))     // logged for all sites
-                    {
-                        writeLog("Logged for all sites! ==> Start viewing ads.");
-                        loggedIn4All = true;
-                        index = 0;
-                    }
-                    else
-                    {
-                        writeLog("Still not logged for all sites! ==> Log in for next site.");
-                    }
-                    startSurf();    // log in for next site
-                }
-            }
-        }
-
         private void wbBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             try
