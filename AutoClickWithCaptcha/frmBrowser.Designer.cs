@@ -1,6 +1,6 @@
-﻿namespace AutoClick
+﻿namespace AutoClickWithCaptcha
 {
-    partial class Main
+    partial class frmBrowser
     {
         /// <summary>
         /// Required designer variable.
@@ -31,7 +31,6 @@
             this.components = new System.ComponentModel.Container();
             this.wbBrowser = new System.Windows.Forms.WebBrowser();
             this.waitForClick = new System.Windows.Forms.Timer(this.components);
-            this.autoRefresh = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // wbBrowser
@@ -42,29 +41,22 @@
             this.wbBrowser.Name = "wbBrowser";
             this.wbBrowser.ScriptErrorsSuppressed = true;
             this.wbBrowser.ScrollBarsEnabled = false;
-            this.wbBrowser.Size = new System.Drawing.Size(1016, 741);
+            this.wbBrowser.Size = new System.Drawing.Size(292, 273);
             this.wbBrowser.TabIndex = 0;
-            this.wbBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.wbBrowser_Navigating);
             this.wbBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.wbBrowser_DocumentCompleted);
             // 
             // waitForClick
             // 
             this.waitForClick.Tick += new System.EventHandler(this.waitForClick_Tick);
             // 
-            // autoRefresh
-            // 
-            this.autoRefresh.Tick += new System.EventHandler(this.autoRefresh_Tick);
-            // 
-            // Main
+            // frmBrowser
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1016, 741);
+            this.ClientSize = new System.Drawing.Size(292, 273);
             this.Controls.Add(this.wbBrowser);
-            this.Name = "Main";
-            this.ShowInTaskbar = false;
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "PTC AutoClick";
+            this.Name = "frmBrowser";
+            this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
 
         }
@@ -73,8 +65,5 @@
 
         private System.Windows.Forms.WebBrowser wbBrowser;
         private System.Windows.Forms.Timer waitForClick;
-        private System.Windows.Forms.Timer autoRefresh;
-
     }
 }
-

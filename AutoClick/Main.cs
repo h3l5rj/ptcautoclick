@@ -46,7 +46,7 @@ namespace AutoClick
         private void startSurf()
         {
             writeLog(index + ": " + ptcSites[index, 1]);
-            wbBrowser.Navigate(ptcSites[index, 1]);
+                wbBrowser.Navigate(ptcSites[index, 1]);
         }
 
         private void wbBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
