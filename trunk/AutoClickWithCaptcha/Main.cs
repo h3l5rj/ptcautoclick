@@ -1,193 +1,81 @@
 ﻿using System;
-using System.Drawing;
-using System.IO;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
 namespace AutoClickWithCaptcha
 {
     public partial class Main : Form
-    {
-        private Boolean logToFile = true;
-
-        private Boolean loggedIn4All = true;
-        
-        private static uint index = 0;
+    {        
         private string[,] ptcSites = new string[,] {
-            { "http://www.nycebux.com/pages/login", "http://www.nycebux.com/pages/clickads", "http://www.nycebux.com/pages/clickads?h=", "Click Ads - NYCE Bux", "35000"},
-            { "http://www.14bux.com/pages/login", "http://www.14bux.com/pages/clickads", "http://www.14bux.com/pages/clickads?h=", "Click Ads - 14bux", "20000"},
-            { "http://www.mintptc.com/pages/login", "http://www.mintptc.com/pages/clickads", "http://www.mintptc.com/pages/clickads?h=", "Click Ads - mintptc.com", "35000"},
-            { "http://www.newwavebux.com/pages/login", "http://www.newwavebux.com/pages/clickads", "http://www.newwavebux.com/pages/clickads?h=", "Click Ads - NewWaveBux.com", "35000"},
-            { "http://www.buxreflink.com/pages/login", "http://www.buxreflink.com/pages/clickads", "http://www.buxreflink.com/pages/clickads?h=", "Click Ads - BuxRefLink.com", "35000"},
-            { "http://www.tviptc.com/pages/login", "http://www.tviptc.com/pages/clickads", "http://www.tviptc.com/pages/clickads?h=", "Click Ads - TVIptc.com", "15000"},
-            { "http://www.hiddenbux.com/pages/login", "http://www.hiddenbux.com/pages/clickads", "http://www.hiddenbux.com/pages/clickads?h=", "Click Ads - HiddenBux", "25000"},
-            { "http://www.roubux.com/pages/login", "http://www.roubux.com/pages/clickads", "http://www.roubux.com/pages/clickads?h=", "Click Ads - ROUbux", "35000"},
-            { "http://www.thebuxgroup.com/pages/login", "http://www.thebuxgroup.com/pages/clickads", "http://www.thebuxgroup.com/pages/clickads?h=", "Click Ads - TheBuxGroup.com", "35000"},
-            { "http://www.freebirdbux.com/pages/login", "http://www.freebirdbux.com/pages/clickads", "http://www.freebirdbux.com/pages/clickads?h=", "Click Ads - FreeBirdBux", "35000"},
-            { "http://www.memberbux.com/pages/login", "http://www.memberbux.com/pages/clickads", "http://www.memberbux.com/pages/clickads?h=", "Click Ads - MemberBux.com", "35000"},
-            { "http://www.yourprofitbux.com/pages/login", "http://www.yourprofitbux.com/pages/clickads", "http://www.yourprofitbux.com/pages/clickads?h=", "Click Ads - YourProfitBux.com", "35000"},
-            { "http://www.maibux.com/pages/login", "http://www.yourprofitbux.com/pages/clickads", "http://www.yourprofitbux.com/pages/clickads?h=", "Click Ads - Maibux.com", "35000"},
-            { "http://www.infinitybux.com/pages/login", "http://www.infinitybux.com/pages/clickads", "http://www.infinitybux.com/pages/clickads?h=", "Click Ads - InfinityBux", "35000"},
-            { "http://www.buxincomecafe.com/pages/login", "http://www.buxincomecafe.com/pages/clickads", "http://www.buxincomecafe.com/pages/clickads?h=", "Click Ads - BuxIncomeCafe.com", "25000"}
+            { "nycebux", "http://www.nycebux.com/pages/login", "http://www.nycebux.com/pages/clickads", "Click Ads - NYCE Bux", "35000"},
+            { "14bux", "http://www.14bux.com/pages/login", "http://www.14bux.com/pages/clickads", "Click Ads - 14bux", "20000"},
+            { "mintptc", "http://www.mintptc.com/pages/login", "http://www.mintptc.com/pages/clickads", "Click Ads - mintptc.com", "35000"},
+            { "newwavebux", "http://www.newwavebux.com/pages/login", "http://www.newwavebux.com/pages/clickads", "Click Ads - NewWaveBux.com", "35000"},
+            { "buxreflink", "http://www.buxreflink.com/pages/login", "http://www.buxreflink.com/pages/clickads", "Click Ads - BuxRefLink.com", "35000"},
+            { "tviptc", "http://www.tviptc.com/pages/login", "http://www.tviptc.com/pages/clickads", "Click Ads - TVIptc.com", "15000"},
+            { "hiddenbux", "http://www.hiddenbux.com/pages/login", "http://www.hiddenbux.com/pages/clickads", "Click Ads - HiddenBux", "25000"},
+            { "roubux", "http://www.roubux.com/pages/login", "http://www.roubux.com/pages/clickads", "Click Ads - ROUbux", "35000"},
+            { "thebuxgroup", "http://www.thebuxgroup.com/pages/login", "http://www.thebuxgroup.com/pages/clickads", "Click Ads - TheBuxGroup.com", "35000"},
+            { "freebirdbux", "http://www.freebirdbux.com/pages/login", "http://www.freebirdbux.com/pages/clickads", "Click Ads - FreeBirdBux", "35000"},
+            { "memberbux", "http://www.memberbux.com/pages/login", "http://www.memberbux.com/pages/clickads", "Click Ads - MemberBux.com", "35000"},
+            { "yourprofitbux", "http://www.yourprofitbux.com/pages/login", "http://www.yourprofitbux.com/pages/clickads", "Click Ads - YourProfitBux.com", "35000"},
+            { "maibux", "http://www.maibux.com/pages/login", "http://www.yourprofitbux.com/pages/clickads", "Click Ads - Maibux.com", "35000"},
+            { "infinitybux", "http://www.infinitybux.com/pages/login", "http://www.infinitybux.com/pages/clickads", "Click Ads - InfinityBux", "35000"},
+            { "buxincomecafe", "http://www.buxincomecafe.com/pages/login", "http://www.buxincomecafe.com/pages/clickads", "Click Ads - BuxIncomeCafe.com", "25000"}
         };
-        private const string USERNAME = "tranvinhtruong";
-        private const string PASSWORD = "tctlT1005";
 
-        private Match matchObj;
+        private ToolStripButton btnPtcSite;
+        private Form[] childForms;
+        private frmBrowser frmBrowser;
 
         public Main()
         {
             InitializeComponent();
 
-            startSurf();
-        }
-
-        private void startSurf()
-        {
-            int i = 0;
-            if (loggedIn4All)
+            for (int i = 0; i < ptcSites.GetLength(0); i++)
             {
-                i = 1;
+                btnPtcSite = new ToolStripButton(ptcSites[i, 0], null, null, i.ToString());
+                btnPtcSite.Click += new System.EventHandler(this.toolStripButton_Click);
+                toolbar.Items.Add(btnPtcSite);
             }
-            writeLog(index + ": " + ptcSites[index, i]);
-            wbBrowser.Navigate(ptcSites[index, i]);
         }
 
-        private void wbBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
+        private void toolStripButton_Click(object sender, EventArgs e)
         {
-            try
+            btnPtcSite = sender as ToolStripButton;
+            int index = int.Parse(btnPtcSite.Name);
+            childForms = this.MdiChildren;
+            if (childForms.Length > 0)
             {
-                if (wbBrowser.Document.Body.InnerHtml.Contains("Log off"))    // logged in
+                int i;
+                for (i = 0; i < childForms.Length; i++)
                 {
-                    if (loggedIn4All)
-                    {
-                        matchObj = Regex.Match(wbBrowser.Document.Body.InnerHtml, "(?<=openad\\(\")[^\"]*");
-                        writeLog("link available to click? - " + matchObj.Success);
-                        if (matchObj.Success)
-                        {
-                            wbBrowser.Navigate(ptcSites[index, 2] + matchObj.Value);
-                        }
-                        else
-                        {
-                            index++;
-                            if (index >= ptcSites.GetLength(0))   // reset
-                            {
-                                index = 0;
-                            }
-                            startSurf();    // surf next site
-                        }
-                    }
-                    else
-                    {
-                        index++;
-                        if (index >= ptcSites.GetLength(0))   // reset
-                        {
-                            writeLog("Logged for all sites! ==> Start viewing ads.");
-                            loggedIn4All = true;
-                            index = 0;
-                        }
-                        else
-                        {
-                            writeLog("Still not logged for all sites! ==> Log in for next site.");
-                        }
-                        startSurf();    // surf next site
-                    }
+                    frmBrowser = childForms[i] as frmBrowser;
+                    if (frmBrowser.Name == btnPtcSite.Name)
+                        break;
                 }
-                else if (wbBrowser.DocumentTitle == ptcSites[index, 3]) // count down page
+                if (i < childForms.Length)
                 {
-                    if (!waitForClick.Enabled)
-                    {
-                        writeLog("waitForClick timer - Start");
-                        waitForClick.Interval = int.Parse(ptcSites[index, 4]);
-                        waitForClick.Start();
-                    }
+                    Util.writeLog("Bring to front: " + btnPtcSite.Text);
+                    frmBrowser.BringToFront();
                 }
                 else
                 {
-                    loggedIn4All = false;
-
-                    if (wbBrowser.Document.Body.InnerHtml.Contains("Enter security code"))
-                    {
-                        // input login info and wait for input captcha
-                        wbBrowser.Document.GetElementById("username").SetAttribute("value", USERNAME);
-                        wbBrowser.Document.GetElementById("password").SetAttribute("value", PASSWORD);
-                        wbBrowser.Document.GetElementById("captcha").InvokeMember("focus");
-                        writeLog("Waiting for input captcha ...");
-                    }
-                    else
-                    {
-                        if (index >= ptcSites.GetLength(0))     // logged for all sites
-                        {
-                            writeLog("Logged for all sites! ==> Start viewing ads.");
-                            index = 0;
-                        }
-                        else
-                        {
-                            if (index == 0)
-                            {
-                                writeLog("Need to log in all sites before start viewing ads!");
-                            }
-                            else
-                            {
-                                writeLog("Still not logged for all sites! ==> Log in for next site.");
-                            }
-                        }
-                        startSurf();    // log in for next site
-                    }
+                    createNewBrowser(index);
                 }
-            }
-            catch (Exception ex)
-            {
-                writeLog("Exception on DocumentCompleted: " + ex.Message + "\r\n" + ex.StackTrace);
-            }
-        }
-
-        private void waitForClick_Tick(object sender, EventArgs e)
-        {
-            if (wbBrowser.Document.Window.Frames.Count > 0)
-            {
-                waitForClick.Interval = 3000;
-
-                // click and check if it's a correct picture
-                if ((wbBrowser.Document.GetElementById("captcharesultdiv").InnerHtml) == "Loading...")
-                {
-                    wbBrowser.Document.GetElementFromPoint(new Point(665, 27)).InvokeMember("click");
-                }
-                else if ((wbBrowser.Document.GetElementById("captcharesultdiv").InnerHtml).Contains("You did not click the right picture. Please reload this page."))
-                {
-                    writeLog("Clicked wrong picture ==> Reload...");
-                    waitForClick.Interval = int.Parse(ptcSites[index, 4]);
-                    wbBrowser.Refresh();
-                }
-                else if ((wbBrowser.Document.GetElementById("captcharesultdiv").InnerHtml).Contains("Your balance has been credited."))
-                {
-                    writeLog("---CREDITED---");
-                    stopWaitForClickTimer();
-
-                    wbBrowser.Navigate(ptcSites[index, 1]); // back to view ads page
-                }
-            }
-        }
-
-        private void stopWaitForClickTimer()
-        {
-            if (waitForClick.Enabled)
-            {
-                writeLog("waitForClick timer - Stop");
-                waitForClick.Stop();
-            }
-        }
-
-        private void writeLog(string logContent)
-        {
-            if (logToFile)
-            {
-                File.AppendAllText("AutoClickWithCaptcha.log", "[" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "] " + logContent + "\r\n");
             }
             else
             {
-                Console.WriteLine(logContent);
+                createNewBrowser(index);
             }
+        }
+
+        private void createNewBrowser(int i)
+        {
+            Util.writeLog("Opening " + ptcSites[i, 0] + " ...");
+            frmBrowser = new frmBrowser(ptcSites[i, 1], ptcSites[i, 2], ptcSites[i, 3], int.Parse(ptcSites[i, 4]));
+            frmBrowser.Name = i.ToString();
+            frmBrowser.MdiParent = this;
+            frmBrowser.Show();
         }
     }
 }
