@@ -31,15 +31,18 @@ namespace AutoClickWithCaptcha
             {
                 if (wbBrowser.DocumentText.Contains("Log off"))     // logged in
                 {
-                    matchObj = Regex.Match(wbBrowser.Document.Body.InnerHtml, "(?<=openad\\(\")[^\"]*");
-                    Util.writeLog("link available to click? - " + matchObj.Success);
-                    if (matchObj.Success)
+                    if (wbBrowser.DocumentText.Contains("Your details"))   // account page
                     {
-                        wbBrowser.Navigate(clickadsUrl + "?h=" + matchObj.Value);
+                        wbBrowser.Navigate(clickadsUrl);    // open view ads page
                     }
                     else
                     {
-                        
+                        matchObj = Regex.Match(wbBrowser.Document.Body.InnerHtml, "(?<=openad\\(\")[^\"]*");
+                        Util.writeLog("link available to click? - " + matchObj.Success);
+                        if (matchObj.Success)
+                        {
+                            wbBrowser.Navigate(clickadsUrl + "?h=" + matchObj.Value);
+                        }
                     }
                 }
                 else if (wbBrowser.DocumentTitle == clickadsTitle)  // count down page
