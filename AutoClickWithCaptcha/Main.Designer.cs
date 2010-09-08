@@ -33,9 +33,11 @@
             // 
             // toolbar
             // 
+            this.toolbar.LayoutStyle = System.Windows.Forms.ToolStripLayoutStyle.Flow;
             this.toolbar.Location = new System.Drawing.Point(0, 0);
             this.toolbar.Name = "toolbar";
-            this.toolbar.Size = new System.Drawing.Size(1016, 25);
+            this.toolbar.ShowItemToolTips = false;
+            this.toolbar.Size = new System.Drawing.Size(1016, 19);
             this.toolbar.TabIndex = 1;
             // 
             // Main

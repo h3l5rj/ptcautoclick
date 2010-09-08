@@ -20,7 +20,16 @@ namespace AutoClickWithCaptcha
             { "yourprofitbux", "http://www.yourprofitbux.com/pages/login", "http://www.yourprofitbux.com/pages/clickads", "Click Ads - YourProfitBux.com", "35000"},
             { "maibux", "http://www.maibux.com/pages/login", "http://www.yourprofitbux.com/pages/clickads", "Click Ads - Maibux.com", "35000"},
             { "infinitybux", "http://www.infinitybux.com/pages/login", "http://www.infinitybux.com/pages/clickads", "Click Ads - InfinityBux", "35000"},
-            { "buxincomecafe", "http://www.buxincomecafe.com/pages/login", "http://www.buxincomecafe.com/pages/clickads", "Click Ads - BuxIncomeCafe.com", "25000"}
+            { "buxincomecafe", "http://www.buxincomecafe.com/pages/login", "http://www.buxincomecafe.com/pages/clickads", "Click Ads - BuxIncomeCafe.com", "25000"},
+            { "allstarbux", "http://www.allstarbux.com/pages/login", "http://www.allstarbux.com/pages/clickads", "Click Ads - allstarbux.com", "65000"},
+            { "buxtobux", "http://www.buxtobux.com/pages/login", "http://www.buxtobux.com/pages/clickads", "Click Ads - buxtobux.com", "65000"},
+            { "breakoutbux", "http://www.breakoutbux.com/pages/login", "http://www.breakoutbux.com/pages/clickads", "Click Ads - breakoutbux.com", "65000"},
+            { "quickmoneybux", "http://www.quickmoneybux.com/pages/login", "http://www.quickmoneybux.com/pages/clickads", "Click Ads - QuickMoneyBux.com", "65000"},
+            { "buxbillionaire", "http://www.buxbillionaire.com/pages/login", "http://www.buxbillionaire.com/pages/clickads", "Click Ads - buxbillionaire.com", "65000"},
+            { "hreembux", "http://www.hreembux.com/pages/login", "http://www.hreembux.com/pages/clickads", "Click Ads - hreembux.com", "15000"},
+            { "5dollarclick", "http://www.5dollarclick.com/pages/login", "http://www.5dollarclick.com/pages/clickads", "Click Ads - 5dollarclick.com", "65000"},
+            { "downunderbux", "http://www.downunderbux.com/pages/login", "http://www.downunderbux.com/pages/clickads", "Click Ads - downunderbux.com", "65000"},
+            { "buxclan", "http://www.buxclan.com/pages/login", "http://www.buxclan.com/pages/clickads", "Click Ads - BuxClan.com", "35000"}
         };
 
         private ToolStripButton btnPtcSite;
