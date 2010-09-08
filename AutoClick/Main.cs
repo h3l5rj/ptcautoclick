@@ -46,7 +46,7 @@ namespace AutoClick
         private void startSurf()
         {
             writeLog(index + ": " + ptcSites[index, 1]);
-                wbBrowser.Navigate(ptcSites[index, 1]);
+            wbBrowser.Navigate(ptcSites[index, 1]);
         }
 
         private void wbBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
@@ -204,14 +204,9 @@ namespace AutoClick
             stopWaitForClickTimer();
             stopAutoFreshTimer();
 
-            // surf next site if program is stopped
-            writeLog("Program is stopped => surf next site <= ################");
-            index++;
-            if (index >= ptcSites.GetLength(0))   // reset
-            {
-                index = 0;
-            }
-            startSurf();    // surf next site
+            // refresh site if program is stopped
+            writeLog("Program is stopped => refresh site <= ################");
+            startSurf();    // refresh site
         }
 
         private void stopAutoFreshTimer()
