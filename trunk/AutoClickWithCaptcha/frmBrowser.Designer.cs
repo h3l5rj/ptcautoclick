@@ -41,7 +41,7 @@
             this.wbBrowser.Name = "wbBrowser";
             this.wbBrowser.ScriptErrorsSuppressed = true;
             this.wbBrowser.ScrollBarsEnabled = false;
-            this.wbBrowser.Size = new System.Drawing.Size(292, 273);
+            this.wbBrowser.Size = new System.Drawing.Size(784, 562);
             this.wbBrowser.TabIndex = 0;
             this.wbBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.wbBrowser_DocumentCompleted);
             // 
@@ -53,10 +53,8 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(292, 273);
+            this.ClientSize = new System.Drawing.Size(784, 562);
             this.Controls.Add(this.wbBrowser);
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
             this.Name = "frmBrowser";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
