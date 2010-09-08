@@ -29,9 +29,9 @@ namespace AutoClickWithCaptcha
         {
             try
             {
-                if (wbBrowser.DocumentText.Contains("Log off"))     // logged in
+                if (wbBrowser.Document.Body.InnerHtml.Contains("Log off"))     // logged in
                 {
-                    if (wbBrowser.DocumentText.Contains("Your details"))   // account page
+                    if (wbBrowser.Document.Body.InnerHtml.Contains("Your details"))   // account page
                     {
                         wbBrowser.Navigate(clickadsUrl);    // open view ads page
                     }
@@ -51,7 +51,7 @@ namespace AutoClickWithCaptcha
                 }
                 else
                 {
-                    if (wbBrowser.DocumentText.Contains("Enter security code"))
+                    if (wbBrowser.Document.Body.InnerHtml.Contains("Enter security code"))
                     {
                         // input login info and wait for input captcha
                         wbBrowser.Document.GetElementById("username").SetAttribute("value", Util.USERNAME);
@@ -93,7 +93,7 @@ namespace AutoClickWithCaptcha
                     wbBrowser.Navigate(clickadsUrl);    // back to view ads page
                 }
             }
-            else if (wbBrowser.DocumentText.Contains("Your details"))   // account page
+            else if (wbBrowser.Document.Body.InnerHtml.Contains("Your details"))   // account page
             {
                 stopWaitForClickTimer();
                 wbBrowser.Navigate(clickadsUrl);    // open view ads page
