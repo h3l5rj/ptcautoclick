@@ -55,6 +55,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(292, 273);
             this.Controls.Add(this.wbBrowser);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "frmBrowser";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.ResumeLayout(false);
