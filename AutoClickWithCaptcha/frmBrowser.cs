@@ -93,7 +93,7 @@ namespace AutoClickWithCaptcha
                     wbBrowser.Navigate(clickadsUrl);    // back to view ads page
                 }
             }
-            else if (wbBrowser.Document.Body.InnerHtml.Contains("Your details"))   // account page
+            else if (wbBrowser.Document.Body != null && wbBrowser.Document.Body.InnerHtml.Contains("Your details"))   // account page
             {
                 stopWaitForClickTimer();
                 wbBrowser.Navigate(clickadsUrl);    // open view ads page
