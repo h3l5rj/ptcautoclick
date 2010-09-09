@@ -29,7 +29,13 @@ namespace AutoClick
             { "http://www.buxinc.com/index.php?view=login", "http://www.buxinc.com/index.php?view=click", "http://www.buxinc.com/gpt.php",
                 "Bux Inc : Log In", "Bux Inc : My Account Panel - Tran Vinh Truong" , "Bux Inc : Get Paid To Click", "Viewing Ad @ Bux Inc", "35000"},
             { "http://www.fineptc.com/index.php?view=login", "http://www.fineptc.com/index.php?view=click", "http://www.fineptc.com/gpt.php",
-                "Fine PTC : Log In", "Fine PTC : My Account Panel - Tran Vinh Truong" , "Fine PTC : Get Paid To Click", "Viewing Ad @ Fine PTC", "65000"}
+                "Fine PTC : Log In", "Fine PTC : My Account Panel - Tran Vinh Truong" , "Fine PTC : Get Paid To Click", "Viewing Ad @ Fine PTC", "65000"},
+            { "http://mysteryptc.com/index.php?view=login", "http://mysteryptc.com/index.php?view=click", "http://mysteryptc.com/gpt.php",
+                "Mystery PTC Site : Log In", "Mystery PTC Site : My Account Panel - Tran Vinh Truong" , "Mystery PTC Site : Get Paid To Click", "Viewing Ad @ Mystery PTC Site", "15000"},
+            { "http://www.onedollarptc.com/index.php?view=login", "http://www.onedollarptc.com/index.php?view=click", "http://www.onedollarptc.com/gpt.php",
+                "Bible Company : Log In", "Bible Company : My Account Panel - Tran Vinh Truong" , "Bible Company : Get Paid To Click", "Viewing Ad @ Bible Company", "30000"},
+            { "http://bestdollarclicks.com/index.php?view=login", "http://bestdollarclicks.com/index.php?view=click", "http://bestdollarclicks.com/gpt.php",
+                "Bible Company : Log In", "Bible Company : Purchase Advertising" , "Bible Company : Get Paid To Click", "Viewing Ad @ Bible Company", "65000"}
         };
         private const string USERNAME = "tranvinhtruong";
         private const string PASSWORD = "tctlT1005";
@@ -65,8 +71,16 @@ namespace AutoClick
 
             if (wbBrowser.DocumentTitle == ptcSites[index, 3]) // log in page
             {
-                wbBrowser.Document.GetElementById("form_user").SetAttribute("value", USERNAME);
-                wbBrowser.Document.GetElementById("form_pwd").SetAttribute("value", PASSWORD);
+                if (index == 9) // Mystery PTC
+                {
+                    wbBrowser.Document.GetElementById("uUsername").SetAttribute("value", USERNAME);
+                    wbBrowser.Document.GetElementById("uPassword").SetAttribute("value", PASSWORD);
+                }
+                else
+                {
+                    wbBrowser.Document.GetElementById("form_user").SetAttribute("value", USERNAME);
+                    wbBrowser.Document.GetElementById("form_pwd").SetAttribute("value", PASSWORD);
+                }
 
                 // click on "Access Account"
                 if (index == 0) // Ten Dollar Click
@@ -107,6 +121,18 @@ namespace AutoClick
                 else if (index == 8) // Fine PTC
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(571, 412)).InvokeMember("click");
+                }
+                else if (index == 9) // Mystery PTC
+                {
+                    wbBrowser.Document.GetElementFromPoint(new Point(715, 491)).InvokeMember("click");
+                }
+                else if (index == 10) // onedollarptc
+                {
+                    wbBrowser.Document.GetElementFromPoint(new Point(586, 341)).InvokeMember("click");
+                }
+                else if (index == 11) // bestdollarclicks
+                {
+                    wbBrowser.Document.GetElementFromPoint(new Point(594, 467)).InvokeMember("click");
                 }
             }
             else if (wbBrowser.DocumentTitle == ptcSites[index, 4])    // account page
@@ -176,7 +202,7 @@ namespace AutoClick
                         foreach (HtmlElement link in countdownFrame.Links)
                         {
                             writeLog(link.InnerHtml);
-                            if (link.InnerHtml.Contains(key))
+                            if (link.InnerHtml.Contains("/" + key + "."))
                             {
                                 link.InvokeMember("click");
                                 writeLog("---CLICK---");
