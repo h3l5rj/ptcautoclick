@@ -76,7 +76,7 @@ namespace AutoClick
             catch (Exception)
             {
                 writeLog("Exception on navigate because there's a popup is opening.");
-                IntPtr thisHandle = FindWindow(null, this.Text);
+                IntPtr thisHandle = FindWindow(null, "Windows Internet Explorer");
                 SetForegroundWindow(thisHandle);
                 SendKeys.Send("{ENTER}");   // press ENTER for closing popup
             }
