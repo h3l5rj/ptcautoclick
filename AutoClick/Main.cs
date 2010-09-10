@@ -19,7 +19,7 @@ namespace AutoClick
 
         private Boolean logToFile = true;
 
-        private static uint index = 0;
+        private static uint index = 13;
         private string[,] ptcSites = new string[,] {
             { "http://www.tendollarclick.com/index.php?view=login", "http://www.tendollarclick.com/index.php?view=click", "http://www.tendollarclick.com/gpt.php",
                 "Ten Dollar Click : Log In", "Ten Dollar Click : My Account Panel - Tran Vinh Truong" , "Ten Dollar Click : Get Paid To Click", "Viewing Ad @ Ten Dollar Click", "65000"},
@@ -198,9 +198,12 @@ namespace AutoClick
                         {
                             foreach (HtmlElement link in wbBrowser.Document.Links)
                             {
-                                if (link.GetAttribute("href").Contains(matchObj.Value) && link.InnerHtml.Contains("Rapidobux"))
+                                if (link.GetAttribute("href").Contains(matchObj.Value))
                                 {
-                                    matchObj = matchObj.NextMatch();
+                                    if (link.InnerHtml.Contains("Rapidobux") || link.InnerHtml.Contains("Ebusiness"))
+                                    {
+                                        matchObj = matchObj.NextMatch();
+                                    }
                                 }
                             }
                             if (matchObj.Success)
