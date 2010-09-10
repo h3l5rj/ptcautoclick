@@ -77,7 +77,7 @@ namespace AutoClickWithCaptcha
                 // click and check if it's a correct picture
                 if ((wbBrowser.Document.GetElementById("captcharesultdiv").InnerHtml) == "Loading...")
                 {
-                    wbBrowser.Document.GetElementFromPoint(new Point(665, 27)).InvokeMember("click");
+                    wbBrowser.Document.GetElementFromPoint(new Point(813, 27)).InvokeMember("click");
                 }
                 else if ((wbBrowser.Document.GetElementById("captcharesultdiv").InnerHtml).Contains("You did not click the right picture. Please reload this page."))
                 {

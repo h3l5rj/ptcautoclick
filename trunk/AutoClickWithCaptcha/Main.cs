@@ -27,7 +27,8 @@ namespace AutoClickWithCaptcha
             { "buxbillionaire", "http://www.buxbillionaire.com/pages/login", "http://www.buxbillionaire.com/pages/clickads", "Click Ads - buxbillionaire.com", "65000"},
             { "5dollarclick", "http://www.5dollarclick.com/pages/login", "http://www.5dollarclick.com/pages/clickads", "Click Ads - 5dollarclick.com", "65000"},
             { "downunderbux", "http://www.downunderbux.com/pages/login", "http://www.downunderbux.com/pages/clickads", "Click Ads - downunderbux.com", "65000"},
-            { "buxclan", "http://www.buxclan.com/pages/login", "http://www.buxclan.com/pages/clickads", "Click Ads - BuxClan.com", "35000"}
+            { "buxclan", "http://www.buxclan.com/pages/login", "http://www.buxclan.com/pages/clickads", "Click Ads - BuxClan.com", "35000"},
+            { "redwingptc", "http://www.redwingptc.com/pages/login", "http://www.redwingptc.com/pages/clickads", "Click Ads - redwingptc", "65000"}
         };
 
         private ToolStripButton btnPtcSite;
