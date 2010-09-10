@@ -19,8 +19,10 @@ namespace AutoClick
 
         private Boolean logToFile = true;
 
-        private static uint index = 13;
+        private static uint index = 0;
         private string[,] ptcSites = new string[,] {
+            { "http://www.neodollar.com/index.php?view=login", "http://www.neodollar.com/index.php?view=click", "http://www.neodollar.com/gpt.php",
+                "NeoDollar : Log In", "NeoDollar : My Account Panel - Tran Vinh Truong" , "NeoDollar : Get Paid To Click", "Viewing Ad @ NeoDollar", "35000"},
             { "http://www.tendollarclick.com/index.php?view=login", "http://www.tendollarclick.com/index.php?view=click", "http://www.tendollarclick.com/gpt.php",
                 "Ten Dollar Click : Log In", "Ten Dollar Click : My Account Panel - Tran Vinh Truong" , "Ten Dollar Click : Get Paid To Click", "Viewing Ad @ Ten Dollar Click", "65000"},
             { "http://www.ptcsense.com/index.php?view=login", "http://www.ptcsense.com/index.php?view=click", "http://www.ptcsense.com/gpt.php",
@@ -98,7 +100,7 @@ namespace AutoClick
 
             if (wbBrowser.DocumentTitle == ptcSites[index, 3]) // log in page
             {
-                if (index == 9) // Mystery PTC
+                if (index == 10) // Mystery PTC
                 {
                     wbBrowser.Document.GetElementById("uUsername").SetAttribute("value", USERNAME);
                     wbBrowser.Document.GetElementById("uPassword").SetAttribute("value", PASSWORD);
@@ -110,70 +112,74 @@ namespace AutoClick
                 }
 
                 // click on "Access Account"
-                if (index == 0) // Ten Dollar Click
+                if (index == 0) // NeoDollar
+                {
+                    wbBrowser.Document.GetElementFromPoint(new Point(718, 614)).InvokeMember("click");
+                }
+                if (index == 1) // Ten Dollar Click
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(538, 407)).InvokeMember("click");
                     wbBrowser.Document.GetElementFromPoint(new Point(538, 606)).InvokeMember("click");
                 }
-                else if (index == 1) // PTC Sense
+                else if (index == 2) // PTC Sense
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(703, 392)).InvokeMember("click");
                 }
-                else if (index == 2) // Rich PTC
+                else if (index == 3) // Rich PTC
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(401, 430)).InvokeMember("click");
                 }
-                else if (index == 3) // Big Money PTC
+                else if (index == 4) // Big Money PTC
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(499, 408)).InvokeMember("click");
                     wbBrowser.Document.GetElementFromPoint(new Point(505, 321)).InvokeMember("click");
                 }
-                else if (index == 4) // Grand PTC
+                else if (index == 5) // Grand PTC
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(572, 391)).InvokeMember("click");
                     wbBrowser.Document.GetElementFromPoint(new Point(699, 549)).InvokeMember("click");
                 }
-                else if (index == 5) // PTC Biz
+                else if (index == 6) // PTC Biz
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(858, 335)).InvokeMember("click");
                 }
-                else if (index == 6) // PTC Wallet
+                else if (index == 7) // PTC Wallet
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(508, 454)).InvokeMember("click");
                 }
-                else if (index == 7) // Bux Inc
+                else if (index == 8) // Bux Inc
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(901, 330)).InvokeMember("click");
                 }
-                else if (index == 8) // Fine PTC
+                else if (index == 9) // Fine PTC
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(571, 412)).InvokeMember("click");
                 }
-                else if (index == 9) // Mystery PTC
+                else if (index == 10) // Mystery PTC
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(715, 491)).InvokeMember("click");
                 }
-                else if (index == 10) // Mystery Clickers PTC
+                else if (index == 11) // Mystery Clickers PTC
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(916, 106)).InvokeMember("click");
                 }
-                else if (index == 11) // Beach PTC
+                else if (index == 12) // Beach PTC
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(600, 648)).InvokeMember("click");
                 }
-                else if (index == 12) // Billionaire PTC
+                else if (index == 13) // Billionaire PTC
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(600, 298)).InvokeMember("click");
                 }
-                else if (index == 13) // Click For A Buck PTC
+                else if (index == 14) // Click For A Buck PTC
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(599, 337)).InvokeMember("click");
                 }/*
-                else if (index == 14) // onedollarptc
+                else if (index == 15) // onedollarptc
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(586, 341)).InvokeMember("click");
                 }
-                else if (index == 15) // bestdollarclicks
+                else if (index == 16) // bestdollarclicks
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(594, 467)).InvokeMember("click");
                 }*/
