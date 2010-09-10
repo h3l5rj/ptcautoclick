@@ -33,7 +33,13 @@ namespace AutoClick
             { "http://mysteryptc.com/index.php?view=login", "http://mysteryptc.com/index.php?view=click", "http://mysteryptc.com/gpt.php",
                 "Mystery PTC Site : Log In", "Mystery PTC Site : My Account Panel - Tran Vinh Truong" , "Mystery PTC Site : Get Paid To Click", "Viewing Ad @ Mystery PTC Site", "15000"},
             { "http://mysteryclickers.com/index.php?view=login", "http://mysteryclickers.com/index.php?view=click", "http://mysteryclickers.com/gpt.php",
-                "Mystery Clickers PTC Site : Log In", "Mystery Clickers PTC Site : My Account Panel - Tran Vinh Truong" , "Mystery Clickers PTC Site : Get Paid To Click", "Viewing Ad @ Mystery Clickers PTC Site", "15000"}/*,
+                "Mystery Clickers PTC Site : Log In", "Mystery Clickers PTC Site : My Account Panel - Tran Vinh Truong" , "Mystery Clickers PTC Site : Get Paid To Click", "Viewing Ad @ Mystery Clickers PTC Site", "15000"},
+            { "http://beachptc.com/index.php?view=login", "http://beachptc.com/index.php?view=click", "http://beachptc.com/gpt.php",
+                "Beach PTC Site : Log In", "Beach PTC Site : My Account Panel - Tran Vinh Truong" , "Beach PTC Site : Get Paid To Click", "Viewing Ad @ Beach PTC Site", "15000"},
+            { "http://www.billionaireptc.com/index.php?view=login", "http://www.billionaireptc.com/index.php?view=click", "http://www.billionaireptc.com/gpt.php",
+                "Billionaire PTC Site : Log In", "Billionaire PTC Site : My Account Panel - Tran Vinh Truong" , "Billionaire PTC Site : Get Paid To Click", "Viewing Ad @ Billionaire PTC Site", "30000"},
+            { "http://www.clickforabuck.com/index.php?view=login", "http://www.clickforabuck.com/index.php?view=click", "http://www.clickforabuck.com/gpt.php",
+                "Click For A Buck PTC Site : Log In", "Click For A Buck PTC Site : My Account Panel - Tran Vinh Truong" , "Click For A Buck PTC Site : Get Paid To Click", "Viewing Ad @ Click For A Buck PTC Site", "30000"}/*,
             { "http://www.onedollarptc.com/index.php?view=login", "http://www.onedollarptc.com/index.php?view=click", "http://www.onedollarptc.com/gpt.php",
                 "Bible Company : Log In", "Bible Company : My Account Panel - Tran Vinh Truong" , "Bible Company : Get Paid To Click", "Viewing Ad @ Bible Company", "30000"},
             { "http://bestdollarclicks.com/index.php?view=login", "http://bestdollarclicks.com/index.php?view=click", "http://bestdollarclicks.com/gpt.php",
@@ -131,12 +137,24 @@ namespace AutoClick
                 else if (index == 10) // Mystery Clickers PTC
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(916, 106)).InvokeMember("click");
+                }
+                else if (index == 11) // Beach PTC
+                {
+                    wbBrowser.Document.GetElementFromPoint(new Point(600, 648)).InvokeMember("click");
+                }
+                else if (index == 12) // Billionaire PTC
+                {
+                    wbBrowser.Document.GetElementFromPoint(new Point(600, 298)).InvokeMember("click");
+                }
+                else if (index == 13) // Click For A Buck PTC
+                {
+                    wbBrowser.Document.GetElementFromPoint(new Point(599, 337)).InvokeMember("click");
                 }/*
-                else if (index == 11) // onedollarptc
+                else if (index == 14) // onedollarptc
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(586, 341)).InvokeMember("click");
                 }
-                else if (index == 12) // bestdollarclicks
+                else if (index == 15) // bestdollarclicks
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(594, 467)).InvokeMember("click");
                 }*/
@@ -159,7 +177,26 @@ namespace AutoClick
                         writeLog("link available to click? - " + matchObj.Success);
                         if (matchObj.Success)
                         {
-                            wbBrowser.Navigate(ptcSites[index, 2] + matchObj.Value);
+                            foreach (HtmlElement link in wbBrowser.Document.Links)
+                            {
+                                if (link.GetAttribute("href").Contains(matchObj.Value) && link.InnerHtml.Contains("Rapidobux"))
+                                {
+                                    matchObj = matchObj.NextMatch();
+                                }
+                            }
+                            if (matchObj.Success)
+                            {
+                                wbBrowser.Navigate(ptcSites[index, 2] + matchObj.Value);
+                            }
+                            else
+                            {
+                                index++;
+                                if (index >= ptcSites.GetLength(0))   // reset
+                                {
+                                    index = 0;
+                                }
+                                startSurf();    // surf next site
+                            }
                         }
                         else
                         {
