@@ -32,10 +32,12 @@ namespace AutoClick
                 "Fine PTC : Log In", "Fine PTC : My Account Panel - Tran Vinh Truong" , "Fine PTC : Get Paid To Click", "Viewing Ad @ Fine PTC", "65000"},
             { "http://mysteryptc.com/index.php?view=login", "http://mysteryptc.com/index.php?view=click", "http://mysteryptc.com/gpt.php",
                 "Mystery PTC Site : Log In", "Mystery PTC Site : My Account Panel - Tran Vinh Truong" , "Mystery PTC Site : Get Paid To Click", "Viewing Ad @ Mystery PTC Site", "15000"},
+            { "http://mysteryclickers.com/index.php?view=login", "http://mysteryclickers.com/index.php?view=click", "http://mysteryclickers.com/gpt.php",
+                "Mystery Clickers PTC Site : Log In", "Mystery Clickers PTC Site : My Account Panel - Tran Vinh Truong" , "Mystery Clickers PTC Site : Get Paid To Click", "Viewing Ad @ Mystery Clickers PTC Site", "15000"}/*,
             { "http://www.onedollarptc.com/index.php?view=login", "http://www.onedollarptc.com/index.php?view=click", "http://www.onedollarptc.com/gpt.php",
                 "Bible Company : Log In", "Bible Company : My Account Panel - Tran Vinh Truong" , "Bible Company : Get Paid To Click", "Viewing Ad @ Bible Company", "30000"},
             { "http://bestdollarclicks.com/index.php?view=login", "http://bestdollarclicks.com/index.php?view=click", "http://bestdollarclicks.com/gpt.php",
-                "Bible Company : Log In", "Bible Company : Purchase Advertising" , "Bible Company : Get Paid To Click", "Viewing Ad @ Bible Company", "65000"}
+                "Bible Company : Log In", "Bible Company : Purchase Advertising" , "Bible Company : Get Paid To Click", "Viewing Ad @ Bible Company", "65000"}*/
         };
         private const string USERNAME = "tranvinhtruong";
         private const string PASSWORD = "tctlT1005";
@@ -126,14 +128,18 @@ namespace AutoClick
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(715, 491)).InvokeMember("click");
                 }
-                else if (index == 10) // onedollarptc
+                else if (index == 10) // Mystery Clickers PTC
+                {
+                    wbBrowser.Document.GetElementFromPoint(new Point(916, 106)).InvokeMember("click");
+                }/*
+                else if (index == 11) // onedollarptc
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(586, 341)).InvokeMember("click");
                 }
-                else if (index == 11) // bestdollarclicks
+                else if (index == 12) // bestdollarclicks
                 {
                     wbBrowser.Document.GetElementFromPoint(new Point(594, 467)).InvokeMember("click");
-                }
+                }*/
             }
             else if (wbBrowser.DocumentTitle == ptcSites[index, 4])    // account page
             {
