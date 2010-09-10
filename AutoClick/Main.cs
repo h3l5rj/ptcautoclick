@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -8,6 +9,14 @@ namespace AutoClick
 {
     public partial class Main : Form
     {
+        // Get a handle to an application window.
+        [DllImport("user32.dll")]
+        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+
+        // Activate an application window.
+        [DllImport("user32.dll")]
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
+
         private Boolean logToFile = true;
 
         private static uint index = 0;
@@ -60,7 +69,17 @@ namespace AutoClick
         private void startSurf()
         {
             writeLog(index + ": " + ptcSites[index, 1]);
-            wbBrowser.Navigate(ptcSites[index, 1]);
+            try
+            {
+                wbBrowser.Navigate(ptcSites[index, 1]);
+            }
+            catch (Exception)
+            {
+                writeLog("Exception on navigate because there's a popup is opening.");
+                IntPtr thisHandle = FindWindow(null, this.Text);
+                SetForegroundWindow(thisHandle);
+                SendKeys.Send("{ENTER}");   // press ENTER for closing popup
+            }
         }
 
         private void wbBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
