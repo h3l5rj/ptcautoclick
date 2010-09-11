@@ -32,6 +32,7 @@
             this.wbBrowser = new System.Windows.Forms.WebBrowser();
             this.waitForClick = new System.Windows.Forms.Timer(this.components);
             this.autoRefresh = new System.Windows.Forms.Timer(this.components);
+            this.autoClosePopup = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // wbBrowser
@@ -55,6 +56,11 @@
             // 
             this.autoRefresh.Tick += new System.EventHandler(this.autoRefresh_Tick);
             // 
+            // autoClosePopup
+            // 
+            this.autoClosePopup.Interval = 1000;
+            this.autoClosePopup.Tick += new System.EventHandler(this.autoClosePopup_Tick);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -74,6 +80,7 @@
         private System.Windows.Forms.WebBrowser wbBrowser;
         private System.Windows.Forms.Timer waitForClick;
         private System.Windows.Forms.Timer autoRefresh;
+        private System.Windows.Forms.Timer autoClosePopup;
 
     }
 }
