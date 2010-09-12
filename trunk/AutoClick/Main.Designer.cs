@@ -43,6 +43,7 @@
             // 
             // autoRefresh
             // 
+            this.autoRefresh.Enabled = true;
             this.autoRefresh.Tick += new System.EventHandler(this.autoRefresh_Tick);
             // 
             // wbBrowser
@@ -59,6 +60,7 @@
             // 
             // autoClosePopup
             // 
+            this.autoClosePopup.Enabled = true;
             this.autoClosePopup.Interval = 1000;
             this.autoClosePopup.Tick += new System.EventHandler(this.autoClosePopup_Tick);
             // 
