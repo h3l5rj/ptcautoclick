@@ -43,7 +43,6 @@
             // 
             // autoRefresh
             // 
-            this.autoRefresh.Enabled = true;
             this.autoRefresh.Tick += new System.EventHandler(this.autoRefresh_Tick);
             // 
             // wbBrowser
