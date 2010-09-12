@@ -85,6 +85,11 @@ namespace AutoClick
         private void wbBrowser_BeforeNavigate2(object sender, AxSHDocVw.DWebBrowserEvents2_BeforeNavigate2Event e)
         {
             autoRefresh.Interval = 2 * int.Parse(ptcSites[index, 7]) + 5000;
+            if (!autoRefresh.Enabled)
+            {
+                writeLog("autoRefresh timer - Start");
+                autoRefresh.Start();
+            }
         }
 
         private void wbBrowser_DocumentComplete(object sender, AxSHDocVw.DWebBrowserEvents2_DocumentCompleteEvent e)
@@ -262,6 +267,7 @@ namespace AutoClick
                                 link.click();
                                 writeLog("---CLICK---");
                                 stopWaitForClickTimer();
+                                stopAutoFreshTimer();
                                 break;
                             }
                         }
@@ -288,10 +294,20 @@ namespace AutoClick
         private void autoRefresh_Tick(object sender, EventArgs e)
         {
             stopWaitForClickTimer();
+            stopAutoFreshTimer();
 
             // refresh site if program is stopped
             writeLog("Program is stopped => refresh site <= ################");
             startSurf();    // refresh site
+        }
+
+        private void stopAutoFreshTimer()
+        {
+            if (autoRefresh.Enabled)
+            {
+                writeLog("autoRefresh timer - Stop");
+                autoRefresh.Stop();
+            }
         }
 
         private void autoClosePopup_Tick(object sender, EventArgs e)
