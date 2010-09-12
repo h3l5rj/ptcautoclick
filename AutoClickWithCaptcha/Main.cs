@@ -4,7 +4,8 @@ using System.Windows.Forms;
 namespace AutoClickWithCaptcha
 {
     public partial class Main : Form
-    {        
+    {
+        private static uint index = 0;
         private string[,] ptcSites = new string[,] {
             { "nycebux", "http://www.nycebux.com/pages/login", "http://www.nycebux.com/pages/clickads", "Click Ads - NYCE Bux", "35000"},
             { "14bux", "http://www.14bux.com/pages/login", "http://www.14bux.com/pages/clickads", "Click Ads - 14bux", "20000"},
@@ -24,7 +25,6 @@ namespace AutoClickWithCaptcha
             { "buxtobux", "http://www.buxtobux.com/pages/login", "http://www.buxtobux.com/pages/clickads", "Click Ads - buxtobux.com", "65000"},
             { "breakoutbux", "http://www.breakoutbux.com/pages/login", "http://www.breakoutbux.com/pages/clickads", "Click Ads - breakoutbux.com", "65000"},
             { "quickmoneybux", "http://www.quickmoneybux.com/pages/login", "http://www.quickmoneybux.com/pages/clickads", "Click Ads - QuickMoneyBux.com", "65000"},
-            { "buxbillionaire", "http://www.buxbillionaire.com/pages/login", "http://www.buxbillionaire.com/pages/clickads", "Click Ads - buxbillionaire.com", "65000"},
             { "5dollarclick", "http://www.5dollarclick.com/pages/login", "http://www.5dollarclick.com/pages/clickads", "Click Ads - 5dollarclick.com", "65000"},
             { "downunderbux", "http://www.downunderbux.com/pages/login", "http://www.downunderbux.com/pages/clickads", "Click Ads - downunderbux.com", "65000"},
             { "buxclan", "http://www.buxclan.com/pages/login", "http://www.buxclan.com/pages/clickads", "Click Ads - BuxClan.com", "35000"},
@@ -84,6 +84,21 @@ namespace AutoClickWithCaptcha
             frmBrowser.Name = i.ToString();
             frmBrowser.MdiParent = this;
             frmBrowser.Show();
+        }
+
+        private void autoSwitch_Tick(object sender, EventArgs e)
+        {
+            childForms = this.MdiChildren;
+            if (childForms.Length > 0)
+            {
+                index++;
+                if (index >= childForms.Length)
+                {
+                    index = 0;
+                }
+                frmBrowser = childForms[index] as frmBrowser;
+                frmBrowser.BringToFront();
+            }
         }
     }
 }

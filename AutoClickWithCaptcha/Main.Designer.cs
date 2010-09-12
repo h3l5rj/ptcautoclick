@@ -28,7 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.toolbar = new System.Windows.Forms.ToolStrip();
+            this.autoSwitch = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // toolbar
@@ -37,8 +39,14 @@
             this.toolbar.Location = new System.Drawing.Point(0, 0);
             this.toolbar.Name = "toolbar";
             this.toolbar.ShowItemToolTips = false;
-            this.toolbar.Size = new System.Drawing.Size(1016, 19);
+            this.toolbar.Size = new System.Drawing.Size(1016, 0);
             this.toolbar.TabIndex = 1;
+            // 
+            // autoSwitch
+            // 
+            this.autoSwitch.Enabled = true;
+            this.autoSwitch.Interval = 15000;
+            this.autoSwitch.Tick += new System.EventHandler(this.autoSwitch_Tick);
             // 
             // Main
             // 
@@ -59,6 +67,7 @@
         #endregion
 
         private System.Windows.Forms.ToolStrip toolbar;
+        private System.Windows.Forms.Timer autoSwitch;
 
     }
 }
