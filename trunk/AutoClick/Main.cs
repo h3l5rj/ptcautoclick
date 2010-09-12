@@ -11,11 +11,11 @@ namespace AutoClick
     {
         // Get a handle to an application window.
         [DllImport("user32.dll")]
-        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+        private static extern int FindWindow(string lpClassName, string lpWindowName);
 
         // Activate an application window.
         [DllImport("user32.dll")]
-        private static extern bool SetForegroundWindow(IntPtr hWnd);
+        private static extern bool SetForegroundWindow(int hWnd);
 
         private Boolean logToFile = true;
 
@@ -60,13 +60,15 @@ namespace AutoClick
         private const string PASSWORD = "tctlT1005";
 
         private Match matchObj;
-        private bool hasExitSplash = false;
 
         public Main()
         {
             InitializeComponent();
 
             startSurf();
+
+            writeLog("autoClosePopup timer - Start");
+            autoClosePopup.Start();
         }
 
         private void startSurf()
@@ -181,8 +183,6 @@ namespace AutoClick
             }
             else if (wbBrowser.DocumentTitle == ptcSites[index, 5])    // view ads page
             {
-                stopAutoClosePopupTimer();
-
                 if (wbBrowser.DocumentText.Contains("login"))    // not log in
                 {
                     wbBrowser.Navigate(ptcSites[index, 0]);    // open log in page
@@ -202,15 +202,6 @@ namespace AutoClick
                                     if (link.InnerHtml.Contains("Rapidobux") || link.InnerHtml.Contains("Ebusiness"))
                                     {
                                         matchObj = matchObj.NextMatch();
-                                    }
-                                    if (link.InnerHtml.Contains("Auto Traffic Avalanche") || link.InnerHtml.Contains("Auto Blog System X")
-                                        || link.InnerHtml.Contains("Legit Online Jobs"))
-                                    {
-                                        hasExitSplash = true;
-                                    }
-                                    else
-                                    {
-                                        hasExitSplash = false;
                                     }
                                 }
                             }
@@ -277,15 +268,6 @@ namespace AutoClick
                             writeLog(link.InnerHtml);
                             if (link.InnerHtml.Contains("clickimages/" + key + "."))
                             {
-                                if (hasExitSplash)
-                                {
-                                    writeLog("This ads site is using ExitSplash!");
-                                    if (!autoClosePopup.Enabled)
-                                    {
-                                        writeLog("autoClosePopup timer - Start");
-                                        autoClosePopup.Start();
-                                    }
-                                }
                                 link.InvokeMember("click");
                                 writeLog("---CLICK---");
                                 stopWaitForClickTimer();
@@ -326,20 +308,16 @@ namespace AutoClick
             }
         }
 
-        private void stopAutoClosePopupTimer()
-        {
-            if (autoClosePopup.Enabled)
-            {
-                writeLog("autoClosePopup timer - Stop");
-                autoClosePopup.Stop();
-            }
-        }
-
         private void autoClosePopup_Tick(object sender, EventArgs e)
         {
-            IntPtr thisHandle = (FindWindow(null, "Windows Internet Explorer").Equals(0)) ? FindWindow(null, "Web Browser") : FindWindow(null, "Windows Internet Explorer");
-            SetForegroundWindow(thisHandle);
-            SendKeys.Send("{ENTER}");   // press ENTER for closing popup
+            int thisHandle = (FindWindow(null, "Windows Internet Explorer") != 0) ? FindWindow(null, "Windows Internet Explorer") :
+                ((FindWindow(null, "Web Browser") != 0) ? FindWindow(null, "Web Browser") : FindWindow(null, "Message from webpage"));
+            if (thisHandle != 0)
+            {
+                writeLog("This ads site is using ExitSplash!");
+                SetForegroundWindow(thisHandle);
+                SendKeys.Send("{ENTER}");   // press ENTER for closing popup
+            }
         }
 
         private void writeLog(string logContent)
