@@ -118,7 +118,7 @@ namespace AutoClick
                                 {
                                     // skip these ads because they are having error
                                     if (link.innerHTML.Equals("New Ptc!! Rapidobux!!") || link.innerHTML.Equals("**the Power Behind Ebusiness**") || link.innerHTML.Equals("Adult Help For Online Success")
-                                        || link.innerHTML.Equals("Surf These Links"))
+                                        || link.innerHTML.Equals("Surf These Links") || link.innerHTML.Equals("Auto Traffic Avalanche"))
                                     {
                                         writeLog("\"" + link.innerHTML + "\" is having error ==> Skip.");
                                         matchObj = matchObj.NextMatch();
