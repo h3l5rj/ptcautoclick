@@ -12,11 +12,11 @@ namespace AutoClick
     {
         // Get a handle to an application window.
         [DllImport("user32.dll")]
-        private static extern int FindWindow(string lpClassName, string lpWindowName);
+        private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         // Activate an application window.
         [DllImport("user32.dll")]
-        private static extern bool SetForegroundWindow(int hWnd);
+        private static extern bool SetForegroundWindow(IntPtr hWnd);
 
         private Boolean logToFile = true;
 
@@ -28,9 +28,9 @@ namespace AutoClick
                 "Ten Dollar Click : Log In", "Ten Dollar Click : My Account Panel - Tran Vinh Truong" , "Ten Dollar Click : Get Paid To Click", "Viewing Ad @ Ten Dollar Click", "60000"},
             { "http://www.ptcsense.com/index.php?view=login", "http://www.ptcsense.com/index.php?view=click", "http://www.ptcsense.com/gpt.php",
                 "PTC Sense : Log In", "PTC Sense : My Account Panel - Tran Vinh Truong" , "PTC Sense : Get Paid To Click", "Viewing Ad @ PTC Sense", "30000"},
-            { "http://www.richptc.com/index.php?view=login", "http://www.richptc.com/index.php?view=account&ac=click", "http://www.richptc.com/gpt.php",
+            { "http://www.richptc.com/index.php?view=login", "http://www.richptc.com/index.php?view=click", "http://www.richptc.com/gpt.php",
                 "Rich PTC : Log In", "Rich PTC : My Account Panel - Tran Vinh Truong" , "Rich PTC : Get Paid To Click", "Viewing Ad @ Rich PTC", "30000"},
-            { "http://www.bigmoneyptc.com/index.php?view=login", "http://www.bigmoneyptc.com/index.php?view=account&ac=click", "http://www.bigmoneyptc.com/gpt.php",
+            { "http://www.bigmoneyptc.com/index.php?view=login", "http://www.bigmoneyptc.com/index.php?view=click", "http://www.bigmoneyptc.com/gpt.php",
                 "Big Money PTC : Log In", "Big Money PTC : My Account Panel - Tran Vinh Truong" , "Big Money PTC : Get Paid To Click", "Viewing Ad @ Big Money PTC", "30000"},
             { "http://www.grandptc.com/index.php?view=login", "http://www.grandptc.com/index.php?view=click", "http://www.grandptc.com/gpt.php",
                 "Grand PTC : Log In", "Grand PTC : My Account Panel - Tran Vinh Truong" , "Grand PTC : Get Paid To Click", "Viewing Ad @ Grand PTC", "30000"},
@@ -85,7 +85,12 @@ namespace AutoClick
 
         private void wbBrowser_BeforeNavigate2(object sender, AxSHDocVw.DWebBrowserEvents2_BeforeNavigate2Event e)
         {
-            startAutoFreshTimer();
+            if (autoRefresh.Enabled)
+            {
+                autoRefresh.Stop();
+            }
+            autoRefresh.Interval = (int)(int.Parse(ptcSites[index, 7]) * 2.5);
+            autoRefresh.Start();
         }
 
         private void wbBrowser_DocumentComplete(object sender, AxSHDocVw.DWebBrowserEvents2_DocumentCompleteEvent e)
@@ -97,6 +102,7 @@ namespace AutoClick
 
                 if (doc.title == ptcSites[index, 5])    // view ads page
                 {
+                    stopAutoClosePopupTimer();
                     if (html.Contains("login"))    // not logged in
                     {
                         wbBrowser.Navigate(ptcSites[index, 0]);    // open log in page
@@ -111,7 +117,8 @@ namespace AutoClick
                                 if (link.getAttribute("href", IFlags).ToString().Contains(matchObj.Value.Replace("&amp;", "&")))
                                 {
                                     // skip these ads because they are having error
-                                    if (link.innerHTML.Equals("New Ptc!! Rapidobux!!") || link.innerHTML.Equals("**the Power Behind Ebusiness**") || link.innerHTML.Equals("Adult Help For Online Success"))
+                                    if (link.innerHTML.Equals("New Ptc!! Rapidobux!!") || link.innerHTML.Equals("**the Power Behind Ebusiness**") || link.innerHTML.Equals("Adult Help For Online Success")
+                                        || link.innerHTML.Equals("Surf These Links"))
                                     {
                                         writeLog("\"" + link.innerHTML + "\" is having error ==> Skip.");
                                         matchObj = matchObj.NextMatch();
@@ -213,10 +220,6 @@ namespace AutoClick
                         doc.elementFromPoint(599, 337).click();
                     }
                 }
-                else if (doc.title == ptcSites[index, 4])    // account page
-                {
-                    wbBrowser.Navigate(ptcSites[index, 1]); // open view ads page
-                }
                 else if (doc.url.StartsWith(ptcSites[index, 2]) && needStartWaitForClickTimer)    // count down page
                 {
                     if (!waitForClick.Enabled)
@@ -228,13 +231,12 @@ namespace AutoClick
                 }
                 else
                 {
-                    wbBrowser.Navigate(ptcSites[index, 1]); // back to view ads page
+                    startSurf();
                 }
             }
             catch (Exception ex)
             {
                 writeLog("Exception on wbBrowser_DocumentComplete: " + ex.Message + "\r\n" + ex.StackTrace);
-                startAutoFreshTimer();
                 startSurf();
             }
         }
@@ -259,6 +261,12 @@ namespace AutoClick
         {
             try
             {
+                if (!autoClosePopup.Enabled)
+                {
+                    writeLog("autoClosePopup timer - Start");
+                    autoClosePopup.Start();
+                }
+
                 doc = (HTMLDocument)wbBrowser.Document;
 
                 if (doc.frames.length > 0)
@@ -289,7 +297,6 @@ namespace AutoClick
             catch (Exception ex)
             {
                 writeLog("Exception on waitForClick_Tick: " + ex.Message + "\r\n" + ex.StackTrace);
-                startAutoFreshTimer();
                 startSurf();
             }
         }
@@ -303,16 +310,6 @@ namespace AutoClick
 
                 needStartWaitForClickTimer = false;
             }
-        }
-
-        private void startAutoFreshTimer()
-        {
-            if (autoRefresh.Enabled)
-            {
-                autoRefresh.Stop();
-            }
-            autoRefresh.Interval = (int)(int.Parse(ptcSites[index, 7]) * 2.5);
-            autoRefresh.Start();
         }
 
         private void autoRefresh_Tick(object sender, EventArgs e)
@@ -335,13 +332,22 @@ namespace AutoClick
 
         private void autoClosePopup_Tick(object sender, EventArgs e)
         {
-            int thisHandle = (FindWindow(null, "Windows Internet Explorer") != 0) ? FindWindow(null, "Windows Internet Explorer") :
-                ((FindWindow(null, "Web Browser") != 0) ? FindWindow(null, "Web Browser") : FindWindow(null, "Message from webpage"));
-            if (thisHandle != 0)
+            IntPtr thisHandle = (FindWindow(null, "Windows Internet Explorer") != IntPtr.Zero) ? FindWindow(null, "Windows Internet Explorer") :
+                ((FindWindow(null, "Web Browser") != IntPtr.Zero) ? FindWindow(null, "Web Browser") : FindWindow(null, "Message from webpage"));
+            if (thisHandle != IntPtr.Zero)
             {
                 writeLog("This ads site is using ExitSplash!");
                 SetForegroundWindow(thisHandle);
                 SendKeys.Send("{ENTER}");   // press ENTER for closing popup
+            }
+        }
+
+        private void stopAutoClosePopupTimer()
+        {
+            if (autoClosePopup.Enabled)
+            {
+                writeLog("autoClosePopup timer - Stop");
+                autoClosePopup.Stop();
             }
         }
 
