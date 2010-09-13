@@ -129,7 +129,6 @@ namespace AutoClick
                             if (matchObj.Success)
                             {
                                 needStartWaitForClickTimer = true;
-                                writeLog("Start counting down ...");
                                 wbBrowser.Navigate(ptcSites[index, 2] + matchObj.Value.Replace("&amp;", "&"));
                             }
                             else
@@ -272,7 +271,6 @@ namespace AutoClick
                         if (countdownFrame.getElementById("timer").innerHTML.Contains("Click"))
                         {
                             string key = countdownFrame.getElementById("timer").innerHTML.Substring(6);
-                            writeLog("key = " + key);
                             foreach (IHTMLElement link in countdownFrame.links)
                             {
                                 if (link.innerHTML.Contains("clickimages/" + key + "."))
