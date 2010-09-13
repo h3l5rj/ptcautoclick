@@ -47,7 +47,7 @@ namespace AutoClick
             { "http://mysteryclickers.com/index.php?view=login", "http://mysteryclickers.com/index.php?view=click", "http://mysteryclickers.com/gpt.php",
                 "Mystery Clickers PTC Site : Log In", "Mystery Clickers PTC Site : My Account Panel - Tran Vinh Truong" , "Mystery Clickers PTC Site : Get Paid To Click", "Viewing Ad @ Mystery Clickers PTC Site", "10000"},
             { "http://beachptc.com/index.php?view=login", "http://beachptc.com/index.php?view=click", "http://beachptc.com/gpt.php",
-                "Beach PTC Site : Log In", "Beach PTC Site : My Account Panel - Tran Vinh Truong" , "Beach PTC Site : Get Paid To Click", "Viewing Ad @ Beach PTC Site", "10000"},
+                "Beach PTC Site : Log In", "Beach PTC Site : My Account Panel - Tran Vinh Truong" , "Beach PTC Site : Get Paid To Click", "Viewing Ad @ Beach PTC Site", "25000"},
             { "http://www.billionaireptc.com/index.php?view=login", "http://www.billionaireptc.com/index.php?view=click", "http://www.billionaireptc.com/gpt.php",
                 "Billionaire PTC Site : Log In", "Billionaire PTC Site : My Account Panel - Tran Vinh Truong" , "Billionaire PTC Site : Get Paid To Click", "Viewing Ad @ Billionaire PTC Site", "25000"},
             { "http://www.clickforabuck.com/index.php?view=login", "http://www.clickforabuck.com/index.php?view=click", "http://www.clickforabuck.com/gpt.php",
@@ -104,7 +104,6 @@ namespace AutoClick
                     else
                     {
                         matchObj = Regex.Match(html, "(?<=href=\"gpt.php)[^\"]*");
-                        writeLog("link available to click? - " + matchObj.Success);
                         if (matchObj.Success)
                         {
                             foreach (IHTMLElement link in doc.links)
@@ -116,7 +115,6 @@ namespace AutoClick
                                     {
                                         writeLog("\"" + link.innerHTML + "\" is having error ==> Skip.");
                                         matchObj = matchObj.NextMatch();
-                                        writeLog("link available to click? - " + matchObj.Success);
                                         break;
                                     }
                                 }
@@ -351,7 +349,7 @@ namespace AutoClick
         {
             if (logToFile)
             {
-                File.AppendAllText("AutoClick.log", "[" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "] " + logContent + "\r\n");
+                File.AppendAllText("AutoClick_" + DateTime.Now.ToString("yyyyMMdd") + ".log", "[" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "] " + logContent + "\r\n");
             }
             else
             {
