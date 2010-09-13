@@ -316,7 +316,7 @@ namespace AutoClick
             stopAutoFreshTimer();
 
             // refresh site if program is stopped
-            writeLog("Program is stopped => refresh site <= ################");
+            writeLog("WARNING: Program is stopped => refresh site.");
             startSurf();    // refresh site
         }
 
