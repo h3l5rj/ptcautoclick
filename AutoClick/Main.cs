@@ -85,12 +85,7 @@ namespace AutoClick
 
         private void wbBrowser_BeforeNavigate2(object sender, AxSHDocVw.DWebBrowserEvents2_BeforeNavigate2Event e)
         {
-            if (autoRefresh.Enabled)
-            {
-                autoRefresh.Stop();
-            }
-            autoRefresh.Interval = (int)(int.Parse(ptcSites[index, 7]) * 2.5);
-            autoRefresh.Start();
+            startAutoFreshTimer();
         }
 
         private void wbBrowser_DocumentComplete(object sender, AxSHDocVw.DWebBrowserEvents2_DocumentCompleteEvent e)
@@ -117,7 +112,7 @@ namespace AutoClick
                                 if (link.getAttribute("href", IFlags).ToString().Contains(matchObj.Value.Replace("&amp;", "&")))
                                 {
                                     // skip these ads because they are having error
-                                    if (link.innerHTML.Contains("Rapidobux") || link.innerHTML.Contains("Ebusiness") || link.innerHTML.Contains("Adult Help For Online Success"))
+                                    if (link.innerHTML.Equals("New Ptc!! Rapidobux!!") || link.innerHTML.Equals("**the Power Behind Ebusiness**") || link.innerHTML.Equals("Adult Help For Online Success"))
                                     {
                                         writeLog("\"" + link.innerHTML + "\" is having error ==> Skip.");
                                         matchObj = matchObj.NextMatch();
@@ -241,6 +236,7 @@ namespace AutoClick
             catch (Exception ex)
             {
                 writeLog("Exception on wbBrowser_DocumentComplete: " + ex.Message + "\r\n" + ex.StackTrace);
+                startAutoFreshTimer();
                 startSurf();
             }
         }
@@ -253,6 +249,12 @@ namespace AutoClick
                 index = 0;
             }
             startSurf();    // surf next site
+        }
+
+        private void wbBrowser_NewWindow3(object sender, AxSHDocVw.DWebBrowserEvents2_NewWindow3Event e)
+        {
+            // popup blocker
+            e.cancel = true;
         }
 
         private void waitForClick_Tick(object sender, EventArgs e)
@@ -289,14 +291,9 @@ namespace AutoClick
             catch (Exception ex)
             {
                 writeLog("Exception on waitForClick_Tick: " + ex.Message + "\r\n" + ex.StackTrace);
+                startAutoFreshTimer();
                 startSurf();
             }
-        }
-
-        private void wbBrowser_NewWindow3(object sender, AxSHDocVw.DWebBrowserEvents2_NewWindow3Event e)
-        {
-            // popup blocker
-            e.cancel = true;
         }
 
         private void stopWaitForClickTimer()
@@ -308,6 +305,16 @@ namespace AutoClick
 
                 needStartWaitForClickTimer = false;
             }
+        }
+
+        private void startAutoFreshTimer()
+        {
+            if (autoRefresh.Enabled)
+            {
+                autoRefresh.Stop();
+            }
+            autoRefresh.Interval = (int)(int.Parse(ptcSites[index, 7]) * 2.5);
+            autoRefresh.Start();
         }
 
         private void autoRefresh_Tick(object sender, EventArgs e)
