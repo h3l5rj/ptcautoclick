@@ -225,7 +225,6 @@ namespace AutoClick
                 {
                     if (!waitForClick.Enabled)
                     {
-                        writeLog("Start counting down ...");
                         writeLog("waitForClick timer - Start");
                         waitForClick.Interval = (int)(int.Parse(ptcSites[index, 7]) * 1.2);
                         waitForClick.Start();
