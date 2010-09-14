@@ -1,5 +1,4 @@
-﻿using mshtml;
-using System;
+﻿using System;
 using System.Drawing;
 using System.IO;
 using System.Runtime.InteropServices;
@@ -60,15 +59,12 @@ namespace AutoClick
         private const string USERNAME = "tranvinhtruong";
         private const string PASSWORD = "tctlT1005";
 
-        private HTMLDocument doc;
-        private string html;
         private Match matchObj;
+        private int i;
+        private int max;
+        private HtmlElement link;
         private bool needStartWaitForClickTimer = false;
-
-        private int IFlags = 0;
-        private object obj = 0;
-        private HTMLWindow2 surftopframe;
-        private HTMLDocument countdownFrame;
+        private HtmlDocument countdownFrame;
 
         public Main()
         {
@@ -83,8 +79,9 @@ namespace AutoClick
             wbBrowser.Navigate(ptcSites[index, 1]); // view ads page
         }
 
-        private void wbBrowser_BeforeNavigate2(object sender, AxSHDocVw.DWebBrowserEvents2_BeforeNavigate2Event e)
+        private void wbBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
+            // always start autoRefresh timer on wbBrowser_Navigating
             if (autoRefresh.Enabled)
             {
                 autoRefresh.Stop();
@@ -93,47 +90,128 @@ namespace AutoClick
             autoRefresh.Start();
         }
 
-        private void wbBrowser_DocumentComplete(object sender, AxSHDocVw.DWebBrowserEvents2_DocumentCompleteEvent e)
+        private void wbBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
         {
             try
             {
-                doc = (HTMLDocument)wbBrowser.Document;
-                html = doc.documentElement.innerHTML;
-
-                if (doc.title == ptcSites[index, 5])    // view ads page
+                if (wbBrowser.DocumentTitle == ptcSites[index, 3]) // log in page
                 {
-                    stopAutoClosePopupTimer();
-                    if (html.Contains("login"))    // not logged in
+                    if (index == 10) // Mystery PTC
+                    {
+                        wbBrowser.Document.GetElementById("uUsername").SetAttribute("value", USERNAME);
+                        wbBrowser.Document.GetElementById("uPassword").SetAttribute("value", PASSWORD);
+                    }
+                    else
+                    {
+                        wbBrowser.Document.GetElementById("form_user").SetAttribute("value", USERNAME);
+                        wbBrowser.Document.GetElementById("form_pwd").SetAttribute("value", PASSWORD);
+                    }
+
+                    // click on "Access Account"
+                    if (index == 0) // NeoDollar
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(718, 614)).InvokeMember("click");
+                    }
+                    if (index == 1) // Ten Dollar Click
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(538, 407)).InvokeMember("click");
+                        wbBrowser.Document.GetElementFromPoint(new Point(538, 606)).InvokeMember("click");
+                    }
+                    else if (index == 2) // PTC Sense
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(703, 392)).InvokeMember("click");
+                    }
+                    else if (index == 3) // Rich PTC
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(401, 430)).InvokeMember("click");
+                    }
+                    else if (index == 4) // Big Money PTC
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(499, 408)).InvokeMember("click");
+                        wbBrowser.Document.GetElementFromPoint(new Point(505, 321)).InvokeMember("click");
+                    }
+                    else if (index == 5) // Grand PTC
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(572, 391)).InvokeMember("click");
+                        wbBrowser.Document.GetElementFromPoint(new Point(699, 549)).InvokeMember("click");
+                    }
+                    else if (index == 6) // PTC Biz
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(858, 335)).InvokeMember("click");
+                    }
+                    else if (index == 7) // PTC Wallet
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(508, 454)).InvokeMember("click");
+                    }
+                    else if (index == 8) // Bux Inc
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(901, 330)).InvokeMember("click");
+                    }
+                    else if (index == 9) // Fine PTC
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(571, 412)).InvokeMember("click");
+                    }
+                    else if (index == 10) // Mystery PTC
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(715, 491)).InvokeMember("click");
+                    }
+                    else if (index == 11) // Mystery Clickers PTC
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(916, 106)).InvokeMember("click");
+                    }
+                    else if (index == 12) // Beach PTC
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(600, 648)).InvokeMember("click");
+                    }
+                    else if (index == 13) // Billionaire PTC
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(600, 298)).InvokeMember("click");
+                    }
+                    else if (index == 14) // Click For A Buck PTC
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(599, 337)).InvokeMember("click");
+                    }/*
+                    else if (index == 15) // onedollarptc
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(586, 341)).InvokeMember("click");
+                    }
+                    else if (index == 16) // bestdollarclicks
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(594, 467)).InvokeMember("click");
+                    }*/
+                    writeLog("Login ...");
+                }
+                else if (wbBrowser.DocumentTitle == ptcSites[index, 5])    // view ads page
+                {
+                    if (wbBrowser.DocumentText.Contains("login"))    // not logged in
                     {
                         wbBrowser.Navigate(ptcSites[index, 0]);    // open log in page
                     }
                     else
                     {
-                        matchObj = Regex.Match(html, "(?<=href=\"gpt.php)[^\"]*");
+                        matchObj = Regex.Match(wbBrowser.DocumentText, "(?<=a href=\"gpt.php)[^\"]*");
+                        writeLog("link available to click? - " + matchObj.Success);
                         if (matchObj.Success)
                         {
-                            foreach (IHTMLElement link in doc.links)
+                            max = wbBrowser.Document.Links.Count;
+                            for (i = 0; i < max; i++)
                             {
-                                if (link.getAttribute("href", IFlags).ToString().Contains(matchObj.Value.Replace("&amp;", "&")))
+                                link = wbBrowser.Document.Links[i];
+                                if (link.GetAttribute("href").StartsWith(ptcSites[index, 2]))
                                 {
                                     // skip these ads because they are having error
-                                    if (link.innerHTML.Equals("New Ptc!! Rapidobux!!") || link.innerHTML.Equals("**the Power Behind Ebusiness**") || link.innerHTML.Equals("Adult Help For Online Success")
-                                        || link.innerHTML.Equals("Surf These Links") || link.innerHTML.Equals("Auto Traffic Avalanche") || link.innerHTML.Equals("18 Carats"))
+                                    if (!(link.InnerHtml.Equals("New Ptc!! Rapidobux!!") || link.InnerHtml.Equals("**the Power Behind Ebusiness**") || link.InnerHtml.Equals("Surf These Links")
+                                        || link.InnerHtml.Equals("18 Carats") || (link.InnerHtml.Equals("Auto Traffic Avalanche") && index == 1)))
                                     {
-                                        writeLog(link.innerHTML + ": Skipped!!!");
-
-                                        matchObj = matchObj.NextMatch();
+                                        needStartWaitForClickTimer = true;
+                                        wbBrowser.Navigate(link.GetAttribute("href"));
                                         break;
                                     }
                                 }
                             }
-                            if (matchObj.Success)
+                            if (i >= max)
                             {
-                                needStartWaitForClickTimer = true;
-                                wbBrowser.Navigate(ptcSites[index, 2] + matchObj.Value.Replace("&amp;", "&"));
-                            }
-                            else
-                            {
+                                writeLog("LINK AVAILABLE TO CLICK BUT SKIPPED!!!");
                                 surfNextSite();
                             }
                         }
@@ -143,88 +221,11 @@ namespace AutoClick
                         }
                     }
                 }
-                else if (doc.title == ptcSites[index, 3]) // log in page
-                {
-                    if (index == 10) // Mystery PTC
-                    {
-                        doc.getElementById("uUsername").setAttribute("value", USERNAME, IFlags);
-                        doc.getElementById("uPassword").setAttribute("value", PASSWORD, IFlags);
-                    }
-                    else
-                    {
-                        doc.getElementById("form_user").setAttribute("value", USERNAME, IFlags);
-                        doc.getElementById("form_pwd").setAttribute("value", PASSWORD, IFlags);
-                    }
-
-                    // click on "Access Account"
-                    if (index == 0) // NeoDollar
-                    {
-                        doc.elementFromPoint(718, 614).click();
-                    }
-                    if (index == 1) // Ten Dollar Click
-                    {
-                        doc.elementFromPoint(538, 407).click();
-                        doc.elementFromPoint(538, 606).click();
-                    }
-                    else if (index == 2) // PTC Sense
-                    {
-                        doc.elementFromPoint(703, 392).click();
-                    }
-                    else if (index == 3) // Rich PTC
-                    {
-                        doc.elementFromPoint(401, 430).click();
-                    }
-                    else if (index == 4) // Big Money PTC
-                    {
-                        doc.elementFromPoint(499, 408).click();
-                        doc.elementFromPoint(505, 321).click();
-                    }
-                    else if (index == 5) // Grand PTC
-                    {
-                        doc.elementFromPoint(572, 391).click();
-                        doc.elementFromPoint(699, 549).click();
-                    }
-                    else if (index == 6) // PTC Biz
-                    {
-                        doc.elementFromPoint(858, 335).click();
-                    }
-                    else if (index == 7) // PTC Wallet
-                    {
-                        doc.elementFromPoint(508, 454).click();
-                    }
-                    else if (index == 8) // Bux Inc
-                    {
-                        doc.elementFromPoint(901, 330).click();
-                    }
-                    else if (index == 9) // Fine PTC
-                    {
-                        doc.elementFromPoint(571, 412).click();
-                    }
-                    else if (index == 10) // Mystery PTC
-                    {
-                        doc.elementFromPoint(715, 491).click();
-                    }
-                    else if (index == 11) // Mystery Clickers PTC
-                    {
-                        doc.elementFromPoint(916, 106).click();
-                    }
-                    else if (index == 12) // Beach PTC
-                    {
-                        doc.elementFromPoint(600, 648).click();
-                    }
-                    else if (index == 13) // Billionaire PTC
-                    {
-                        doc.elementFromPoint(600, 298).click();
-                    }
-                    else if (index == 14) // Click For A Buck PTC
-                    {
-                        doc.elementFromPoint(599, 337).click();
-                    }
-                }
-                else if (doc.url.StartsWith(ptcSites[index, 2]) && needStartWaitForClickTimer)    // count down page
+                else if (wbBrowser.Url.ToString().StartsWith(ptcSites[index, 2]) && needStartWaitForClickTimer)    // count down page
                 {
                     if (!waitForClick.Enabled)
                     {
+                        writeLog("Start counting down ...");
                         writeLog("waitForClick timer - Start");
                         waitForClick.Interval = (int)(int.Parse(ptcSites[index, 7]) * 1.2);
                         waitForClick.Start();
@@ -237,7 +238,7 @@ namespace AutoClick
             }
             catch (Exception ex)
             {
-                writeLog("Exception on wbBrowser_DocumentComplete: " + ex.Message + "\r\n" + ex.StackTrace);
+                writeLog("Exception on wbBrowser_DocumentCompleted: " + ex.Message + "\r\n" + ex.StackTrace);
                 startSurf();
             }
         }
@@ -252,39 +253,24 @@ namespace AutoClick
             startSurf();    // surf next site
         }
 
-        private void wbBrowser_NewWindow3(object sender, AxSHDocVw.DWebBrowserEvents2_NewWindow3Event e)
-        {
-            // popup blocker
-            e.cancel = true;
-        }
-
         private void waitForClick_Tick(object sender, EventArgs e)
         {
             try
             {
-                if (!autoClosePopup.Enabled)
-                {
-                    writeLog("autoClosePopup timer - Start");
-                    autoClosePopup.Start();
-                }
-
-                doc = (HTMLDocument)wbBrowser.Document;
-
-                if (doc.frames.length > 0)
+                if (wbBrowser.Document.Window.Frames.Count > 0)
                 {
                     // find image and autoclick
-                    surftopframe = (HTMLWindow2)doc.frames.item(ref obj);
-                    countdownFrame = (HTMLDocument)surftopframe.document;
-                    if (countdownFrame.getElementById("timer") != null)
+                    countdownFrame = wbBrowser.Document.Window.Frames[0].Document;
+                    if (countdownFrame.GetElementById("timer") != null)
                     {
-                        if (countdownFrame.getElementById("timer").innerHTML.Contains("Click"))
+                        if (countdownFrame.GetElementById("timer").InnerHtml.Contains("Click"))
                         {
-                            string key = countdownFrame.getElementById("timer").innerHTML.Substring(6);
-                            foreach (IHTMLElement link in countdownFrame.links)
+                            string key = countdownFrame.GetElementById("timer").InnerHtml.Substring(6);
+                            foreach (HtmlElement link in countdownFrame.Links)
                             {
-                                if (link.innerHTML.Contains("clickimages/" + key + "."))
+                                if (link.InnerHtml.Contains("clickimages/" + key + "."))
                                 {
-                                    link.click();
+                                    link.InvokeMember("click");
                                     writeLog("---CLICK---");
                                     stopWaitForClickTimer();
                                     stopAutoFreshTimer();
@@ -318,9 +304,9 @@ namespace AutoClick
             stopWaitForClickTimer();
             stopAutoFreshTimer();
 
-            // refresh site if program is stopped
-            writeLog("WARNING: Program is stopped => refresh site.");
-            startSurf();    // refresh site
+            // surf next site if program is stopped
+            writeLog("WARNING: Program is stopped => surf next site.");
+            surfNextSite();    // surf next site
         }
 
         private void stopAutoFreshTimer()
@@ -333,22 +319,14 @@ namespace AutoClick
 
         private void autoClosePopup_Tick(object sender, EventArgs e)
         {
-            IntPtr thisHandle = (FindWindow(null, "Windows Internet Explorer") != IntPtr.Zero) ? FindWindow(null, "Windows Internet Explorer") :
-                ((FindWindow(null, "Web Browser") != IntPtr.Zero) ? FindWindow(null, "Web Browser") : FindWindow(null, "Message from webpage"));
+            IntPtr thisHandle = IntPtr.Zero;
+            thisHandle = (FindWindow(null, "Windows Internet Explorer") != IntPtr.Zero) ? FindWindow(null, "Windows Internet Explorer") :
+                 ((FindWindow(null, "Web Browser") != IntPtr.Zero) ? FindWindow(null, "Web Browser") : FindWindow(null, "Message from webpage"));
             if (thisHandle != IntPtr.Zero)
             {
-                writeLog("This ads site is using ExitSplash!");
+                writeLog("Popup id: " + thisHandle);
                 SetForegroundWindow(thisHandle);
                 SendKeys.Send("{ENTER}");   // press ENTER for closing popup
-            }
-        }
-
-        private void stopAutoClosePopupTimer()
-        {
-            if (autoClosePopup.Enabled)
-            {
-                writeLog("autoClosePopup timer - Stop");
-                autoClosePopup.Stop();
             }
         }
 

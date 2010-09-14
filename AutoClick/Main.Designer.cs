@@ -29,13 +29,24 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
+            this.wbBrowser = new System.Windows.Forms.WebBrowser();
             this.waitForClick = new System.Windows.Forms.Timer(this.components);
             this.autoRefresh = new System.Windows.Forms.Timer(this.components);
-            this.wbBrowser = new AxSHDocVw.AxWebBrowser();
             this.autoClosePopup = new System.Windows.Forms.Timer(this.components);
-            ((System.ComponentModel.ISupportInitialize)(this.wbBrowser)).BeginInit();
             this.SuspendLayout();
+            // 
+            // wbBrowser
+            // 
+            this.wbBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.wbBrowser.Location = new System.Drawing.Point(0, 0);
+            this.wbBrowser.MinimumSize = new System.Drawing.Size(20, 20);
+            this.wbBrowser.Name = "wbBrowser";
+            this.wbBrowser.ScriptErrorsSuppressed = true;
+            this.wbBrowser.ScrollBarsEnabled = false;
+            this.wbBrowser.Size = new System.Drawing.Size(1016, 741);
+            this.wbBrowser.TabIndex = 0;
+            this.wbBrowser.Navigating += new System.Windows.Forms.WebBrowserNavigatingEventHandler(this.wbBrowser_Navigating);
+            this.wbBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.wbBrowser_DocumentCompleted);
             // 
             // waitForClick
             // 
@@ -45,20 +56,9 @@
             // 
             this.autoRefresh.Tick += new System.EventHandler(this.autoRefresh_Tick);
             // 
-            // wbBrowser
-            // 
-            this.wbBrowser.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.wbBrowser.Enabled = true;
-            this.wbBrowser.Location = new System.Drawing.Point(0, 0);
-            this.wbBrowser.OcxState = ((System.Windows.Forms.AxHost.State)(resources.GetObject("wbBrowser.OcxState")));
-            this.wbBrowser.Size = new System.Drawing.Size(1016, 741);
-            this.wbBrowser.TabIndex = 0;
-            this.wbBrowser.BeforeNavigate2 += new AxSHDocVw.DWebBrowserEvents2_BeforeNavigate2EventHandler(this.wbBrowser_BeforeNavigate2);
-            this.wbBrowser.DocumentComplete += new AxSHDocVw.DWebBrowserEvents2_DocumentCompleteEventHandler(this.wbBrowser_DocumentComplete);
-            this.wbBrowser.NewWindow3 += new AxSHDocVw.DWebBrowserEvents2_NewWindow3EventHandler(this.wbBrowser_NewWindow3);
-            // 
             // autoClosePopup
             // 
+            this.autoClosePopup.Enabled = true;
             this.autoClosePopup.Interval = 1000;
             this.autoClosePopup.Tick += new System.EventHandler(this.autoClosePopup_Tick);
             // 
@@ -72,16 +72,15 @@
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PTC AutoClick";
-            ((System.ComponentModel.ISupportInitialize)(this.wbBrowser)).EndInit();
             this.ResumeLayout(false);
 
         }
 
         #endregion
 
+        private System.Windows.Forms.WebBrowser wbBrowser;
         private System.Windows.Forms.Timer waitForClick;
         private System.Windows.Forms.Timer autoRefresh;
-        private AxSHDocVw.AxWebBrowser wbBrowser;
         private System.Windows.Forms.Timer autoClosePopup;
 
     }
