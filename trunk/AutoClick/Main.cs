@@ -209,7 +209,14 @@ namespace AutoClick
                                     if (!(link.InnerHtml.Contains("New Ptc!! Rapidobux!!") || link.InnerHtml.Contains("**the Power Behind Ebusiness**")
                                         || link.InnerHtml.Equals("Surf These Links") || link.InnerHtml.Contains("18 Carats")
                                         || (link.InnerHtml.Contains("Auto Traffic Avalanche") && index == 1)
-                                        || link.InnerHtml.Contains("** Do Not Call List Creates A High-paying Job !...")))
+                                        || link.InnerHtml.Contains("** Do Not Call List Creates A High-paying Job !...")
+                                        || link.InnerHtml.Contains("Gagnez De Largent Le Plus Simplement Du Monde Avec...")
+                                        || link.InnerHtml.Contains("Real Income For Free")
+                                        || link.InnerHtml.Contains("Absolutely Free Money")
+                                        || link.InnerHtml.Contains("The Underground Super Affilaite")
+                                        || link.InnerHtml.Contains("He Can Turn You Into One Of Ebay")
+                                        || link.InnerHtml.Contains("Discover The System That Makes Me")
+                                        || link.InnerHtml.Contains("Worldwide-cash")))
                                     {
                                         needStartWaitForClickTimer = true;
                                         writeLog(link.InnerHtml);
