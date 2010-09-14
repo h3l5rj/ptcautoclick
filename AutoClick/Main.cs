@@ -45,16 +45,18 @@ namespace AutoClick
                 "Mystery PTC Site : Log In", "Mystery PTC Site : My Account Panel - Tran Vinh Truong" , "Mystery PTC Site : Get Paid To Click", "Viewing Ad @ Mystery PTC Site", "10000"},
             { "http://mysteryclickers.com/index.php?view=login", "http://mysteryclickers.com/index.php?view=click", "http://mysteryclickers.com/gpt.php",
                 "Mystery Clickers PTC Site : Log In", "Mystery Clickers PTC Site : My Account Panel - Tran Vinh Truong" , "Mystery Clickers PTC Site : Get Paid To Click", "Viewing Ad @ Mystery Clickers PTC Site", "10000"},
-            { "http://beachptc.com/index.php?view=login", "http://beachptc.com/index.php?view=click", "http://beachptc.com/gpt.php",
-                "Beach PTC Site : Log In", "Beach PTC Site : My Account Panel - Tran Vinh Truong" , "Beach PTC Site : Get Paid To Click", "Viewing Ad @ Beach PTC Site", "25000"},
             { "http://www.billionaireptc.com/index.php?view=login", "http://www.billionaireptc.com/index.php?view=click", "http://www.billionaireptc.com/gpt.php",
                 "Billionaire PTC Site : Log In", "Billionaire PTC Site : My Account Panel - Tran Vinh Truong" , "Billionaire PTC Site : Get Paid To Click", "Viewing Ad @ Billionaire PTC Site", "25000"},
+            { "http://bestdollarclicks.com/index.php?view=login", "http://bestdollarclicks.com/index.php?view=click", "http://bestdollarclicks.com/gpt.php",
+                "Bible Company : Log In", "Bible Company : Purchase Advertising" , "Bible Company : Get Paid To Click", "Viewing Ad @ Bible Company", "30000"},
+            { "http://beachptc.com/index.php?view=login", "http://beachptc.com/index.php?view=click", "http://beachptc.com/gpt.php",
+                "Beach PTC Site : Log In", "Beach PTC Site : My Account Panel - Tran Vinh Truong" , "Beach PTC Site : Get Paid To Click", "Viewing Ad @ Beach PTC Site", "25000"},
             { "http://www.clickforabuck.com/index.php?view=login", "http://www.clickforabuck.com/index.php?view=click", "http://www.clickforabuck.com/gpt.php",
-                "Click For A Buck PTC Site : Log In", "Click For A Buck PTC Site : My Account Panel - Tran Vinh Truong" , "Click For A Buck PTC Site : Get Paid To Click", "Viewing Ad @ Click For A Buck PTC Site", "25000"}/*,
+                "Click For A Buck PTC Site : Log In", "Click For A Buck PTC Site : My Account Panel - Tran Vinh Truong" , "Click For A Buck PTC Site : Get Paid To Click", "Viewing Ad @ Click For A Buck PTC Site", "10000"},
             { "http://www.onedollarptc.com/index.php?view=login", "http://www.onedollarptc.com/index.php?view=click", "http://www.onedollarptc.com/gpt.php",
                 "Bible Company : Log In", "Bible Company : My Account Panel - Tran Vinh Truong" , "Bible Company : Get Paid To Click", "Viewing Ad @ Bible Company", "25000"},
-            { "http://bestdollarclicks.com/index.php?view=login", "http://bestdollarclicks.com/index.php?view=click", "http://bestdollarclicks.com/gpt.php",
-                "Bible Company : Log In", "Bible Company : Purchase Advertising" , "Bible Company : Get Paid To Click", "Viewing Ad @ Bible Company", "60000"}*/
+            { "http://www.twodollarptc.com/index.php?view=login", "http://www.twodollarptc.com/index.php?view=click", "http://www.twodollarptc.com/gpt.php",
+                "Bible Company : Log In", "Bible Company : My Account Panel - Tran Vinh Truong" , "Bible Company : Get Paid To Click", "Viewing Ad @ Bible Company", "25000"}
         };
         private const string USERNAME = "tranvinhtruong";
         private const string PASSWORD = "tctlT1005";
@@ -159,26 +161,30 @@ namespace AutoClick
                     {
                         wbBrowser.Document.GetElementFromPoint(new Point(916, 106)).InvokeMember("click");
                     }
-                    else if (index == 12) // Beach PTC
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(600, 648)).InvokeMember("click");
-                    }
-                    else if (index == 13) // Billionaire PTC
+                    else if (index == 12) // Billionaire PTC
                     {
                         wbBrowser.Document.GetElementFromPoint(new Point(600, 298)).InvokeMember("click");
                     }
-                    else if (index == 14) // Click For A Buck PTC
+                    else if (index == 13) // bestdollarclicks
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(599, 467)).InvokeMember("click");
+                    }
+                    else if (index == 14) // Beach PTC
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(600, 648)).InvokeMember("click");
+                    }
+                    else if (index == 15) // Click For A Buck PTC
                     {
                         wbBrowser.Document.GetElementFromPoint(new Point(599, 337)).InvokeMember("click");
-                    }/*
-                    else if (index == 15) // onedollarptc
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(586, 341)).InvokeMember("click");
                     }
-                    else if (index == 16) // bestdollarclicks
+                    else if (index == 16) // onedollarptc
                     {
-                        wbBrowser.Document.GetElementFromPoint(new Point(594, 467)).InvokeMember("click");
-                    }*/
+                        wbBrowser.Document.GetElementFromPoint(new Point(588, 342)).InvokeMember("click");
+                    }
+                    else if (index == 17) // twodollarptc
+                    {
+                        wbBrowser.Document.GetElementFromPoint(new Point(582, 432)).InvokeMember("click");
+                    }
                     writeLog("Login ...");
                 }
                 else if (wbBrowser.DocumentTitle == ptcSites[index, 5])    // view ads page
@@ -200,10 +206,13 @@ namespace AutoClick
                                 if (link.GetAttribute("href").StartsWith(ptcSites[index, 2]))
                                 {
                                     // skip these ads because they are having error
-                                    if (!(link.InnerHtml.Equals("New Ptc!! Rapidobux!!") || link.InnerHtml.Equals("**the Power Behind Ebusiness**") || link.InnerHtml.Equals("Surf These Links")
-                                        || link.InnerHtml.Equals("18 Carats") || (link.InnerHtml.Equals("Auto Traffic Avalanche") && index == 1)))
+                                    if (!(link.InnerHtml.Contains("New Ptc!! Rapidobux!!") || link.InnerHtml.Contains("**the Power Behind Ebusiness**")
+                                        || link.InnerHtml.Equals("Surf These Links") || link.InnerHtml.Contains("18 Carats")
+                                        || (link.InnerHtml.Contains("Auto Traffic Avalanche") && index == 1)
+                                        || link.InnerHtml.Contains("** Do Not Call List Creates A High-paying Job !...")))
                                     {
                                         needStartWaitForClickTimer = true;
+                                        writeLog(link.InnerHtml);
                                         wbBrowser.Navigate(link.GetAttribute("href"));
                                         break;
                                     }
