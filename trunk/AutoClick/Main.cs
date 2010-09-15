@@ -238,7 +238,8 @@ namespace AutoClick
                                         || link.InnerHtml.Equals("Best Performing Forex Product On The Planet")
                                         || link.InnerHtml.Equals("My Home Wealth System")
                                         || link.InnerHtml.Equals("Discover The #1 Way To Slapp Google")
-                                        || link.InnerHtml.Equals("Discover The System That Makes Me $46,152.97 In Ju...")))
+                                        || link.InnerHtml.Equals("Discover The System That Makes Me $46,152.97 In Ju...")
+                                        || link.InnerHtml.Equals("Free Site Signup")))
                                     {
                                         needStartWaitForClickTimer = true;
                                         writeLog("link.InnerHtml: " + link.InnerHtml);
