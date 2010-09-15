@@ -13,54 +13,40 @@ namespace AutoClick
         [DllImport("user32.dll")]
         private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
-        // Activate an application window.
+        // Send a message to window.
         [DllImport("user32.dll")]
-        private static extern bool SetForegroundWindow(IntPtr hWnd);
+        private static extern int SendMessage(IntPtr hWnd, uint Msg, int wParam, int lParam);
+
+        private const int WM_SYSCOMMAND = 0x0112;
+        private const int SC_CLOSE = 0xF060;
 
         private Boolean logToFile = true;
 
         private static uint index = 0;
         private string[,] ptcSites = new string[,] {
-            { "http://www.neodollar.com/index.php?view=login", "http://www.neodollar.com/index.php?view=click", "http://www.neodollar.com/gpt.php",
-                "NeoDollar : Log In", "NeoDollar : My Account Panel - Tran Vinh Truong" , "NeoDollar : Get Paid To Click", "Viewing Ad @ NeoDollar", "30000"},
-            { "http://www.tendollarclick.com/index.php?view=login", "http://www.tendollarclick.com/index.php?view=click", "http://www.tendollarclick.com/gpt.php",
-                "Ten Dollar Click : Log In", "Ten Dollar Click : My Account Panel - Tran Vinh Truong" , "Ten Dollar Click : Get Paid To Click", "Viewing Ad @ Ten Dollar Click", "60000"},
-            { "http://www.ptcsense.com/index.php?view=login", "http://www.ptcsense.com/index.php?view=click", "http://www.ptcsense.com/gpt.php",
-                "PTC Sense : Log In", "PTC Sense : My Account Panel - Tran Vinh Truong" , "PTC Sense : Get Paid To Click", "Viewing Ad @ PTC Sense", "30000"},
-            { "http://www.richptc.com/index.php?view=login", "http://www.richptc.com/index.php?view=click", "http://www.richptc.com/gpt.php",
-                "Rich PTC : Log In", "Rich PTC : My Account Panel - Tran Vinh Truong" , "Rich PTC : Get Paid To Click", "Viewing Ad @ Rich PTC", "30000"},
-            { "http://www.bigmoneyptc.com/index.php?view=login", "http://www.bigmoneyptc.com/index.php?view=click", "http://www.bigmoneyptc.com/gpt.php",
-                "Big Money PTC : Log In", "Big Money PTC : My Account Panel - Tran Vinh Truong" , "Big Money PTC : Get Paid To Click", "Viewing Ad @ Big Money PTC", "30000"},
-            { "http://www.grandptc.com/index.php?view=login", "http://www.grandptc.com/index.php?view=click", "http://www.grandptc.com/gpt.php",
-                "Grand PTC : Log In", "Grand PTC : My Account Panel - Tran Vinh Truong" , "Grand PTC : Get Paid To Click", "Viewing Ad @ Grand PTC", "30000"},
-            { "http://www.ptcbiz.com/index.php?view=login", "http://www.ptcbiz.com/index.php?view=click", "http://www.ptcbiz.com/gpt.php",
-                "PTC Biz : Log In", "PTC Biz : My Account Panel - Tran Vinh Truong" , "PTC Biz : Get Paid To Click", "Viewing Ad @ PTC Biz", "30000"},
-            { "http://www.ptcwallet.com/index.php?view=login", "http://www.ptcwallet.com/index.php?view=click", "http://www.ptcwallet.com/gpt.php",
-                "PTC Wallet : Log In", "PTC Wallet : My Account Panel - Tran Vinh Truong" , "PTC Wallet : Get Paid To Click", "Viewing Ad @ PTC Wallet", "10000"},
-            { "http://www.buxinc.com/index.php?view=login", "http://www.buxinc.com/index.php?view=click", "http://www.buxinc.com/gpt.php",
-                "Bux Inc : Log In", "Bux Inc : My Account Panel - Tran Vinh Truong" , "Bux Inc : Get Paid To Click", "Viewing Ad @ Bux Inc", "30000"},
-            { "http://www.fineptc.com/index.php?view=login", "http://www.fineptc.com/index.php?view=click", "http://www.fineptc.com/gpt.php",
-                "Fine PTC : Log In", "Fine PTC : My Account Panel - Tran Vinh Truong" , "Fine PTC : Get Paid To Click", "Viewing Ad @ Fine PTC", "60000"},
-            { "http://mysteryptc.com/index.php?view=login", "http://mysteryptc.com/index.php?view=click", "http://mysteryptc.com/gpt.php",
-                "Mystery PTC Site : Log In", "Mystery PTC Site : My Account Panel - Tran Vinh Truong" , "Mystery PTC Site : Get Paid To Click", "Viewing Ad @ Mystery PTC Site", "10000"},
-            { "http://mysteryclickers.com/index.php?view=login", "http://mysteryclickers.com/index.php?view=click", "http://mysteryclickers.com/gpt.php",
-                "Mystery Clickers PTC Site : Log In", "Mystery Clickers PTC Site : My Account Panel - Tran Vinh Truong" , "Mystery Clickers PTC Site : Get Paid To Click", "Viewing Ad @ Mystery Clickers PTC Site", "10000"},
-            { "http://www.billionaireptc.com/index.php?view=login", "http://www.billionaireptc.com/index.php?view=click", "http://www.billionaireptc.com/gpt.php",
-                "Billionaire PTC Site : Log In", "Billionaire PTC Site : My Account Panel - Tran Vinh Truong" , "Billionaire PTC Site : Get Paid To Click", "Viewing Ad @ Billionaire PTC Site", "25000"},
-            { "http://bestdollarclicks.com/index.php?view=login", "http://bestdollarclicks.com/index.php?view=click", "http://bestdollarclicks.com/gpt.php",
-                "Bible Company : Log In", "Bible Company : Purchase Advertising" , "Bible Company : Get Paid To Click", "Viewing Ad @ Bible Company", "30000"},
-            { "http://beachptc.com/index.php?view=login", "http://beachptc.com/index.php?view=click", "http://beachptc.com/gpt.php",
-                "Beach PTC Site : Log In", "Beach PTC Site : My Account Panel - Tran Vinh Truong" , "Beach PTC Site : Get Paid To Click", "Viewing Ad @ Beach PTC Site", "25000"},
-            { "http://www.clickforabuck.com/index.php?view=login", "http://www.clickforabuck.com/index.php?view=click", "http://www.clickforabuck.com/gpt.php",
-                "Click For A Buck PTC Site : Log In", "Click For A Buck PTC Site : My Account Panel - Tran Vinh Truong" , "Click For A Buck PTC Site : Get Paid To Click", "Viewing Ad @ Click For A Buck PTC Site", "10000"},
-            { "http://www.onedollarptc.com/index.php?view=login", "http://www.onedollarptc.com/index.php?view=click", "http://www.onedollarptc.com/gpt.php",
-                "Bible Company : Log In", "Bible Company : My Account Panel - Tran Vinh Truong" , "Bible Company : Get Paid To Click", "Viewing Ad @ Bible Company", "25000"},
-            { "http://www.twodollarptc.com/index.php?view=login", "http://www.twodollarptc.com/index.php?view=click", "http://www.twodollarptc.com/gpt.php",
-                "Bible Company : Log In", "Bible Company : My Account Panel - Tran Vinh Truong" , "Bible Company : Get Paid To Click", "Viewing Ad @ Bible Company", "25000"}
+            { "http://www.neodollar.com/index.php?view=login", "http://www.neodollar.com/index.php?view=click", "http://www.neodollar.com/gpt.php", "30000"},
+            { "http://www.tendollarclick.com/index.php?view=login", "http://www.tendollarclick.com/index.php?view=click", "http://www.tendollarclick.com/gpt.php", "60000"},
+            { "http://www.ptcsense.com/index.php?view=login", "http://www.ptcsense.com/index.php?view=click", "http://www.ptcsense.com/gpt.php", "30000"},
+            { "http://www.richptc.com/index.php?view=login", "http://www.richptc.com/index.php?view=click", "http://www.richptc.com/gpt.php", "30000"},
+            { "http://www.bigmoneyptc.com/index.php?view=login", "http://www.bigmoneyptc.com/index.php?view=click", "http://www.bigmoneyptc.com/gpt.php", "30000"},
+            { "http://www.grandptc.com/index.php?view=login", "http://www.grandptc.com/index.php?view=click", "http://www.grandptc.com/gpt.php", "30000"},
+            { "http://www.ptcbiz.com/index.php?view=login", "http://www.ptcbiz.com/index.php?view=click", "http://www.ptcbiz.com/gpt.php", "30000"},
+            { "http://www.ptcwallet.com/index.php?view=login", "http://www.ptcwallet.com/index.php?view=click", "http://www.ptcwallet.com/gpt.php", "15000"},
+            { "http://www.buxinc.com/index.php?view=login", "http://www.buxinc.com/index.php?view=click", "http://www.buxinc.com/gpt.php", "30000"},
+            { "http://www.fineptc.com/index.php?view=login", "http://www.fineptc.com/index.php?view=click", "http://www.fineptc.com/gpt.php", "60000"},
+            { "http://mysteryptc.com/index.php?view=login", "http://mysteryptc.com/index.php?view=click", "http://mysteryptc.com/gpt.php", "10000"},
+            { "http://mysteryclickers.com/index.php?view=login", "http://mysteryclickers.com/index.php?view=click", "http://mysteryclickers.com/gpt.php", "10000"},
+            { "http://www.billionaireptc.com/index.php?view=login", "http://www.billionaireptc.com/index.php?view=click", "http://www.billionaireptc.com/gpt.php", "25000"},
+            { "http://bestdollarclicks.com/index.php?view=login", "http://bestdollarclicks.com/index.php?view=click", "http://bestdollarclicks.com/gpt.php", "30000"},
+            { "http://beachptc.com/index.php?view=login", "http://beachptc.com/index.php?view=click", "http://beachptc.com/gpt.php", "25000"},
+            { "http://www.clickforabuck.com/index.php?view=login", "http://www.clickforabuck.com/index.php?view=click", "http://www.clickforabuck.com/gpt.php", "10000"},
+            { "http://www.onedollarptc.com/index.php?view=login", "http://www.onedollarptc.com/index.php?view=click", "http://www.onedollarptc.com/gpt.php", "25000"},
+            { "http://www.twodollarptc.com/index.php?view=login", "http://www.twodollarptc.com/index.php?view=click", "http://www.twodollarptc.com/gpt.php", "25000"}
         };
         private const string USERNAME = "tranvinhtruong";
         private const string PASSWORD = "tctlT1005";
 
+        private string url = "";
         private Match matchObj;
         private int i;
         private int max;
@@ -88,7 +74,7 @@ namespace AutoClick
             {
                 autoRefresh.Stop();
             }
-            autoRefresh.Interval = (int)(int.Parse(ptcSites[index, 7]) * 2.5);
+            autoRefresh.Interval = (int)(int.Parse(ptcSites[index, 3]) * 2.5);
             autoRefresh.Start();
         }
 
@@ -96,7 +82,9 @@ namespace AutoClick
         {
             try
             {
-                if (wbBrowser.DocumentTitle == ptcSites[index, 3]) // log in page
+                url = wbBrowser.Url.ToString();
+
+                if (url.StartsWith(ptcSites[index, 0])) // log in page
                 {
                     if (index == 10) // Mystery PTC
                     {
@@ -187,7 +175,7 @@ namespace AutoClick
                     }
                     writeLog("Login ...");
                 }
-                else if (wbBrowser.DocumentTitle == ptcSites[index, 5])    // view ads page
+                else if (url.StartsWith(ptcSites[index, 1]))    // view ads page
                 {
                     if (wbBrowser.DocumentText.Contains("login"))    // not logged in
                     {
@@ -206,20 +194,54 @@ namespace AutoClick
                                 if (link.GetAttribute("href").StartsWith(ptcSites[index, 2]))
                                 {
                                     // skip these ads because they are having error
-                                    if (!(link.InnerHtml.Contains("New Ptc!! Rapidobux!!") || link.InnerHtml.Contains("**the Power Behind Ebusiness**")
-                                        || link.InnerHtml.Equals("Surf These Links") || link.InnerHtml.Contains("18 Carats")
-                                        || (link.InnerHtml.Contains("Auto Traffic Avalanche") && index == 1)
-                                        || link.InnerHtml.Contains("** Do Not Call List Creates A High-paying Job !...")
-                                        || link.InnerHtml.Contains("Gagnez De Largent Le Plus Simplement Du Monde Avec...")
-                                        || link.InnerHtml.Contains("Real Income For Free")
-                                        || link.InnerHtml.Contains("Absolutely Free Money")
-                                        || link.InnerHtml.Contains("The Underground Super Affilaite")
-                                        || link.InnerHtml.Contains("He Can Turn You Into One Of Ebay")
+                                    if (!(link.InnerHtml.Equals("New Ptc!! Rapidobux!!")
+                                        || link.InnerHtml.Equals("**the Power Behind Ebusiness** ")
+                                        || link.InnerHtml.Equals("Surf These Links")
+                                        || link.InnerHtml.Equals("18 Carats")
+                                        || (link.InnerHtml.Equals("Auto Traffic Avalanche") && (index == 1 || index == 7))
+                                        || link.InnerHtml.Equals("** Do Not Call List Creates A High-paying Job !...")
+                                        || link.InnerHtml.Equals("Gagnez De Largent Le Plus Simplement Du Monde Avec...")
+                                        || link.InnerHtml.Equals("Real Income For Free")
+                                        || link.InnerHtml.Equals("Absolutely Free Money")
+                                        || link.InnerHtml.Equals("The Underground Super Affilaite")
+                                        || link.InnerHtml.Equals("He Can Turn You Into One Of Ebay")
                                         || link.InnerHtml.Contains("Discover The System That Makes Me")
-                                        || link.InnerHtml.Contains("Worldwide-cash")))
+                                        || link.InnerHtml.Equals("Worldwide-cash")
+                                        || link.InnerHtml.Equals("Big Money")
+                                        || link.InnerHtml.Equals("New Site")
+                                        || link.InnerHtml.Equals("5 Dollars Bonus")
+                                        || link.InnerHtml.Equals("Newquay Hair Do!!")
+                                        || link.InnerHtml.Equals("100 Usd Bonus")
+                                        || link.InnerHtml.Equals("Best Site")
+                                        || link.InnerHtml.Equals("Real Cash")
+                                        || link.InnerHtml.Equals("Gold 100%")
+                                        || (link.InnerHtml.Equals("Earn Online") && index != 9)
+                                        || link.InnerHtml.Equals("Instant Money")
+                                        || link.InnerHtml.Equals("Be Rich")
+                                        || link.InnerHtml.Equals("Click It And Make Money")
+                                        || link.InnerHtml.Equals("Free Upgrade")
+                                        || link.InnerHtml.Equals("Click Now")
+                                        || link.InnerHtml.Equals("Money")
+                                        || link.InnerHtml.Equals("Super Money")
+                                        || link.InnerHtml.Equals("Mega Cash")
+                                        || link.InnerHtml.Equals("Make Money")
+                                        || link.InnerHtml.Equals("Free Money")
+                                        || link.InnerHtml.Equals("Big Cash")
+                                        || link.InnerHtml.Equals("Lavoro Online")
+                                        || link.InnerHtml.Equals("10 Usd For Click It")
+                                        || link.InnerHtml.Equals("500 Dollars For You")
+                                        || link.InnerHtml.Equals("Instant Bonus")
+                                        || link.InnerHtml.Equals("Instant Cash")
+                                        || link.InnerHtml.Equals("Newly Devised Highly Tested Guaranteed Money Maker")
+                                        || link.InnerHtml.Equals("15 Adaily Share 90%")
+                                        || link.InnerHtml.Equals("Pays Instanly")
+                                        || link.InnerHtml.Equals("Best Performing Forex Product On The Planet")
+                                        || link.InnerHtml.Equals("My Home Wealth System")
+                                        || link.InnerHtml.Equals("Discover The #1 Way To Slapp Google")
+                                        || link.InnerHtml.Equals("Discover The System That Makes Me $46,152.97 In Ju...")))
                                     {
                                         needStartWaitForClickTimer = true;
-                                        writeLog(link.InnerHtml);
+                                        writeLog("link.InnerHtml: " + link.InnerHtml);
                                         wbBrowser.Navigate(link.GetAttribute("href"));
                                         break;
                                     }
@@ -237,12 +259,16 @@ namespace AutoClick
                         }
                     }
                 }
-                else if (wbBrowser.Url.ToString().StartsWith(ptcSites[index, 2]) && needStartWaitForClickTimer)    // count down page
+                else if (url.StartsWith(ptcSites[index, 2]) && needStartWaitForClickTimer)    // count down page
                 {
-                    if (!waitForClick.Enabled)
+                    if (wbBrowser.DocumentText.Contains("You Have Already Clicked This Link Today"))
+                    {
+                        startSurf();
+                    }
+                    else if (!waitForClick.Enabled)
                     {
                         writeLog("waitForClick timer - Start");
-                        waitForClick.Interval = (int)(int.Parse(ptcSites[index, 7]) * 1.2);
+                        waitForClick.Interval = (int)(int.Parse(ptcSites[index, 3]) * 1.2);
                         waitForClick.Start();
                     }
                 }
@@ -340,8 +366,8 @@ namespace AutoClick
             if (thisHandle != IntPtr.Zero)
             {
                 writeLog("Popup id: " + thisHandle);
-                SetForegroundWindow(thisHandle);
-                SendKeys.Send("{ENTER}");   // press ENTER for closing popup
+                // close popup using API
+                SendMessage(thisHandle, WM_SYSCOMMAND, SC_CLOSE, 0);
             }
         }
 
