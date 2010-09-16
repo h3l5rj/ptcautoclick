@@ -198,7 +198,7 @@ namespace AutoClick
                                         || link.InnerHtml.Equals("**the Power Behind Ebusiness** ")
                                         || link.InnerHtml.Equals("Surf These Links")
                                         || link.InnerHtml.Equals("18 Carats")
-                                        || (link.InnerHtml.Equals("Auto Traffic Avalanche") && (index == 1 || index == 9))
+                                        || (link.InnerHtml.Equals("Auto Traffic Avalanche") && (index == 1 || index == 7 || index == 9))
                                         || link.InnerHtml.Equals("** Do Not Call List Creates A High-paying Job !...")
                                         || link.InnerHtml.Equals("Gagnez De Largent Le Plus Simplement Du Monde Avec...")
                                         || link.InnerHtml.Equals("Real Income For Free")
