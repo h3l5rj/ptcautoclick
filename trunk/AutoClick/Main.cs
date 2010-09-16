@@ -243,7 +243,8 @@ namespace AutoClick
                                         || link.InnerHtml.Equals("Download Free Metal Music!")
                                         || link.InnerHtml.Equals("Ptp4ever")
                                         || link.InnerHtml.Equals("Registrate En Neopays.com Si Paga")
-                                        || link.InnerHtml.Equals("Earn By Sharing Your Files!! Great Cashouts!!")))
+                                        || link.InnerHtml.Equals("Earn By Sharing Your Files!! Great Cashouts!!")
+                                        || link.InnerHtml.Equals("Cash For Young And Dumb")))
                                     {
                                         needStartWaitForClickTimer = true;
                                         writeLog("link.InnerHtml: " + link.InnerHtml);
