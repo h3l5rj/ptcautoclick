@@ -198,7 +198,7 @@ namespace AutoClick
                                         || link.InnerHtml.Equals("**the Power Behind Ebusiness** ")
                                         || link.InnerHtml.Equals("Surf These Links")
                                         || link.InnerHtml.Equals("18 Carats")
-                                        || (link.InnerHtml.Equals("Auto Traffic Avalanche") && (index == 1 || index == 7 || index == 9))
+                                        || (link.InnerHtml.Equals("Auto Traffic Avalanche") && (index == 1 || index == 9))
                                         || link.InnerHtml.Equals("** Do Not Call List Creates A High-paying Job !...")
                                         || link.InnerHtml.Equals("Gagnez De Largent Le Plus Simplement Du Monde Avec...")
                                         || link.InnerHtml.Equals("Real Income For Free")
@@ -238,9 +238,12 @@ namespace AutoClick
                                         || link.InnerHtml.Equals("Best Performing Forex Product On The Planet")
                                         || link.InnerHtml.Equals("My Home Wealth System")
                                         || link.InnerHtml.Equals("Discover The #1 Way To Slapp Google")
-                                        || link.InnerHtml.Equals("Discover The System That Makes Me $46,152.97 In Ju...")
                                         || link.InnerHtml.Equals("Free Site Signup")
-                                        || link.InnerHtml.Equals("Every Week $20 Free")))
+                                        || link.InnerHtml.Equals("Every Week $20 Free")
+                                        || link.InnerHtml.Equals("Download Free Metal Music!")
+                                        || link.InnerHtml.Equals("Ptp4ever")
+                                        || link.InnerHtml.Equals("Registrate En Neopays.com Si Paga")
+                                        || link.InnerHtml.Equals("Earn By Sharing Your Files!! Great Cashouts!!")))
                                     {
                                         needStartWaitForClickTimer = true;
                                         writeLog("link.InnerHtml: " + link.InnerHtml);
@@ -306,7 +309,7 @@ namespace AutoClick
                     countdownFrame = wbBrowser.Document.Window.Frames[0].Document;
                     if (countdownFrame.GetElementById("timer") != null)
                     {
-                        if (countdownFrame.GetElementById("timer").InnerHtml.Contains("Click"))
+                        if (countdownFrame.GetElementById("timer").InnerHtml.StartsWith("Click"))
                         {
                             string key = countdownFrame.GetElementById("timer").InnerHtml.Substring(6);
                             foreach (HtmlElement link in countdownFrame.Links)
@@ -314,12 +317,17 @@ namespace AutoClick
                                 if (link.InnerHtml.Contains("clickimages/" + key + "."))
                                 {
                                     link.InvokeMember("click");
+                                    link.InvokeMember("click");
                                     writeLog("---CLICK---");
                                     stopWaitForClickTimer();
                                     stopAutoFreshTimer();
                                     break;
                                 }
                             }
+                        }
+                        else if (countdownFrame.GetElementById("timer").InnerHtml.Equals("Loading"))
+                        {
+                            wbBrowser.Refresh();
                         }
                     }
                 }
