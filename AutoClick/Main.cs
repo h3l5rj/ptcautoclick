@@ -82,205 +82,208 @@ namespace AutoClick
         {
             try
             {
-                url = wbBrowser.Url.ToString();
-
-                if (url.StartsWith(ptcSites[index, 0])) // log in page
+                if (wbBrowser.ReadyState == WebBrowserReadyState.Interactive || wbBrowser.ReadyState == WebBrowserReadyState.Complete)
                 {
-                    if (index == 10) // Mystery PTC
-                    {
-                        wbBrowser.Document.GetElementById("uUsername").SetAttribute("value", USERNAME);
-                        wbBrowser.Document.GetElementById("uPassword").SetAttribute("value", PASSWORD);
-                    }
-                    else
-                    {
-                        wbBrowser.Document.GetElementById("form_user").SetAttribute("value", USERNAME);
-                        wbBrowser.Document.GetElementById("form_pwd").SetAttribute("value", PASSWORD);
-                    }
+                    url = wbBrowser.Url.ToString();
 
-                    // click on "Access Account"
-                    if (index == 0) // NeoDollar
+                    if (url.StartsWith(ptcSites[index, 0])) // log in page
                     {
-                        wbBrowser.Document.GetElementFromPoint(new Point(718, 614)).InvokeMember("click");
-                    }
-                    if (index == 1) // Ten Dollar Click
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(538, 407)).InvokeMember("click");
-                        wbBrowser.Document.GetElementFromPoint(new Point(538, 606)).InvokeMember("click");
-                    }
-                    else if (index == 2) // PTC Sense
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(703, 392)).InvokeMember("click");
-                    }
-                    else if (index == 3) // Rich PTC
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(401, 430)).InvokeMember("click");
-                    }
-                    else if (index == 4) // Big Money PTC
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(499, 408)).InvokeMember("click");
-                        wbBrowser.Document.GetElementFromPoint(new Point(505, 321)).InvokeMember("click");
-                    }
-                    else if (index == 5) // Grand PTC
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(572, 391)).InvokeMember("click");
-                        wbBrowser.Document.GetElementFromPoint(new Point(699, 549)).InvokeMember("click");
-                    }
-                    else if (index == 6) // PTC Biz
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(858, 335)).InvokeMember("click");
-                    }
-                    else if (index == 7) // PTC Wallet
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(508, 454)).InvokeMember("click");
-                    }
-                    else if (index == 8) // Bux Inc
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(901, 330)).InvokeMember("click");
-                    }
-                    else if (index == 9) // Fine PTC
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(571, 412)).InvokeMember("click");
-                    }
-                    else if (index == 10) // Mystery PTC
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(715, 491)).InvokeMember("click");
-                    }
-                    else if (index == 11) // Mystery Clickers PTC
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(916, 106)).InvokeMember("click");
-                    }
-                    else if (index == 12) // Billionaire PTC
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(600, 298)).InvokeMember("click");
-                    }
-                    else if (index == 13) // bestdollarclicks
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(599, 467)).InvokeMember("click");
-                    }
-                    else if (index == 14) // Beach PTC
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(600, 648)).InvokeMember("click");
-                    }
-                    else if (index == 15) // Click For A Buck PTC
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(599, 337)).InvokeMember("click");
-                    }
-                    else if (index == 16) // onedollarptc
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(588, 342)).InvokeMember("click");
-                    }
-                    else if (index == 17) // twodollarptc
-                    {
-                        wbBrowser.Document.GetElementFromPoint(new Point(582, 432)).InvokeMember("click");
-                    }
-                    writeLog("Login ...");
-                }
-                else if (url.StartsWith(ptcSites[index, 1]))    // view ads page
-                {
-                    if (wbBrowser.DocumentText.Contains("login"))    // not logged in
-                    {
-                        wbBrowser.Navigate(ptcSites[index, 0]);    // open log in page
-                    }
-                    else
-                    {
-                        matchObj = Regex.Match(wbBrowser.DocumentText, "(?<=a href=\"gpt.php)[^\"]*");
-                        writeLog("link available to click? - " + matchObj.Success);
-                        if (matchObj.Success)
+                        if (index == 10) // Mystery PTC
                         {
-                            max = wbBrowser.Document.Links.Count;
-                            for (i = 0; i < max; i++)
-                            {
-                                link = wbBrowser.Document.Links[i];
-                                if (link.GetAttribute("href").StartsWith(ptcSites[index, 2]))
-                                {
-                                    // skip these ads because they are having error
-                                    if (!(link.InnerHtml.Equals("New Ptc!! Rapidobux!!")
-                                        || link.InnerHtml.Equals("**the Power Behind Ebusiness** ")
-                                        || link.InnerHtml.Equals("Surf These Links")
-                                        || link.InnerHtml.Equals("18 Carats")
-                                        || (link.InnerHtml.Equals("Auto Traffic Avalanche") && (index == 1 || index == 7 || index == 9))
-                                        || link.InnerHtml.Equals("** Do Not Call List Creates A High-paying Job !...")
-                                        || link.InnerHtml.Equals("Gagnez De Largent Le Plus Simplement Du Monde Avec...")
-                                        || link.InnerHtml.Equals("Real Income For Free")
-                                        || link.InnerHtml.Equals("Absolutely Free Money")
-                                        || link.InnerHtml.Equals("The Underground Super Affilaite")
-                                        || link.InnerHtml.Equals("He Can Turn You Into One Of Ebay")
-                                        || link.InnerHtml.Contains("Discover The System That Makes Me")
-                                        || link.InnerHtml.Equals("Worldwide-cash")
-                                        || link.InnerHtml.Equals("Big Money")
-                                        || link.InnerHtml.Equals("New Site")
-                                        || link.InnerHtml.Equals("5 Dollars Bonus")
-                                        || link.InnerHtml.Equals("Newquay Hair Do!!")
-                                        || link.InnerHtml.Equals("100 Usd Bonus")
-                                        || link.InnerHtml.Equals("Best Site")
-                                        || link.InnerHtml.Equals("Real Cash")
-                                        || link.InnerHtml.Equals("Gold 100%")
-                                        || (link.InnerHtml.Equals("Earn Online") && index != 9)
-                                        || link.InnerHtml.Equals("Instant Money")
-                                        || link.InnerHtml.Equals("Be Rich")
-                                        || link.InnerHtml.Equals("Click It And Make Money")
-                                        || link.InnerHtml.Equals("Free Upgrade")
-                                        || link.InnerHtml.Equals("Click Now")
-                                        || link.InnerHtml.Equals("Money")
-                                        || link.InnerHtml.Equals("Super Money")
-                                        || link.InnerHtml.Equals("Mega Cash")
-                                        || link.InnerHtml.Equals("Make Money")
-                                        || link.InnerHtml.Equals("Free Money")
-                                        || link.InnerHtml.Equals("Big Cash")
-                                        || link.InnerHtml.Equals("Lavoro Online")
-                                        || link.InnerHtml.Equals("10 Usd For Click It")
-                                        || link.InnerHtml.Equals("500 Dollars For You")
-                                        || link.InnerHtml.Equals("Instant Bonus")
-                                        || link.InnerHtml.Equals("Instant Cash")
-                                        || link.InnerHtml.Equals("Newly Devised Highly Tested Guaranteed Money Maker")
-                                        || link.InnerHtml.Equals("15 Adaily Share 90%")
-                                        || link.InnerHtml.Equals("Pays Instanly")
-                                        || link.InnerHtml.Equals("Best Performing Forex Product On The Planet")
-                                        || link.InnerHtml.Equals("My Home Wealth System")
-                                        || link.InnerHtml.Equals("Discover The #1 Way To Slapp Google")
-                                        || link.InnerHtml.Equals("Free Site Signup")
-                                        || link.InnerHtml.Equals("Every Week $20 Free")
-                                        || link.InnerHtml.Equals("Download Free Metal Music!")
-                                        || link.InnerHtml.Equals("Ptp4ever")
-                                        || link.InnerHtml.Equals("Registrate En Neopays.com Si Paga")
-                                        || link.InnerHtml.Equals("Earn By Sharing Your Files!! Great Cashouts!!")
-                                        || link.InnerHtml.Equals("Cash For Young And Dumb")))
-                                    {
-                                        needStartWaitForClickTimer = true;
-                                        writeLog("link.InnerHtml: " + link.InnerHtml);
-                                        wbBrowser.Navigate(link.GetAttribute("href"));
-                                        break;
-                                    }
-                                }
-                            }
-                            if (i >= max)
-                            {
-                                writeLog("LINK AVAILABLE TO CLICK BUT SKIPPED!!!");
-                                surfNextSite();
-                            }
+                            wbBrowser.Document.GetElementById("uUsername").SetAttribute("value", USERNAME);
+                            wbBrowser.Document.GetElementById("uPassword").SetAttribute("value", PASSWORD);
                         }
                         else
                         {
-                            surfNextSite();
+                            wbBrowser.Document.GetElementById("form_user").SetAttribute("value", USERNAME);
+                            wbBrowser.Document.GetElementById("form_pwd").SetAttribute("value", PASSWORD);
+                        }
+
+                        // click on "Access Account"
+                        if (index == 0) // NeoDollar
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(718, 614)).InvokeMember("click");
+                        }
+                        if (index == 1) // Ten Dollar Click
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(538, 407)).InvokeMember("click");
+                            wbBrowser.Document.GetElementFromPoint(new Point(538, 606)).InvokeMember("click");
+                        }
+                        else if (index == 2) // PTC Sense
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(703, 392)).InvokeMember("click");
+                        }
+                        else if (index == 3) // Rich PTC
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(401, 430)).InvokeMember("click");
+                        }
+                        else if (index == 4) // Big Money PTC
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(499, 408)).InvokeMember("click");
+                            wbBrowser.Document.GetElementFromPoint(new Point(505, 321)).InvokeMember("click");
+                        }
+                        else if (index == 5) // Grand PTC
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(572, 391)).InvokeMember("click");
+                            wbBrowser.Document.GetElementFromPoint(new Point(699, 549)).InvokeMember("click");
+                        }
+                        else if (index == 6) // PTC Biz
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(858, 335)).InvokeMember("click");
+                        }
+                        else if (index == 7) // PTC Wallet
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(508, 454)).InvokeMember("click");
+                        }
+                        else if (index == 8) // Bux Inc
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(901, 330)).InvokeMember("click");
+                        }
+                        else if (index == 9) // Fine PTC
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(571, 412)).InvokeMember("click");
+                        }
+                        else if (index == 10) // Mystery PTC
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(715, 491)).InvokeMember("click");
+                        }
+                        else if (index == 11) // Mystery Clickers PTC
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(916, 106)).InvokeMember("click");
+                        }
+                        else if (index == 12) // Billionaire PTC
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(600, 298)).InvokeMember("click");
+                        }
+                        else if (index == 13) // bestdollarclicks
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(599, 467)).InvokeMember("click");
+                        }
+                        else if (index == 14) // Beach PTC
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(600, 648)).InvokeMember("click");
+                        }
+                        else if (index == 15) // Click For A Buck PTC
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(599, 337)).InvokeMember("click");
+                        }
+                        else if (index == 16) // onedollarptc
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(588, 342)).InvokeMember("click");
+                        }
+                        else if (index == 17) // twodollarptc
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(582, 432)).InvokeMember("click");
+                        }
+                        writeLog("Login ...");
+                    }
+                    else if (url.StartsWith(ptcSites[index, 1]))    // view ads page
+                    {
+                        if (wbBrowser.DocumentText.Contains("login"))    // not logged in
+                        {
+                            wbBrowser.Navigate(ptcSites[index, 0]);    // open log in page
+                        }
+                        else
+                        {
+                            matchObj = Regex.Match(wbBrowser.DocumentText, "(?<=a href=\"gpt.php)[^\"]*");
+                            writeLog("link available to click? - " + matchObj.Success);
+                            if (matchObj.Success)
+                            {
+                                max = wbBrowser.Document.Links.Count;
+                                for (i = 0; i < max; i++)
+                                {
+                                    link = wbBrowser.Document.Links[i];
+                                    if (link.GetAttribute("href").StartsWith(ptcSites[index, 2]))
+                                    {
+                                        // skip these ads because they are having error
+                                        if (!(link.InnerHtml.Equals("New Ptc!! Rapidobux!!")
+                                            || link.InnerHtml.Equals("**the Power Behind Ebusiness** ")
+                                            || link.InnerHtml.Equals("Surf These Links")
+                                            || link.InnerHtml.Equals("18 Carats")
+                                            || (link.InnerHtml.Equals("Auto Traffic Avalanche") && (index == 1 || index == 7 || index == 9))
+                                            || link.InnerHtml.Equals("** Do Not Call List Creates A High-paying Job !...")
+                                            || link.InnerHtml.Equals("Gagnez De Largent Le Plus Simplement Du Monde Avec...")
+                                            || link.InnerHtml.Equals("Real Income For Free")
+                                            || link.InnerHtml.Equals("Absolutely Free Money")
+                                            || link.InnerHtml.Equals("The Underground Super Affilaite")
+                                            || link.InnerHtml.Equals("He Can Turn You Into One Of Ebay")
+                                            || link.InnerHtml.Contains("Discover The System That Makes Me")
+                                            || link.InnerHtml.Equals("Worldwide-cash")
+                                            || link.InnerHtml.Equals("Big Money")
+                                            || link.InnerHtml.Equals("New Site")
+                                            || link.InnerHtml.Equals("5 Dollars Bonus")
+                                            || link.InnerHtml.Equals("Newquay Hair Do!!")
+                                            || link.InnerHtml.Equals("100 Usd Bonus")
+                                            || link.InnerHtml.Equals("Best Site")
+                                            || link.InnerHtml.Equals("Real Cash")
+                                            || link.InnerHtml.Equals("Gold 100%")
+                                            || (link.InnerHtml.Equals("Earn Online") && index != 9)
+                                            || link.InnerHtml.Equals("Instant Money")
+                                            || link.InnerHtml.Equals("Be Rich")
+                                            || link.InnerHtml.Equals("Click It And Make Money")
+                                            || link.InnerHtml.Equals("Free Upgrade")
+                                            || link.InnerHtml.Equals("Click Now")
+                                            || link.InnerHtml.Equals("Money")
+                                            || link.InnerHtml.Equals("Super Money")
+                                            || link.InnerHtml.Equals("Mega Cash")
+                                            || link.InnerHtml.Equals("Make Money")
+                                            || link.InnerHtml.Equals("Free Money")
+                                            || link.InnerHtml.Equals("Big Cash")
+                                            || link.InnerHtml.Equals("Lavoro Online")
+                                            || link.InnerHtml.Equals("10 Usd For Click It")
+                                            || link.InnerHtml.Equals("500 Dollars For You")
+                                            || link.InnerHtml.Equals("Instant Bonus")
+                                            || link.InnerHtml.Equals("Instant Cash")
+                                            || link.InnerHtml.Equals("Newly Devised Highly Tested Guaranteed Money Maker")
+                                            || link.InnerHtml.Equals("15 Adaily Share 90%")
+                                            || link.InnerHtml.Equals("Pays Instanly")
+                                            || link.InnerHtml.Equals("Best Performing Forex Product On The Planet")
+                                            || link.InnerHtml.Equals("My Home Wealth System")
+                                            || link.InnerHtml.Equals("Discover The #1 Way To Slapp Google")
+                                            || link.InnerHtml.Equals("Free Site Signup")
+                                            || link.InnerHtml.Equals("Every Week $20 Free")
+                                            || link.InnerHtml.Equals("Download Free Metal Music!")
+                                            || link.InnerHtml.Equals("Ptp4ever")
+                                            || link.InnerHtml.Equals("Registrate En Neopays.com Si Paga")
+                                            || link.InnerHtml.Equals("Earn By Sharing Your Files!! Great Cashouts!!")
+                                            || link.InnerHtml.Equals("Cash For Young And Dumb")))
+                                        {
+                                            needStartWaitForClickTimer = true;
+                                            writeLog("link.InnerHtml: " + link.InnerHtml);
+                                            wbBrowser.Navigate(link.GetAttribute("href"));
+                                            break;
+                                        }
+                                    }
+                                }
+                                if (i >= max && !needStartWaitForClickTimer)
+                                {
+                                    writeLog("LINK AVAILABLE TO CLICK BUT SKIPPED!!!");
+                                    surfNextSite();
+                                }
+                            }
+                            else
+                            {
+                                surfNextSite();
+                            }
                         }
                     }
-                }
-                else if (url.StartsWith(ptcSites[index, 2]) && needStartWaitForClickTimer)    // count down page
-                {
-                    if (wbBrowser.DocumentText.Contains("You Have Already Clicked This Link Today"))
+                    else if (url.StartsWith(ptcSites[index, 2]) && needStartWaitForClickTimer)    // count down page
+                    {
+                        if (wbBrowser.DocumentText.Contains("You Have Already Clicked This Link Today"))
+                        {
+                            startSurf();
+                        }
+                        else if (!waitForClick.Enabled)
+                        {
+                            writeLog("waitForClick timer - Start");
+                            waitForClick.Interval = (int)(int.Parse(ptcSites[index, 3]) * 1.2);
+                            waitForClick.Start();
+                        }
+                    }
+                    else
                     {
                         startSurf();
                     }
-                    else if (!waitForClick.Enabled)
-                    {
-                        writeLog("waitForClick timer - Start");
-                        waitForClick.Interval = (int)(int.Parse(ptcSites[index, 3]) * 1.2);
-                        waitForClick.Start();
-                    }
-                }
-                else
-                {
-                    startSurf();
                 }
             }
             catch (Exception ex)
