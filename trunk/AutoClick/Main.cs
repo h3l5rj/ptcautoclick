@@ -238,7 +238,7 @@ namespace AutoClick
                                             || link.InnerHtml.Equals("15 Adaily Share 90%")
                                             || link.InnerHtml.Equals("Pays Instanly")
                                             || link.InnerHtml.Equals("Best Performing Forex Product On The Planet")
-                                            || link.InnerHtml.Equals("My Home Wealth System")
+                                            //|| link.InnerHtml.Equals("My Home Wealth System")
                                             || link.InnerHtml.Equals("Discover The #1 Way To Slapp Google")
                                             || link.InnerHtml.Equals("Free Site Signup")
                                             || link.InnerHtml.Equals("Every Week $20 Free")
@@ -246,7 +246,13 @@ namespace AutoClick
                                             || link.InnerHtml.Equals("Ptp4ever")
                                             || link.InnerHtml.Equals("Registrate En Neopays.com Si Paga")
                                             || link.InnerHtml.Equals("Earn By Sharing Your Files!! Great Cashouts!!")
-                                            || link.InnerHtml.Equals("Cash For Young And Dumb")))
+                                            || link.InnerHtml.Equals("Cash For Young And Dumb")
+                                            || link.InnerHtml.Equals("Join This Great Site!")
+                                            || link.InnerHtml.Equals("Mysitesubmit ")
+                                            || link.InnerHtml.Equals("Ourboundofjoy")
+                                            || link.InnerHtml.Equals("Freelivead.info")
+                                            || link.InnerHtml.Equals("Power Bar Club")
+                                            || link.InnerHtml.Equals("Earn By Sharing Your Files!! Great Cashouts!! ")))
                                         {
                                             needStartWaitForClickTimer = true;
                                             writeLog("link.InnerHtml: " + link.InnerHtml);
