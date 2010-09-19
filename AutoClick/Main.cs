@@ -82,7 +82,7 @@ namespace AutoClick
         {
             try
             {
-                if (wbBrowser.ReadyState == WebBrowserReadyState.Interactive || wbBrowser.ReadyState == WebBrowserReadyState.Complete)
+                if (wbBrowser.ReadyState == WebBrowserReadyState.Complete)
                 {
                     url = wbBrowser.Url.ToString();
 
@@ -200,7 +200,9 @@ namespace AutoClick
                                             || link.InnerHtml.Equals("**the Power Behind Ebusiness** ")
                                             || link.InnerHtml.Equals("Surf These Links")
                                             || link.InnerHtml.Equals("18 Carats")
-                                            || (link.InnerHtml.Equals("Auto Traffic Avalanche") && (index == 1 || index == 7 || index == 9))
+                                            || link.InnerHtml.Equals("Auto Traffic Avalanche")
+                                            || link.InnerHtml.Equals("Affiliate Annihilation")
+                                            //|| (link.InnerHtml.Equals("Auto Traffic Avalanche") && (index ==0 ||index == 1 || index == 7 || index == 9))
                                             || link.InnerHtml.Equals("** Do Not Call List Creates A High-paying Job !...")
                                             || link.InnerHtml.Equals("Gagnez De Largent Le Plus Simplement Du Monde Avec...")
                                             || link.InnerHtml.Equals("Real Income For Free")
@@ -252,7 +254,10 @@ namespace AutoClick
                                             || link.InnerHtml.Equals("Ourboundofjoy")
                                             || link.InnerHtml.Equals("Freelivead.info")
                                             || link.InnerHtml.Equals("Power Bar Club")
-                                            || link.InnerHtml.Equals("Earn By Sharing Your Files!! Great Cashouts!! ")))
+                                            || link.InnerHtml.Equals("Earn By Sharing Your Files!! Great Cashouts!! ")
+                                            || link.InnerHtml.Equals("Steal From A $750 Million Market")
+                                            || link.InnerHtml.Equals("Supreme 2 X 2")
+                                            || link.InnerHtml.Equals("20 Minute Pay")))
                                         {
                                             needStartWaitForClickTimer = true;
                                             writeLog("link.InnerHtml: " + link.InnerHtml);
@@ -261,7 +266,7 @@ namespace AutoClick
                                         }
                                     }
                                 }
-                                if (i >= max && !needStartWaitForClickTimer)
+                                if (i >= max)
                                 {
                                     writeLog("LINK AVAILABLE TO CLICK BUT SKIPPED!!!");
                                     surfNextSite();
