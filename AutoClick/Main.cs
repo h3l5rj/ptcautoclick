@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
-using System.Management;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -55,17 +54,11 @@ namespace AutoClick
         private HtmlElement link;
         private bool needStartWaitForClickTimer = false;
         private HtmlDocument countdownFrame;
-
-        private bool atCompany = false;
+        private string previousAds = "";
 
         public Main()
         {
             InitializeComponent();
-
-            if (SystemInformation.ComputerName == "SGN-PC008")
-            {
-                atCompany = true;
-            }
 
             startSurf();
         }
@@ -221,13 +214,11 @@ namespace AutoClick
                                     if (link.GetAttribute("href").StartsWith(ptcSites[index, 2]))
                                     {
                                         // skip these ads because they are having error
-                                        if (!(link.InnerHtml.Equals("New Ptc!! Rapidobux!!")
+                                        if (!link.InnerHtml.Equals(previousAds)
+                                            && !(link.InnerHtml.Equals("New Ptc!! Rapidobux!!")
                                             || link.InnerHtml.Equals("**the Power Behind Ebusiness** ")
                                             || link.InnerHtml.Equals("Surf These Links")
                                             || link.InnerHtml.Equals("18 Carats")
-                                            || link.InnerHtml.Equals("Auto Traffic Avalanche")
-                                            || (link.InnerHtml.Equals("Affiliate Annihilation") && !atCompany)
-                                            || (link.InnerHtml.Equals("Steal From A $750 Million Market") && !atCompany)
                                             || link.InnerHtml.Equals("** Do Not Call List Creates A High-paying Job !...")
                                             || link.InnerHtml.Equals("Gagnez De Largent Le Plus Simplement Du Monde Avec...")
                                             || link.InnerHtml.Equals("Real Income For Free")
@@ -282,6 +273,7 @@ namespace AutoClick
                                             || link.InnerHtml.Equals("Supreme 2 X 2")
                                             || link.InnerHtml.Equals("20 Minute Pay")))
                                         {
+                                            previousAds = link.InnerHtml;
                                             needStartWaitForClickTimer = true;
                                             writeLog("link.InnerHtml: " + link.InnerHtml);
                                             waitForClick.Stop();    // make sure waitForClick timer is stopped
@@ -330,6 +322,7 @@ namespace AutoClick
 
         private void surfNextSite()
         {
+            previousAds = "";
             index++;
             if (index >= ptcSites.GetLength(0))   // reset
             {
