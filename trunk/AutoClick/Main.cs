@@ -79,7 +79,7 @@ namespace AutoClick
         {
             try
             {
-                if (wbBrowser.ReadyState == WebBrowserReadyState.Complete)
+                if (wbBrowser.ReadyState == WebBrowserReadyState.Interactive || wbBrowser.ReadyState == WebBrowserReadyState.Complete)
                 {
                     // restart autoRefresh timer
                     startAutoFreshTimer();
@@ -214,7 +214,7 @@ namespace AutoClick
                                     if (link.GetAttribute("href").StartsWith(ptcSites[index, 2]))
                                     {
                                         // skip these ads because they are having error
-                                        if (!link.InnerHtml.Equals(previousAds)
+                                        if (!previousAds.Contains(link.InnerHtml)
                                             && !(link.InnerHtml.Equals("New Ptc!! Rapidobux!!")
                                             || link.InnerHtml.Equals("**the Power Behind Ebusiness** ")
                                             || link.InnerHtml.Equals("Surf These Links")
@@ -273,7 +273,7 @@ namespace AutoClick
                                             || link.InnerHtml.Equals("Supreme 2 X 2")
                                             || link.InnerHtml.Equals("20 Minute Pay")))
                                         {
-                                            previousAds = link.InnerHtml;
+                                            previousAds += link.InnerHtml;
                                             needStartWaitForClickTimer = true;
                                             writeLog("link.InnerHtml: " + link.InnerHtml);
                                             waitForClick.Stop();    // make sure waitForClick timer is stopped
