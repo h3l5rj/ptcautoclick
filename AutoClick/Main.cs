@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Drawing;
 using System.IO;
+using System.Management;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
@@ -41,7 +42,8 @@ namespace AutoClick
             { "http://beachptc.com/index.php?view=login", "http://beachptc.com/index.php?view=click", "http://beachptc.com/gpt.php", "25000"},
             { "http://www.clickforabuck.com/index.php?view=login", "http://www.clickforabuck.com/index.php?view=click", "http://www.clickforabuck.com/gpt.php", "25000"},
             { "http://www.onedollarptc.com/index.php?view=login", "http://www.onedollarptc.com/index.php?view=click", "http://www.onedollarptc.com/gpt.php", "25000"},
-            { "http://www.twodollarptc.com/index.php?view=login", "http://www.twodollarptc.com/index.php?view=click", "http://www.twodollarptc.com/gpt.php", "25000"}
+            { "http://www.twodollarptc.com/index.php?view=login", "http://www.twodollarptc.com/index.php?view=click", "http://www.twodollarptc.com/gpt.php", "25000"},
+            { "login using js", "http://www.dollargpt.com/index.php?view=ads", "http://www.dollargpt.com/index.php?view=surfer", "60000"}
         };
         private const string USERNAME = "tranvinhtruong";
         private const string PASSWORD = "tctlT1005";
@@ -54,9 +56,16 @@ namespace AutoClick
         private bool needStartWaitForClickTimer = false;
         private HtmlDocument countdownFrame;
 
+        private bool atCompany = false;
+
         public Main()
         {
             InitializeComponent();
+
+            if (SystemInformation.ComputerName == "SGN-PC008")
+            {
+                atCompany = true;
+            }
 
             startSurf();
         }
@@ -70,12 +79,7 @@ namespace AutoClick
         private void wbBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
         {
             // always start autoRefresh timer on wbBrowser_Navigating
-            if (autoRefresh.Enabled)
-            {
-                autoRefresh.Stop();
-            }
-            autoRefresh.Interval = (int)(int.Parse(ptcSites[index, 3]) * 2.5);
-            autoRefresh.Start();
+            startAutoFreshTimer();
         }
 
         private void wbBrowser_DocumentCompleted(object sender, WebBrowserDocumentCompletedEventArgs e)
@@ -84,6 +88,9 @@ namespace AutoClick
             {
                 if (wbBrowser.ReadyState == WebBrowserReadyState.Complete)
                 {
+                    // restart autoRefresh timer
+                    startAutoFreshTimer();
+
                     url = wbBrowser.Url.ToString();
 
                     if (url.StartsWith(ptcSites[index, 0])) // log in page
@@ -179,13 +186,31 @@ namespace AutoClick
                     }
                     else if (url.StartsWith(ptcSites[index, 1]))    // view ads page
                     {
-                        if (wbBrowser.DocumentText.Contains("login"))    // not logged in
+                        if (!wbBrowser.DocumentText.Contains("Logout"))    // not logged in
                         {
-                            wbBrowser.Navigate(ptcSites[index, 0]);    // open log in page
+                            if (index == 18) // Dollar GPT
+                            {
+                                wbBrowser.Document.InvokeScript("ptcevolution_login");
+                                wbBrowser.Document.GetElementById("username").SetAttribute("value", USERNAME);
+                                wbBrowser.Document.GetElementById("password").SetAttribute("value", PASSWORD);
+                                wbBrowser.Document.InvokeScript("loginform");
+                                writeLog("Login ...");
+                            }
+                            else
+                            {
+                                wbBrowser.Navigate(ptcSites[index, 0]);    // open log in page
+                            }
                         }
                         else
                         {
-                            matchObj = Regex.Match(wbBrowser.DocumentText, "(?<=a href=\"gpt.php)[^\"]*");
+                            if (index == 18) // Dollar GPT
+                            {
+                                matchObj = Regex.Match(wbBrowser.DocumentText, "(?<=a href=\"index.php\\?view=surfer)[^\"]*");
+                            }
+                            else
+                            {
+                                matchObj = Regex.Match(wbBrowser.DocumentText, "(?<=a href=\"gpt.php)[^\"]*");
+                            }
                             writeLog("link available to click? - " + matchObj.Success);
                             if (matchObj.Success)
                             {
@@ -201,8 +226,8 @@ namespace AutoClick
                                             || link.InnerHtml.Equals("Surf These Links")
                                             || link.InnerHtml.Equals("18 Carats")
                                             || link.InnerHtml.Equals("Auto Traffic Avalanche")
-                                            || link.InnerHtml.Equals("Affiliate Annihilation")
-                                            //|| (link.InnerHtml.Equals("Auto Traffic Avalanche") && (index ==0 ||index == 1 || index == 7 || index == 9))
+                                            || (link.InnerHtml.Equals("Affiliate Annihilation") && !atCompany)
+                                            || (link.InnerHtml.Equals("Steal From A $750 Million Market") && !atCompany)
                                             || link.InnerHtml.Equals("** Do Not Call List Creates A High-paying Job !...")
                                             || link.InnerHtml.Equals("Gagnez De Largent Le Plus Simplement Du Monde Avec...")
                                             || link.InnerHtml.Equals("Real Income For Free")
@@ -240,7 +265,6 @@ namespace AutoClick
                                             || link.InnerHtml.Equals("15 Adaily Share 90%")
                                             || link.InnerHtml.Equals("Pays Instanly")
                                             || link.InnerHtml.Equals("Best Performing Forex Product On The Planet")
-                                            //|| link.InnerHtml.Equals("My Home Wealth System")
                                             || link.InnerHtml.Equals("Discover The #1 Way To Slapp Google")
                                             || link.InnerHtml.Equals("Free Site Signup")
                                             || link.InnerHtml.Equals("Every Week $20 Free")
@@ -255,12 +279,12 @@ namespace AutoClick
                                             || link.InnerHtml.Equals("Freelivead.info")
                                             || link.InnerHtml.Equals("Power Bar Club")
                                             || link.InnerHtml.Equals("Earn By Sharing Your Files!! Great Cashouts!! ")
-                                            || link.InnerHtml.Equals("Steal From A $750 Million Market")
                                             || link.InnerHtml.Equals("Supreme 2 X 2")
                                             || link.InnerHtml.Equals("20 Minute Pay")))
                                         {
                                             needStartWaitForClickTimer = true;
                                             writeLog("link.InnerHtml: " + link.InnerHtml);
+                                            waitForClick.Stop();    // make sure waitForClick timer is stopped
                                             wbBrowser.Navigate(link.GetAttribute("href"));
                                             break;
                                         }
@@ -318,31 +342,59 @@ namespace AutoClick
         {
             try
             {
-                if (wbBrowser.Document.Window.Frames.Count > 0)
+                if (index == 18) // Dollar GPT
                 {
-                    // find image and autoclick
-                    countdownFrame = wbBrowser.Document.Window.Frames[0].Document;
-                    if (countdownFrame.GetElementById("timer") != null)
+                    waitForClick.Interval = 3000;
+
+                    // click and check if it's a correct picture
+                    if (wbBrowser.Document.GetElementById("surfbar").InnerHtml.Equals("You must wait 0 seconds before opening another link"))
                     {
-                        if (countdownFrame.GetElementById("timer").InnerHtml.StartsWith("Click"))
+                        // click first picture
+                        wbBrowser.Document.GetElementFromPoint(new Point(542, 33)).InvokeMember("click");
+                    }
+                    else if (wbBrowser.Document.GetElementById("surfbar").InnerHtml.Equals("Invalid Image Verification"))
+                    {
+                        writeLog("Clicked wrong picture ==> Reload...");
+                        waitForClick.Interval = (int)(int.Parse(ptcSites[index, 3]) * 1.2);
+                        wbBrowser.Refresh();
+                    }
+                    else if (wbBrowser.Document.GetElementById("surfbar").InnerHtml.StartsWith("Account credited."))
+                    {
+                        writeLog("---CLICK---");
+                        stopWaitForClickTimer();
+                        stopAutoFreshTimer();
+
+                        startSurf();
+                    }
+                }
+                else
+                {
+                    if (wbBrowser.Document.Window.Frames.Count > 0)
+                    {
+                        // find image and autoclick
+                        countdownFrame = wbBrowser.Document.Window.Frames[0].Document;
+                        if (countdownFrame.GetElementById("timer") != null)
                         {
-                            string key = countdownFrame.GetElementById("timer").InnerHtml.Substring(6);
-                            foreach (HtmlElement link in countdownFrame.Links)
+                            if (countdownFrame.GetElementById("timer").InnerHtml.StartsWith("Click"))
                             {
-                                if (link.InnerHtml.Contains("clickimages/" + key + "."))
+                                string key = countdownFrame.GetElementById("timer").InnerHtml.Substring(6);
+                                foreach (HtmlElement link in countdownFrame.Links)
                                 {
-                                    link.InvokeMember("click");
-                                    link.InvokeMember("click");
-                                    writeLog("---CLICK---");
-                                    stopWaitForClickTimer();
-                                    stopAutoFreshTimer();
-                                    break;
+                                    if (link.InnerHtml.Contains("clickimages/" + key + "."))
+                                    {
+                                        link.InvokeMember("click");
+                                        link.InvokeMember("click");
+                                        writeLog("---CLICK---");
+                                        stopWaitForClickTimer();
+                                        stopAutoFreshTimer();
+                                        break;
+                                    }
                                 }
                             }
-                        }
-                        else if (countdownFrame.GetElementById("timer").InnerHtml.Equals("Loading"))
-                        {
-                            wbBrowser.Refresh();
+                            else if (countdownFrame.GetElementById("timer").InnerHtml.Equals("Loading"))
+                            {
+                                wbBrowser.Refresh();
+                            }
                         }
                     }
                 }
@@ -363,6 +415,16 @@ namespace AutoClick
 
                 needStartWaitForClickTimer = false;
             }
+        }
+
+        private void startAutoFreshTimer()
+        {
+            if (autoRefresh.Enabled)
+            {
+                autoRefresh.Stop();
+            }
+            autoRefresh.Interval = (int)(int.Parse(ptcSites[index, 3]) * 2.5);
+            autoRefresh.Start();
         }
 
         private void autoRefresh_Tick(object sender, EventArgs e)
