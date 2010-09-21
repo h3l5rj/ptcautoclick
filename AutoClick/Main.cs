@@ -43,6 +43,7 @@ namespace AutoClick
             { "http://www.clickforabuck.com/index.php?view=login", "http://www.clickforabuck.com/index.php?view=click", "http://www.clickforabuck.com/gpt.php", "25000"},
             { "http://www.onedollarptc.com/index.php?view=login", "http://www.onedollarptc.com/index.php?view=click", "http://www.onedollarptc.com/gpt.php", "25000"},
             { "http://www.twodollarptc.com/index.php?view=login", "http://www.twodollarptc.com/index.php?view=click", "http://www.twodollarptc.com/gpt.php", "25000"},
+            { "http://www.kazariangpt.com/index.php?view=login", "http://www.kazariangpt.com/index.php?view=click", "http://www.kazariangpt.com/gpt.php", "25000"},
             { "login using js", "http://www.dollargpt.com/index.php?view=ads", "http://www.dollargpt.com/index.php?view=surfer", "60000"}
         };
         private const string USERNAME = "tranvinhtruong";
@@ -160,7 +161,7 @@ namespace AutoClick
                         {
                             wbBrowser.Document.GetElementFromPoint(new Point(600, 298)).InvokeMember("click");
                         }
-                        else if (index == 14) // bestdollarclicks
+                        else if (index == 14) // Best Dollar Clicks
                         {
                             wbBrowser.Document.GetElementFromPoint(new Point(599, 467)).InvokeMember("click");
                         }
@@ -176,9 +177,13 @@ namespace AutoClick
                         {
                             wbBrowser.Document.GetElementFromPoint(new Point(588, 342)).InvokeMember("click");
                         }
-                        else if (index == 18) // twodollarptc
+                        else if (index == 18) // Two Dollar PTC
                         {
                             wbBrowser.Document.GetElementFromPoint(new Point(582, 432)).InvokeMember("click");
+                        }
+                        else if (index == 19) // Kazarian PTC
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(600, 489)).InvokeMember("click");
                         }
                         writeLog("Login ...");
                     }
@@ -186,7 +191,7 @@ namespace AutoClick
                     {
                         if (!wbBrowser.DocumentText.Contains("Logout") && !wbBrowser.DocumentText.Contains("LogOut"))    // not logged in
                         {
-                            if (index == 19) // Dollar GPT
+                            if (index == 20) // Dollar GPT
                             {
                                 wbBrowser.Document.InvokeScript("ptcevolution_login");
                                 wbBrowser.Document.GetElementById("username").SetAttribute("value", USERNAME);
@@ -201,7 +206,7 @@ namespace AutoClick
                         }
                         else
                         {
-                            if (index == 19) // Dollar GPT
+                            if (index == 20) // Dollar GPT
                             {
                                 matchObj = Regex.Match(wbBrowser.DocumentText, "(?<=a href=\"index.php\\?view=surfer)[^\"]*");
                             }
@@ -341,7 +346,7 @@ namespace AutoClick
         {
             try
             {
-                if (index == 19) // Dollar GPT
+                if (index == 20) // Dollar GPT
                 {
                     waitForClick.Interval = 3000;
 
