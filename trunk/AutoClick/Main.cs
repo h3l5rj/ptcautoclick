@@ -30,6 +30,7 @@ namespace AutoClick
             { "http://www.richptc.com/index.php?view=login", "http://www.richptc.com/index.php?view=click", "http://www.richptc.com/gpt.php", "30000"},
             { "http://www.bigmoneyptc.com/index.php?view=login", "http://www.bigmoneyptc.com/index.php?view=click", "http://www.bigmoneyptc.com/gpt.php", "30000"},
             { "http://www.grandptc.com/index.php?view=login", "http://www.grandptc.com/index.php?view=click", "http://www.grandptc.com/gpt.php", "30000"},
+            { "http://www.fastcarptc.com/index.php?view=login", "http://www.fastcarptc.com/index.php?view=click", "http://www.fastcarptc.com/gpt.php", "10000"},
             { "http://www.ptcbiz.com/index.php?view=login", "http://www.ptcbiz.com/index.php?view=click", "http://www.ptcbiz.com/gpt.php", "30000"},
             { "http://www.ptcwallet.com/index.php?view=login", "http://www.ptcwallet.com/index.php?view=click", "http://www.ptcwallet.com/gpt.php", "15000"},
             { "http://www.buxinc.com/index.php?view=login", "http://www.buxinc.com/index.php?view=click", "http://www.buxinc.com/gpt.php", "30000"},
@@ -88,7 +89,7 @@ namespace AutoClick
 
                     if (url.StartsWith(ptcSites[index, 0])) // log in page
                     {
-                        if (index == 10) // Mystery PTC
+                        if (index == 11) // Mystery PTC
                         {
                             wbBrowser.Document.GetElementById("uUsername").SetAttribute("value", USERNAME);
                             wbBrowser.Document.GetElementById("uPassword").SetAttribute("value", PASSWORD);
@@ -127,51 +128,55 @@ namespace AutoClick
                             wbBrowser.Document.GetElementFromPoint(new Point(572, 391)).InvokeMember("click");
                             wbBrowser.Document.GetElementFromPoint(new Point(699, 549)).InvokeMember("click");
                         }
-                        else if (index == 6) // PTC Biz
+                        else if (index == 6) // Fast Car PTC
+                        {
+                            wbBrowser.Document.GetElementFromPoint(new Point(599, 641)).InvokeMember("click");
+                        }
+                        else if (index == 7) // PTC Biz
                         {
                             wbBrowser.Document.GetElementFromPoint(new Point(858, 335)).InvokeMember("click");
                         }
-                        else if (index == 7) // PTC Wallet
+                        else if (index == 8) // PTC Wallet
                         {
                             wbBrowser.Document.GetElementFromPoint(new Point(508, 454)).InvokeMember("click");
                         }
-                        else if (index == 8) // Bux Inc
+                        else if (index == 9) // Bux Inc
                         {
                             wbBrowser.Document.GetElementFromPoint(new Point(901, 330)).InvokeMember("click");
                         }
-                        else if (index == 9) // Fine PTC
+                        else if (index == 10) // Fine PTC
                         {
                             wbBrowser.Document.GetElementFromPoint(new Point(571, 412)).InvokeMember("click");
                         }
-                        else if (index == 10) // Mystery PTC
+                        else if (index == 11) // Mystery PTC
                         {
                             wbBrowser.Document.GetElementFromPoint(new Point(715, 491)).InvokeMember("click");
                         }
-                        else if (index == 11) // Mystery Clickers PTC
+                        else if (index == 12) // Mystery Clickers PTC
                         {
                             wbBrowser.Document.GetElementFromPoint(new Point(916, 106)).InvokeMember("click");
                         }
-                        else if (index == 12) // Billionaire PTC
+                        else if (index == 13) // Billionaire PTC
                         {
                             wbBrowser.Document.GetElementFromPoint(new Point(600, 298)).InvokeMember("click");
                         }
-                        else if (index == 13) // bestdollarclicks
+                        else if (index == 14) // bestdollarclicks
                         {
                             wbBrowser.Document.GetElementFromPoint(new Point(599, 467)).InvokeMember("click");
                         }
-                        else if (index == 14) // Beach PTC
+                        else if (index == 15) // Beach PTC
                         {
                             wbBrowser.Document.GetElementFromPoint(new Point(600, 648)).InvokeMember("click");
                         }
-                        else if (index == 15) // Click For A Buck PTC
+                        else if (index == 16) // Click For A Buck PTC
                         {
                             wbBrowser.Document.GetElementFromPoint(new Point(599, 337)).InvokeMember("click");
                         }
-                        else if (index == 16) // onedollarptc
+                        else if (index == 17) // onedollarptc
                         {
                             wbBrowser.Document.GetElementFromPoint(new Point(588, 342)).InvokeMember("click");
                         }
-                        else if (index == 17) // twodollarptc
+                        else if (index == 18) // twodollarptc
                         {
                             wbBrowser.Document.GetElementFromPoint(new Point(582, 432)).InvokeMember("click");
                         }
@@ -181,7 +186,7 @@ namespace AutoClick
                     {
                         if (!wbBrowser.DocumentText.Contains("Logout") && !wbBrowser.DocumentText.Contains("LogOut"))    // not logged in
                         {
-                            if (index == 18) // Dollar GPT
+                            if (index == 19) // Dollar GPT
                             {
                                 wbBrowser.Document.InvokeScript("ptcevolution_login");
                                 wbBrowser.Document.GetElementById("username").SetAttribute("value", USERNAME);
@@ -196,7 +201,7 @@ namespace AutoClick
                         }
                         else
                         {
-                            if (index == 18) // Dollar GPT
+                            if (index == 19) // Dollar GPT
                             {
                                 matchObj = Regex.Match(wbBrowser.DocumentText, "(?<=a href=\"index.php\\?view=surfer)[^\"]*");
                             }
@@ -336,7 +341,7 @@ namespace AutoClick
         {
             try
             {
-                if (index == 18) // Dollar GPT
+                if (index == 19) // Dollar GPT
                 {
                     waitForClick.Interval = 3000;
 
