@@ -70,7 +70,16 @@ namespace AutoClick
         private void startSurf()
         {
             writeLog(index + ": " + ptcSites[index, 1]);
-            wbBrowser.Navigate(ptcSites[index, 1]); // view ads page
+
+            if (index == 15) // Beach PTC
+            {
+                writeLog("Waiting for payment!!!");
+                surfNextSite();
+            }
+            else
+            {
+                wbBrowser.Navigate(ptcSites[index, 1]); // view ads page
+            }
         }
 
         private void wbBrowser_Navigating(object sender, WebBrowserNavigatingEventArgs e)
