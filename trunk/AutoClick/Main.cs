@@ -179,7 +179,7 @@ namespace AutoClick
                     }
                     else if (url.StartsWith(ptcSites[index, 1]))    // view ads page
                     {
-                        if (!wbBrowser.DocumentText.Contains("Logout"))    // not logged in
+                        if (!wbBrowser.DocumentText.Contains("Logout") && !wbBrowser.DocumentText.Contains("LogOut"))    // not logged in
                         {
                             if (index == 18) // Dollar GPT
                             {
@@ -271,7 +271,8 @@ namespace AutoClick
                                             || link.InnerHtml.Equals("Power Bar Club")
                                             || link.InnerHtml.Equals("Earn By Sharing Your Files!! Great Cashouts!! ")
                                             || link.InnerHtml.Equals("Supreme 2 X 2")
-                                            || link.InnerHtml.Equals("20 Minute Pay")))
+                                            || link.InnerHtml.Equals("20 Minute Pay")
+                                            || link.InnerHtml.Equals("Mobile Monopoly")))
                                         {
                                             previousAds += link.InnerHtml;
                                             needStartWaitForClickTimer = true;
