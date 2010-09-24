@@ -7,21 +7,21 @@ namespace AutoClickWithCaptcha
 {
     public partial class frmBrowser : Form
     {
+        private string siteName;
         private string loginUrl;
         private string clickadsUrl;
-        private string clickadsTitle;
         private int countdown;
 
-        private Match matchObj;
-
-        public frmBrowser(string loginUrl, string clickadsUrl, string clickadsTitle, int countdown)
+        public frmBrowser(string siteName, string loginUrl, string clickadsUrl, int countdown)
         {
             InitializeComponent();
+
+            this.siteName = siteName;
             this.loginUrl = loginUrl;
             this.clickadsUrl = clickadsUrl;
-            this.clickadsTitle = clickadsTitle;
             this.countdown = countdown;
 
+            Util.writeLog(siteName, loginUrl);
             wbBrowser.Navigate(loginUrl);
         }
 
@@ -29,93 +29,95 @@ namespace AutoClickWithCaptcha
         {
             try
             {
-                if (wbBrowser.Document.Body.InnerHtml.Contains("Log off"))     // logged in
+                if (wbBrowser.ReadyState == WebBrowserReadyState.Complete)
                 {
-                    if (wbBrowser.Document.Body.InnerHtml.Contains("Your details"))   // account page
+                    if (wbBrowser.Document.Body.InnerHtml.Contains("Log off"))     // logged in
                     {
-                        wbBrowser.Navigate(clickadsUrl);    // open view ads page
-                    }
-                    else
-                    {
-                        matchObj = Regex.Match(wbBrowser.Document.Body.InnerHtml, "(?<=openad\\(\")[^\"]*");
-                        Util.writeLog("link available to click? - " + matchObj.Success);
+                        Match matchObj = Regex.Match(wbBrowser.Document.Body.InnerHtml, "(?<=openad\\(\")[^\"]*");
+                        Util.writeLog(siteName, "link available to click? - " + matchObj.Success);
                         if (matchObj.Success)
                         {
                             wbBrowser.Navigate(clickadsUrl + "?h=" + matchObj.Value);
+                            startClicker(countdown);
                         }
                     }
-                }
-                else if (wbBrowser.DocumentTitle == clickadsTitle)  // count down page
-                {
-                    startWaitForClickTimer(countdown);
-                }
-                else
-                {
-                    if (wbBrowser.Document.Body.InnerHtml.Contains("Enter security code"))
+                    else
                     {
-                        // input login info and wait for input captcha
-                        wbBrowser.Document.GetElementById("username").SetAttribute("value", Util.USERNAME);
-                        wbBrowser.Document.GetElementById("password").SetAttribute("value", Util.PASSWORD);
-                        wbBrowser.Document.GetElementById("captcha").InvokeMember("focus");
-                        Util.writeLog("Waiting for input security code ...");
-                        startWaitForClickTimer(3000);
+                        if (wbBrowser.Document.Body.InnerHtml.Contains("Enter security code"))
+                        {
+                            // input login info and wait for input captcha
+                            wbBrowser.Document.GetElementById("username").SetAttribute("value", Util.USERNAME);
+                            wbBrowser.Document.GetElementById("password").SetAttribute("value", Util.PASSWORD);
+                            wbBrowser.Document.GetElementById("captcha").InvokeMember("focus");
+                            Util.writeLog(siteName, "Waiting for input security code ...");
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                Util.writeLog("Exception on DocumentCompleted: " + ex.Message + "\r\n" + ex.StackTrace);
+                Util.writeLog(siteName, "Exception on DocumentCompleted: " + ex.Message + "\r\n" + ex.StackTrace);
             }
         }
 
-        private void waitForClick_Tick(object sender, EventArgs e)
+        private void clicker_Tick(object sender, EventArgs e)
         {
-            if (wbBrowser.Document.Window.Frames.Count > 0)
+            try
             {
-                waitForClick.Interval = 3000;
+                if (wbBrowser.Document.Window.Frames.Count > 0)
+                {
+                    clicker.Interval = 3000;
 
-                // click and check if it's a correct picture
-                if ((wbBrowser.Document.GetElementById("captcharesultdiv").InnerHtml) == "Loading...")
-                {
-                    wbBrowser.Document.GetElementFromPoint(new Point(813, 27)).InvokeMember("click");
-                }
-                else if ((wbBrowser.Document.GetElementById("captcharesultdiv").InnerHtml).Contains("You did not click the right picture. Please reload this page."))
-                {
-                    Util.writeLog("Clicked wrong picture ==> Reload...");
-                    waitForClick.Interval = countdown;
-                    wbBrowser.Refresh();
-                }
-                else if ((wbBrowser.Document.GetElementById("captcharesultdiv").InnerHtml).Contains("Your balance has been credited."))
-                {
-                    Util.writeLog("---CREDITED---");
-                    stopWaitForClickTimer();
+                    // click and check if it's a correct picture
+                    if ((wbBrowser.Document.GetElementById("captcharesultdiv").InnerHtml) == "Loading...")
+                    {
+                        // always click the 4th picture
+                        wbBrowser.Document.GetElementFromPoint(new Point(813, 27)).InvokeMember("click");
+                    }
+                    else if ((wbBrowser.Document.GetElementById("captcharesultdiv").InnerHtml).Contains("You did not click the right picture. Please reload this page."))
+                    {
+                        Util.writeLog(siteName, "Clicked wrong picture ==> Reload...");
+                        clicker.Interval = countdown;
+                        wbBrowser.Refresh();
+                    }
+                    else if ((wbBrowser.Document.GetElementById("captcharesultdiv").InnerHtml).Contains("Your balance has been credited."))
+                    {
+                        Util.writeLog(siteName, "---CREDITED---");
+                        stopClicker();
 
-                    wbBrowser.Navigate(clickadsUrl);    // back to view ads page
+                        viewAds();
+                    }
                 }
             }
-            else if (wbBrowser.Document.Body != null && wbBrowser.Document.Body.InnerHtml.Contains("Your details"))   // account page
+            catch (Exception ex)
             {
-                stopWaitForClickTimer();
-                wbBrowser.Navigate(clickadsUrl);    // open view ads page
-            }
-        }
-
-        private void startWaitForClickTimer(int interval)
-        {
-            if (!waitForClick.Enabled)
-            {
-                Util.writeLog("waitForClick timer - Start");
-                waitForClick.Interval = interval;
-                waitForClick.Start();
+                Util.writeLog(siteName, "Exception on clicker_Tick: " + ex.Message + "\r\n" + ex.StackTrace);
             }
         }
 
-        private void stopWaitForClickTimer()
+        private void viewAds()
         {
-            if (waitForClick.Enabled)
+            Util.writeLog(siteName, clickadsUrl);
+            wbBrowser.Navigate(clickadsUrl);    // open view ads page
+        }
+
+        private void startClicker(int interval)
+        {
+            if (clicker.Enabled)
             {
-                Util.writeLog("waitForClick timer - Stop");
-                waitForClick.Stop();
+                clicker.Stop();
+            }
+            Util.writeLog(siteName, "clicker timer - Start");
+            clicker.Interval = interval;
+            clicker.Start();
+        }
+
+        private void stopClicker()
+        {
+            if (clicker.Enabled)
+            {
+                Util.writeLog(siteName, "clicker timer - Stop");
+                clicker.Stop();
             }
         }
     }

@@ -10,11 +10,15 @@ namespace AutoClickWithCaptcha
         public const string USERNAME = "tranvinhtruong";
         public const string PASSWORD = "tctlT1005";
 
-        public static void writeLog(string logContent)
+        public static void writeLog(string siteName, string logContent)
         {
             if (logToFile)
             {
-                File.AppendAllText("AutoClickWithCaptcha.log", "[" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "] " + logContent + "\r\n");
+                if (!Directory.Exists(siteName))
+                {
+                    Directory.CreateDirectory(siteName);
+                }
+                File.AppendAllText(siteName + "\\" + DateTime.Now.ToString("yyyyMMdd") + ".log", "[" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "] " + logContent + "\r\n");
             }
             else
             {

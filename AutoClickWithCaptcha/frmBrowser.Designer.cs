@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.wbBrowser = new System.Windows.Forms.WebBrowser();
-            this.waitForClick = new System.Windows.Forms.Timer(this.components);
+            this.clicker = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // wbBrowser
@@ -45,9 +45,9 @@
             this.wbBrowser.TabIndex = 0;
             this.wbBrowser.DocumentCompleted += new System.Windows.Forms.WebBrowserDocumentCompletedEventHandler(this.wbBrowser_DocumentCompleted);
             // 
-            // waitForClick
+            // clicker
             // 
-            this.waitForClick.Tick += new System.EventHandler(this.waitForClick_Tick);
+            this.clicker.Tick += new System.EventHandler(this.clicker_Tick);
             // 
             // frmBrowser
             // 
@@ -64,6 +64,6 @@
         #endregion
 
         private System.Windows.Forms.WebBrowser wbBrowser;
-        private System.Windows.Forms.Timer waitForClick;
+        private System.Windows.Forms.Timer clicker;
     }
 }

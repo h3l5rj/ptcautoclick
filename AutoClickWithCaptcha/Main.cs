@@ -5,30 +5,24 @@ namespace AutoClickWithCaptcha
 {
     public partial class Main : Form
     {
-        private static uint index = 0;
+        private uint index = 0;
         private string[,] ptcSites = new string[,] {
-            { "nycebux", "http://www.nycebux.com/pages/login", "http://www.nycebux.com/pages/clickads", "Click Ads - NYCE Bux", "35000"},
-            { "14bux", "http://www.14bux.com/pages/login", "http://www.14bux.com/pages/clickads", "Click Ads - 14bux", "20000"},
-            { "mintptc", "http://www.mintptc.com/pages/login", "http://www.mintptc.com/pages/clickads", "Click Ads - mintptc.com", "35000"},
-            { "newwavebux", "http://www.newwavebux.com/pages/login", "http://www.newwavebux.com/pages/clickads", "Click Ads - NewWaveBux.com", "35000"},
-            { "buxreflink", "http://www.buxreflink.com/pages/login", "http://www.buxreflink.com/pages/clickads", "Click Ads - BuxRefLink.com", "35000"},
-            { "tviptc", "http://www.tviptc.com/pages/login", "http://www.tviptc.com/pages/clickads", "Click Ads - TVIptc.com", "15000"},
-            { "hiddenbux", "http://www.hiddenbux.com/pages/login", "http://www.hiddenbux.com/pages/clickads", "Click Ads - HiddenBux", "25000"},
-            { "roubux", "http://www.roubux.com/pages/login", "http://www.roubux.com/pages/clickads", "Click Ads - ROUbux", "35000"},
-            { "thebuxgroup", "http://www.thebuxgroup.com/pages/login", "http://www.thebuxgroup.com/pages/clickads", "Click Ads - TheBuxGroup.com", "35000"},
-            { "freebirdbux", "http://www.freebirdbux.com/pages/login", "http://www.freebirdbux.com/pages/clickads", "Click Ads - FreeBirdBux", "35000"},
-            { "memberbux", "http://www.memberbux.com/pages/login", "http://www.memberbux.com/pages/clickads", "Click Ads - MemberBux.com", "35000"},
-            { "yourprofitbux", "http://www.yourprofitbux.com/pages/login", "http://www.yourprofitbux.com/pages/clickads", "Click Ads - YourProfitBux.com", "35000"},
-            { "infinitybux", "http://www.infinitybux.com/pages/login", "http://www.infinitybux.com/pages/clickads", "Click Ads - InfinityBux", "35000"},
-            { "buxincomecafe", "http://www.buxincomecafe.com/pages/login", "http://www.buxincomecafe.com/pages/clickads", "Click Ads - BuxIncomeCafe.com", "25000"},
-            { "allstarbux", "http://www.allstarbux.com/pages/login", "http://www.allstarbux.com/pages/clickads", "Click Ads - allstarbux.com", "65000"},
-            { "buxtobux", "http://www.buxtobux.com/pages/login", "http://www.buxtobux.com/pages/clickads", "Click Ads - buxtobux.com", "65000"},
-            { "breakoutbux", "http://www.breakoutbux.com/pages/login", "http://www.breakoutbux.com/pages/clickads", "Click Ads - breakoutbux.com", "65000"},
-            { "quickmoneybux", "http://www.quickmoneybux.com/pages/login", "http://www.quickmoneybux.com/pages/clickads", "Click Ads - QuickMoneyBux.com", "65000"},
-            { "5dollarclick", "http://www.5dollarclick.com/pages/login", "http://www.5dollarclick.com/pages/clickads", "Click Ads - 5dollarclick.com", "65000"},
-            { "downunderbux", "http://www.downunderbux.com/pages/login", "http://www.downunderbux.com/pages/clickads", "Click Ads - downunderbux.com", "65000"},
-            { "buxclan", "http://www.buxclan.com/pages/login", "http://www.buxclan.com/pages/clickads", "Click Ads - BuxClan.com", "35000"},
-            { "redwingptc", "http://www.redwingptc.com/pages/login", "http://www.redwingptc.com/pages/clickads", "Click Ads - redwingptc", "65000"}
+            { "nycebux", "http://www.nycebux.com/pages/login", "http://www.nycebux.com/pages/clickads", "20000"}
+            , { "mintptc", "http://www.mintptc.com/pages/login", "http://www.mintptc.com/pages/clickads", "30000"}
+            , { "newwavebux", "http://www.newwavebux.com/pages/login", "http://www.newwavebux.com/pages/clickads", "30000"}
+            , { "buxreflink", "http://www.buxreflink.com/pages/login", "http://www.buxreflink.com/pages/clickads", "30000"}
+            , { "tviptc", "http://www.tviptc.com/pages/login", "http://www.tviptc.com/pages/clickads", "10000"}
+            , { "hiddenbux", "http://www.hiddenbux.com/pages/login", "http://www.hiddenbux.com/pages/clickads", "20000"}
+            , { "roubux", "http://www.roubux.com/pages/login", "http://www.roubux.com/pages/clickads", "30000"}
+            , { "thebuxgroup", "http://www.thebuxgroup.com/pages/login", "http://www.thebuxgroup.com/pages/clickads", "30000"}
+            , { "freebirdbux", "http://www.freebirdbux.com/pages/login", "http://www.freebirdbux.com/pages/clickads", "30000"}
+            , { "yourprofitbux", "http://www.yourprofitbux.com/pages/login", "http://www.yourprofitbux.com/pages/clickads", "30000"}
+            , { "allstarbux", "http://www.allstarbux.com/pages/login", "http://www.allstarbux.com/pages/clickads", "60000"}
+            , { "buxtobux", "http://www.buxtobux.com/pages/login", "http://www.buxtobux.com/pages/clickads", "60000"}
+            , { "breakoutbux", "http://www.breakoutbux.com/pages/login", "http://www.breakoutbux.com/pages/clickads", "60000"}
+            , { "quickmoneybux", "http://www.quickmoneybux.com/pages/login", "http://www.quickmoneybux.com/pages/clickads", "60000"}
+            , { "downunderbux", "http://www.downunderbux.com/pages/login", "http://www.downunderbux.com/pages/clickads", "15000"}
+            , { "buxclan", "http://www.buxclan.com/pages/login", "http://www.buxclan.com/pages/clickads", "30000"}
         };
 
         private ToolStripButton btnPtcSite;
@@ -39,6 +33,7 @@ namespace AutoClickWithCaptcha
         {
             InitializeComponent();
 
+            // fill toolbar
             for (int i = 0; i < ptcSites.GetLength(0); i++)
             {
                 btnPtcSite = new ToolStripButton(ptcSites[i, 0], null, null, i.ToString());
@@ -63,7 +58,6 @@ namespace AutoClickWithCaptcha
                 }
                 if (i < childForms.Length)
                 {
-                    Util.writeLog("Bring to front: " + btnPtcSite.Text);
                     frmBrowser.BringToFront();
                 }
                 else
@@ -79,14 +73,13 @@ namespace AutoClickWithCaptcha
 
         private void createNewBrowser(int i)
         {
-            Util.writeLog("Opening " + ptcSites[i, 0] + " ...");
-            frmBrowser = new frmBrowser(ptcSites[i, 1], ptcSites[i, 2], ptcSites[i, 3], int.Parse(ptcSites[i, 4]));
+            frmBrowser = new frmBrowser(ptcSites[i, 0], ptcSites[i, 1], ptcSites[i, 2], int.Parse(ptcSites[i, 3]));
             frmBrowser.Name = i.ToString();
             frmBrowser.MdiParent = this;
             frmBrowser.Show();
         }
 
-        private void autoSwitch_Tick(object sender, EventArgs e)
+        private void switcher_Tick(object sender, EventArgs e)
         {
             childForms = this.MdiChildren;
             if (childForms.Length > 0)

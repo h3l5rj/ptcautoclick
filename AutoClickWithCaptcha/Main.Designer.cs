@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.toolbar = new System.Windows.Forms.ToolStrip();
-            this.autoSwitch = new System.Windows.Forms.Timer(this.components);
+            this.switcher = new System.Windows.Forms.Timer(this.components);
             this.SuspendLayout();
             // 
             // toolbar
@@ -42,11 +42,11 @@
             this.toolbar.Size = new System.Drawing.Size(1016, 0);
             this.toolbar.TabIndex = 1;
             // 
-            // autoSwitch
+            // switcher
             // 
-            this.autoSwitch.Enabled = true;
-            this.autoSwitch.Interval = 15000;
-            this.autoSwitch.Tick += new System.EventHandler(this.autoSwitch_Tick);
+            this.switcher.Enabled = true;
+            this.switcher.Interval = 15000;
+            this.switcher.Tick += new System.EventHandler(this.switcher_Tick);
             // 
             // Main
             // 
@@ -56,7 +56,6 @@
             this.Controls.Add(this.toolbar);
             this.IsMdiContainer = true;
             this.Name = "Main";
-            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "PTC AutoClick With Captcha";
             this.ResumeLayout(false);
@@ -67,7 +66,7 @@
         #endregion
 
         private System.Windows.Forms.ToolStrip toolbar;
-        private System.Windows.Forms.Timer autoSwitch;
+        private System.Windows.Forms.Timer switcher;
 
     }
 }
