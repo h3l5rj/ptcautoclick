@@ -254,7 +254,7 @@ namespace AutoClick
                                             || link.InnerHtml.Equals("Absolutely Free Money")
                                             || link.InnerHtml.Equals("The Underground Super Affilaite")
                                             || link.InnerHtml.Equals("He Can Turn You Into One Of Ebay")
-                                            || link.InnerHtml.Contains("Discover The System That Makes Me")
+                                            || link.InnerHtml.StartsWith("Discover The System That Makes Me")
                                             || link.InnerHtml.Equals("Worldwide-cash")
                                             || link.InnerHtml.Equals("Big Money")
                                             || link.InnerHtml.Equals("New Site")
@@ -301,7 +301,8 @@ namespace AutoClick
                                             || link.InnerHtml.Equals("Earn By Sharing Your Files!! Great Cashouts!! ")
                                             || link.InnerHtml.Equals("Supreme 2 X 2")
                                             || link.InnerHtml.Equals("20 Minute Pay")
-                                            || link.InnerHtml.Equals("Mobile Monopoly")))
+                                            || link.InnerHtml.Equals("Mobile Monopoly")
+                                            || link.InnerHtml.StartsWith("Dizee Ptp: Incredible Cpm Rate With Honnest And Pa")))
                                         {
                                             previousAds += link.InnerHtml;
                                             needStartWaitForClickTimer = true;
