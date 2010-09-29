@@ -302,7 +302,8 @@ namespace AutoClick
                                             || link.InnerHtml.Equals("Supreme 2 X 2")
                                             || link.InnerHtml.Equals("20 Minute Pay")
                                             || link.InnerHtml.Equals("Mobile Monopoly")
-                                            || link.InnerHtml.StartsWith("Dizee Ptp: Incredible Cpm Rate With Honnest And Pa")))
+                                            || link.InnerHtml.StartsWith("Dizee Ptp: Incredible Cpm Rate With Honnest And Pa")
+                                            || link.InnerHtml.Equals("Gptcash4")))
                                         {
                                             previousAds += link.InnerHtml;
                                             needStartWaitForClickTimer = true;
