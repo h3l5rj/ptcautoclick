@@ -22,7 +22,7 @@ namespace AutoClick
 
         private Boolean logToFile = true;
 
-        private static uint index = 0;
+        private static uint index = 14;
         private string[,] ptcSites = new string[,] {
             { "http://www.neodollar.com/index.php?view=login", "http://www.neodollar.com/index.php?view=click", "http://www.neodollar.com/gpt.php", "30000"},
             { "http://www.tendollarclick.com/index.php?view=login", "http://www.tendollarclick.com/index.php?view=click", "http://www.tendollarclick.com/gpt.php", "60000"},
@@ -304,7 +304,10 @@ namespace AutoClick
                                             || link.InnerHtml.Equals("Mobile Monopoly")
                                             || link.InnerHtml.StartsWith("Dizee Ptp: Incredible Cpm Rate With Honnest And Pa")
                                             || link.InnerHtml.Equals("Gptcash4")
-                                            || link.InnerHtml.StartsWith("Sexy Ptp")))
+                                            || link.InnerHtml.StartsWith("Sexy Ptp")
+                                            || link.InnerHtml.Equals("Fashion Ptp")
+                                            || link.InnerHtml.Equals("Neteuros Ptp")
+                                            || link.InnerHtml.Equals("Absolute-ptp")))
                                         {
                                             previousAds += link.InnerHtml;
                                             needStartWaitForClickTimer = true;
