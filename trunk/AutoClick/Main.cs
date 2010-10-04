@@ -22,7 +22,7 @@ namespace AutoClick
 
         private Boolean logToFile = true;
 
-        private static uint index = 14;
+        private static uint index = 0;
         private string[,] ptcSites = new string[,] {
             { "http://www.neodollar.com/index.php?view=login", "http://www.neodollar.com/index.php?view=click", "http://www.neodollar.com/gpt.php", "30000"},
             { "http://www.tendollarclick.com/index.php?view=login", "http://www.tendollarclick.com/index.php?view=click", "http://www.tendollarclick.com/gpt.php", "60000"},
