@@ -71,9 +71,9 @@ namespace AutoClick
         {
             writeLog(index + ": " + ptcSites[index, 1]);
 
-            if (index == 15) // Beach PTC
+            if (index == 6 || index == 15 || index == 16) // Fast Car PTC, Beach PTC, Click For A Buck PTC
             {
-                writeLog("Waiting for payment!!!");
+                writeLog("INFORMATION: Waiting for payment before continue!!!");
                 surfNextSite();
             }
             else
